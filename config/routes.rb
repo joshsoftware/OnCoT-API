@@ -3,6 +3,6 @@ Rails.application.routes.draw do
   resources :statuses, only: [:index]
 
   resources :languages, only: [:index, :show] do
-    get 'all', to: 'languages#all', on: :collection
+    get 'all', on: :collection
   end
 end
