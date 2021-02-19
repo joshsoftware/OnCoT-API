@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  input: MyString
+  output: MyString
+  marks: 1
+  problem: one
+  user: one
+
+two:
+  input: MyString
+  output: MyString
+  marks: 1
+  problem: two
+  user: two
