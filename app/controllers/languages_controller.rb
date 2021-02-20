@@ -1,4 +1,5 @@
 class LanguagesController < ApplicationController
+  
     def index
         response = JudgeZeroApi.new.get('/languages')
         render json: response
@@ -14,6 +15,5 @@ class LanguagesController < ApplicationController
 			response = JudgeZeroApi.new(params[:id]).get('/languages')
 			render json: response.to_s
     end
-
     
 end
