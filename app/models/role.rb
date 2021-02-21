@@ -1,3 +1,4 @@
 class Role < ApplicationRecord
-    has_many :users
+  self.inheritance_column = nil
+  has_many :users
 end

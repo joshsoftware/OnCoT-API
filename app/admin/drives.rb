@@ -43,9 +43,9 @@ ActiveAdmin.register Drive do
       f.input :start_time
       f.input :end_time
       f.input :created_by_id, :as => :select, :collection => User.all.collect {
-                              |user| [user.name, user.id] }
+                              |user| [user.email, user.id] }
       f.input :updated_by_id, :as => :select, :collection => User.all.collect {
-                              |user| [user.name, user.id] }
+                              |user| [user.email, user.id] }
       f.input :organization_id, :as => :select, :collection => Organization.all.collect {
                                 |organization| [organization.name, organization.id] }
       

@@ -40,7 +40,7 @@ ActiveAdmin.register User do
       f.input :organization_id, :as => :select, :collection => Organization.all.collect {
                                 |organization| [organization.name, organization.id] }
       f.input :role_id, :as => :select, :collection => Role.all.collect {
-                                |role| [role.name, role.id] }
+                                |role| [role.type, role.id] }
     end
     f.actions
   end
