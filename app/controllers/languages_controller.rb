@@ -11,9 +11,8 @@ class LanguagesController < ApplicationController
     end
 
     def show
-			id = params[:id]
-			response = JudgeZeroApi.new(params[:id]).get('/languages')
-			render json: response.to_s
+      id = params[:id]
+      response = JudgeZeroApi.new(params[:id]).get('/languages')
+      render json: response.to_s
     end
-    
 end
