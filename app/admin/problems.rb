@@ -13,7 +13,5 @@ ActiveAdmin.register Problem do
   #   permitted = [:title, :description, :created_by_id, :updated_by_id, :organization_id]
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
-  # end
-
-  
+  # end  
 end
