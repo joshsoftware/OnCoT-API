@@ -5,7 +5,12 @@ ActiveAdmin.register Problem do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :title, :description, :created_by_id, :updated_by_id, :organization_id
+  #permit_params :title, :description, :created_by_id, :updated_by_id, :organization_id
+
+  permit_params do
+    permitted_params = params.permit(:title, :description, :organization_id)
+    permitted_params.merge!(created_by_id: current_admin_user.id, updated_by_id: current_admin_user.id)
+  end
   #
   # or
   #
@@ -13,5 +18,5 @@ ActiveAdmin.register Problem do
   #   permitted = [:title, :description, :created_by_id, :updated_by_id, :organization_id]
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
-  # end  
+  # end
 end

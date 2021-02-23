@@ -5,7 +5,13 @@ ActiveAdmin.register TestCase do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :input, :output, :marks, :problem_id, :created_by_id, :updated_by_id
+  # permit_params :input, :output, :marks, :problem_id, :created_by_id, :updated_by_id
+
+  permit_params do
+    permitted_params = params.permit(:input, :output, :marks, :problem_id)
+    permitted_params.merge!(created_by_id: current_admin_user.id, updated_by_id: current_admin_user.id)
+  end
+
   #
   # or
   #
