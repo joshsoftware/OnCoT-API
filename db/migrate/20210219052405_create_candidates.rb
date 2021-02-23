@@ -7,8 +7,7 @@ class CreateCandidates < ActiveRecord::Migration[5.2]
       t.boolean :is_profile_complete
       t.string :invite_status
       t.boolean :is_qualified
-      t.references :organization, null: false, foreign_key: true
-      t.references :role, null: false, foreign_key: true
+      t.references :drive, null: false, foreign_key: true
 
       t.timestamps
     end
