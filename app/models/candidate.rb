@@ -1,4 +1,5 @@
 class Candidate < ApplicationRecord
-  belongs_to :drive
+  has_many :drives_candidates
+  has_many :drives, through: :drives_candidates
   has_many :submissions
 end
