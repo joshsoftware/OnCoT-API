@@ -53,3 +53,4 @@ gem 'http'
 
 gem 'devise'
 gem 'activeadmin'
+gem 'sassc-rails'
