@@ -32,10 +32,7 @@ class AddDeviseToUsers < ActiveRecord::Migration[5.2]
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
 
-      t.string :first_name
-      t.string :last_name
-      t.references :organization, null: false, foreign_key: true
-      t.references :role, null: false, foreign_key: true
+
       # Uncomment below if timestamps were not included in your original model.
       # t.timestamps null: false
     end
