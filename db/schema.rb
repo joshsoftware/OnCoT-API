@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_219_172_637) do
+ActiveRecord::Schema.define(version: 20_210_226_052_202) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -28,19 +28,6 @@ ActiveRecord::Schema.define(version: 20_210_219_172_637) do
     t.index %w[resource_type resource_id], name: 'index_active_admin_comments_on_resource_type_and_resource_id'
   end
 
-  create_table 'admin_users', force: :cascade do |t|
-    t.string 'email', default: '', null: false
-    t.string 'encrypted_password', default: '', null: false
-    t.string 'reset_password_token'
-    t.datetime 'reset_password_sent_at'
-    t.datetime 'remember_created_at'
-    t.datetime 'created_at', null: falseactive_admin_drive_crud
-
-    t.datetime 'updated_at', null: false
-    t.index ['email'], name: 'index_admin_users_on_email', unique: true
-    t.index ['reset_password_token'], name: 'index_admin_users_on_reset_password_token', unique: true
-  end
-
   create_table 'candidates', force: :cascade do |t|
     t.string 'first_name'
     t.string 'last_name'
@@ -48,12 +35,10 @@ ActiveRecord::Schema.define(version: 20_210_219_172_637) do
     t.boolean 'is_profile_complete'
     t.string 'invite_status'
     t.boolean 'is_qualified'
-    t.bigint 'organization_id', null: false
-    t.bigint 'role_id', null: false
+    t.bigint 'drive_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.index ['organization_id'], name: 'index_candidates_on_organization_id'
-    t.index ['role_id'], name: 'index_candidates_on_role_id'
+    t.index ['drive_id'], name: 'index_candidates_on_drive_id'
   end
 
   create_table 'drives', force: :cascade do |t|
@@ -69,6 +54,15 @@ ActiveRecord::Schema.define(version: 20_210_219_172_637) do
     t.index ['created_by_id'], name: 'index_drives_on_created_by_id'
     t.index ['organization_id'], name: 'index_drives_on_organization_id'
     t.index ['updated_by_id'], name: 'index_drives_on_updated_by_id'
+  end
+
+  create_table 'drives_problems', force: :cascade do |t|
+    t.bigint 'drive_id'
+    t.bigint 'problem_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['drive_id'], name: 'index_drives_problems_on_drive_id'
+    t.index ['problem_id'], name: 'index_drives_problems_on_problem_id'
   end
 
   create_table 'organizations', force: :cascade do |t|
@@ -136,21 +130,27 @@ ActiveRecord::Schema.define(version: 20_210_219_172_637) do
   create_table 'users', force: :cascade do |t|
     t.string 'first_name'
     t.string 'last_name'
-    t.string 'email'
-    t.string 'password'
     t.bigint 'organization_id', null: false
     t.bigint 'role_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.string 'email', default: '', null: false
+    t.string 'encrypted_password', default: '', null: false
+    t.string 'reset_password_token'
+    t.datetime 'reset_password_sent_at'
+    t.datetime 'remember_created_at'
+    t.index ['email'], name: 'index_users_on_email', unique: true
     t.index ['organization_id'], name: 'index_users_on_organization_id'
+    t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true
     t.index ['role_id'], name: 'index_users_on_role_id'
   end
 
-  add_foreign_key 'candidates', 'organizations'
-  add_foreign_key 'candidates', 'roles'
+  add_foreign_key 'candidates', 'drives', column: 'drive_id'
   add_foreign_key 'drives', 'organizations'
   add_foreign_key 'drives', 'users', column: 'created_by_id'
   add_foreign_key 'drives', 'users', column: 'updated_by_id'
+  add_foreign_key 'drives_problems', 'drives', column: 'drive_id'
+  add_foreign_key 'drives_problems', 'problems'
   add_foreign_key 'problems', 'organizations'
   add_foreign_key 'problems', 'users', column: 'created_by_id'
   add_foreign_key 'problems', 'users', column: 'updated_by_id'
