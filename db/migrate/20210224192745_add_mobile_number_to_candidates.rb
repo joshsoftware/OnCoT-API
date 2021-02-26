@@ -3,3 +3,4 @@ class AddMobileNumberToCandidates < ActiveRecord::Migration[5.2]
     add_column :candidates, :mobile_number, :string
   end
 end
+

@@ -3,3 +3,4 @@ class AddDurationToDrives < ActiveRecord::Migration[5.2]
     add_column :drives, :duration, :integer
   end
 end
+

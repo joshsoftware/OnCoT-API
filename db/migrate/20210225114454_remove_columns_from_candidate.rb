@@ -5,3 +5,4 @@ class RemoveColumnsFromCandidate < ActiveRecord::Migration[5.2]
     remove_column :candidates, :drive_id
   end
 end
+

@@ -3,3 +3,4 @@ class AddSubmissionCountToProblems < ActiveRecord::Migration[5.2]
     add_column :problems, :submission_count, :integer
   end
 end
+
