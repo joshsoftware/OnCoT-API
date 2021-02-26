@@ -1,4 +1,5 @@
 class TestCaseResult < ApplicationRecord
   belongs_to :submission
-  belongs_to :testcase
+  belongs_to :test_case
 end
+
