@@ -1,3 +1,4 @@
 class Rule < ApplicationRecord
-  belongs_to :drives
+  belongs_to :drive
+  
 end

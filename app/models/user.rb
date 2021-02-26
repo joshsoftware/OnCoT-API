@@ -4,4 +4,5 @@ class User < ApplicationRecord
   has_many :problems
   has_many :drives
   has_many :test_cases
+  
 end
