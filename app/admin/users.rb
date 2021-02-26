@@ -1,5 +1,6 @@
 ActiveAdmin.register User do
-  permit_params :email, :password, :password_confirmation
+  actions :all, except: [:destroy]
+  permit_params :first_name, :last_name, :email, :password, :password_confirmation, :organization_id, :role_id
 
   index do
     selectable_column
@@ -8,6 +9,8 @@ ActiveAdmin.register User do
     column :current_sign_in_at
     column :sign_in_count
     column :created_at
+    column :organization_id
+    column :role_id
     actions
   end
 
@@ -18,9 +21,13 @@ ActiveAdmin.register User do
 
   form do |f|
     f.inputs do
+      f.input :first_name
+      f.input :last_name
       f.input :email
       f.input :password
       f.input :password_confirmation
+      f.input :organization
+      f.input :role
     end
     f.actions
   end
