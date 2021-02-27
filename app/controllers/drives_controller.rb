@@ -6,10 +6,10 @@ class DrivesController < ApiController
     current_time = DateTime.now.localtime
 
     time_left = drive_time - current_time
-    if time_left < 0
-      render json: {message: "drive already started"}
+    if time_left.negative?
+      render json: { message: 'drive already started' }
     else
-      render json: {time_left: time_left}
+      render json: { time_left: time_left }
     end
   end
 end
