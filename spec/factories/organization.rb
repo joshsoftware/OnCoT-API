@@ -1,4 +1,4 @@
 FactoryBot.define do
-    factory :organization, class: Organization do
-    end
+  factory :organization, class: Organization do
   end
+end
