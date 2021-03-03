@@ -4,8 +4,8 @@ FactoryBot.define do
     password { 'password' }
 
     before(:create) do |user|
-      user.organization = FactoryBot.create(:organization)
-      user.role = FactoryBot.create(:role)
+      user.organization = create(:organization)
+      user.role = create(:role)
     end
   end
 end
