@@ -12,11 +12,11 @@ RSpec.describe CandidatesController, type: :controller do
     @candidate = create(:candidate, drive_id: @drive.id)
     get :update, params: { id: @candidate.id }
 
-    @expected = {
+    @expected_result = {
       data: @candidate,
       message: 'successfully added details'
     }.to_json
-    response.body.should == @expected
+    response.body.should == @expected_result
     expect(response).to have_http_status(200)
   end
 end
