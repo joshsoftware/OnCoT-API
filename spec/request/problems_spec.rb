@@ -11,11 +11,16 @@ RSpec.describe ProblemsController, type: :controller do
                                 organization: @organization)
     get :show, params: { id: @problem.id }
 
-    @expected = {
+    response.body.should == {
       data: @problem,
       message: 'Succeessfully return statement'
     }.to_json
-    response.body.should == @expected
     expect(response).to have_http_status(200)
+  end
+
+  it 'returns the error as passing random id which is not present in database' do
+    get :show, params: { id: Faker::Number }
+
+    expect(response).to have_http_status(400)
   end
 end
