@@ -7,4 +7,8 @@ Rails.application.routes.draw do
   resources :languages, only: [:index, :show] do
     get 'all', on: :collection
   end
+
+  post '/token', to: 'executions#submission_token'
+  get '/submission/:token', to: 'executions#submission_status'
+
 end
