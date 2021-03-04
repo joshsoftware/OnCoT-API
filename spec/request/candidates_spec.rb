@@ -8,15 +8,21 @@ RSpec.describe CandidatesController, type: :controller do
                             organization: @organization)
   end
 
+  # let(:organization) { Organization.new }
+  # let(:user) { User.new }
+  # let(:drive) do
+  #   Drive.create updated_by_id: user.id, created_by_id: user.id,
+  #                organization: organization
+  # end
+
   it 'Updates the candidate  details' do
     @candidate = create(:candidate, drive_id: @drive.id)
     get :update, params: { id: @candidate.id }
-
-    @expected_result = {
+    
+    response.body.to equal({
       data: @candidate,
       message: 'successfully added details'
-    }.to_json
-    response.body.should == @expected_result
+    }.to_json)
     expect(response).to have_http_status(200)
   end
 end
