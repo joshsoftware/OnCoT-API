@@ -13,7 +13,7 @@ RSpec.describe ProblemsController, type: :controller do
 
     response.body.should == {
       data: @problem,
-      message: 'Succeessfully return statement'
+      message: 'Success'
     }.to_json
     expect(response).to have_http_status(200)
   end
