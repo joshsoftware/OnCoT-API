@@ -2,7 +2,7 @@ class CandidatesController < ApiController
   def update
     candidate = Candidate.find_by_id(params[:id])
     if candidate.update(candidate_params)
-      render_success(data: candidate)
+      render_success(data: candidate, message: I18n.t(:message))
     else
       render_error(message: 'Not Updated, Please try again')
     end

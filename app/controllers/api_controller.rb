@@ -1,6 +1,6 @@
 class ApiController < ActionController::API
   def render_success(data: nil, message: nil)
-    render json: { data: data, message: 'success' }, status: 200
+    render json: { data: data, message: message }, status: 200
   end
 
   def render_error(message: nil)
