@@ -1,24 +1,25 @@
 require 'rails_helper'
 
 RSpec.describe ProblemsController, type: :controller do
-  before do
-    @organization = create(:organization)
-    @user = create(:user)
-  end
+  context 'problem#show' do
+    let(:organization) { create(:organization) }
+    let(:user) { create(:user) }
+    let(:problem) do
+      create(:problem, updated_by_id: user.id, created_by_id: user.id,
+                       organization: organization)
+    end
 
-  it 'returns the problem data' do
-    @problem = create(:problem, updated_by_id: @user.id, created_by_id: @user.id,
-                                organization: @organization)
+    it 'returns the problem data' do
+      get :show, params: { id: problem.id }
 
-    get :show, params: { id: @problem.id }
+      expect(response.body).to eq({ data: problem, message: 'Success' }.to_json)
+      expect(response).to have_http_status(200)
+    end
 
-    expect(response.body).to eq({ data: @problem, message: 'Success' }.to_json)
-    expect(response).to have_http_status(200)
-  end
+    it 'returns the error as passing random id which is not present in database' do
+      get :show, params: { id: Faker::Number }
 
-  it 'returns the error as passing random id which is not present in database' do
-    get :show, params: { id: Faker::Number }
-
-    expect(response).to have_http_status(400)
+      expect(response).to have_http_status(400)
+    end
   end
 end
