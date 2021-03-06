@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   resources :languages, only: [:index, :show] do
     get 'all', on: :collection
   end
+
+  get 'drives/:token', to: 'drives#show'
 end
