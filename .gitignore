@@ -22,3 +22,4 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 /db/schema.rb
+/config/local_env.yml

@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   resources :languages, only: [:index, :show] do
     get 'all', on: :collection
   end
+
+  post 'invite', to:'candidates#invite'
 end
