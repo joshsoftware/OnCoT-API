@@ -13,7 +13,6 @@ class DrivesCandidate < ApplicationRecord
   def generate_token
     SecureRandom.hex(20)
   end
-end
 
   def token_valid?
     drive=DrivesCandidate.find_by(id:self.id)
