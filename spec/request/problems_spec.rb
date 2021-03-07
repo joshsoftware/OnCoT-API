@@ -19,7 +19,7 @@ RSpec.describe ProblemsController, type: :controller do
     it 'returns the error as passing random id which is not present in database' do
       get :show, params: { id: Faker::Number }
 
-      expect(response).to have_http_status(400)
+      expect(response.body).to eq({ message: 'Problem not exists' }.to_json)
     end
   end
 end
