@@ -2,5 +2,11 @@ en:
   blank_input:
     message: "input is empty"
 
+  token_not_found:
+    message: "token is not present"
+
+  drive_not_found:
+    message: "drive not found"
+
   ok:
     message: "ok"

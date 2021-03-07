@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   end
 
   post 'invite', to:'candidates#invite'
+  get 'drives/:token', to: 'drives#show'
 end
