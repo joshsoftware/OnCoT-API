@@ -1,6 +1,5 @@
 FactoryBot.define do
   factory :user, class: User do
-    association :organization
     email { Faker::Internet.email }
     password { 'password' }
 
