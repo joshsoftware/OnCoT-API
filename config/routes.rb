@@ -10,4 +10,7 @@ Rails.application.routes.draw do
 
   post 'invite', to:'candidates#invite'
   get 'drives/:token', to: 'drives#show'
+  post '/token', to: 'executions#submission_token'
+  get '/submission/:token', to: 'executions#submission_status'
+
 end
