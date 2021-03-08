@@ -4,7 +4,7 @@ class LanguagesController < ApplicationController
     body = JSON.parse(response.body)
     render json: body
   end
-  
+
   def all
     response = JudgeZeroApi.new.get('/languages/all')
     body = JSON.parse(response.body)

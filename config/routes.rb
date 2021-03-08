@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :statuses, only: [:index]
   resources :problems, only: [:show] 
   resources :candidates, only: [:update] 
+  resources :rules, only: [:show] 
   resources :languages, only: %i[index show] do
     get 'all', on: :collection
   end

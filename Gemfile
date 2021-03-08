@@ -59,6 +59,5 @@ gem 'http'
 
 gem 'activeadmin'
 gem 'devise'
-gem 'sassc-rails'
 gem 'rack-cors'
-
+gem 'sassc-rails'

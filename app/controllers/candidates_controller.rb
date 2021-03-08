@@ -26,7 +26,7 @@ class CandidatesController < ApiController
   end
 
   def update
-    drive_candidate=DrivesCandidate.find_by(token:params[:id])
+    drive_candidate = DrivesCandidate.find_by(token: params[:id])
     candidate = Candidate.find_by_id(drive_candidate.candidate_id)
     if candidate.update(candidate_params)
       render_success(data: candidate, message: I18n.t(:message))
@@ -34,7 +34,6 @@ class CandidatesController < ApiController
       render_error(message: 'Not Updated, Please try again')
     end
   end
-
 
   private
 
