@@ -26,7 +26,8 @@ class CandidatesController < ApiController
   end
 
   def update
-    candidate = Candidate.find_by_id(params[:id])
+    drive_candidate=DrivesCandidate.find_by(token:params[:id])
+    candidate = Candidate.find_by_id(drive_candidate.candidate_id)
     if candidate.update(candidate_params)
       render_success(data: candidate, message: I18n.t(:message))
     else
