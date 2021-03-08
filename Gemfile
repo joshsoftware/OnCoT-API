@@ -55,3 +55,5 @@ gem 'http'
 gem 'devise'
 gem 'activeadmin'
 gem 'sassc-rails'
+
+gem 'active_model_serializers'

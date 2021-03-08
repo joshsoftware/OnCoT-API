@@ -6,7 +6,8 @@ class Api::V1::Admin::ReviewersController < ApplicationController
   # GET api/v1/admin/reviewers 
   def index
     @user = User.all.where(role_id: 2)
-    render json: @user.as_json
+    #UserSerializer.new(@user).as_json
+    render json: @user, each_serializer: UserSerializer
   end
 
   # POST api/v1/admin/reviewers 
@@ -15,7 +16,7 @@ class Api::V1::Admin::ReviewersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       #byebug
-      render json: @user.as_json
+      UserSerializer.new(@user).as_json
     end
   end
 
@@ -23,7 +24,7 @@ class Api::V1::Admin::ReviewersController < ApplicationController
   def show
     @user = User.find(params[:id])
       if @user
-        render json: @user.as_json
+        UserSerializer.new(@user).as_json
       end
   end
 
@@ -31,7 +32,7 @@ class Api::V1::Admin::ReviewersController < ApplicationController
     @user = User.find(params[:id])
     if @user.update(user_params)
       #byebug
-      render json: @user.as_json
+      UserSerializer.new(@user).as_json
     end
   end
 
@@ -39,7 +40,7 @@ class Api::V1::Admin::ReviewersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     if @user.delete
-      render json: @user.as_json    
+      UserSerializer.new(@user).as_json  
     end
   end
 
