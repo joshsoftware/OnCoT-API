@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateTestCaseResults < ActiveRecord::Migration[5.2]
   def change
     create_table :test_case_results do |t|

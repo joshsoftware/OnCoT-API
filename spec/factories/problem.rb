@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
-  factory :problem, class: Problem do 
+  factory :problem, class: Problem do
     title { 'Valid Parentheses' }
-    description {
+    description do
       'Given a string s containing just the characters (, ), {, },
-      [ and ], determine if_the the input string is valid. An input string is valid 
-      Open brackets must be closed by the same type of brackets. Open brackets 
-      must be closed in the correct order. 
+      [ and ], determine if_the the input string is valid. An input string is valid
+      Open brackets must be closed by the same type of brackets. Open brackets
+      must be closed in the correct order.
 
       Example 1:
 
@@ -15,10 +17,9 @@ FactoryBot.define do
 
       Input: s = ()[]{}
       Output: true
-    '}
+    '
+    end
     created_at { Time.now }
     updated_at { Time.now }
-   
-  
   end
 end
