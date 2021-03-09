@@ -1,13 +1,12 @@
-class Api::V1::Admin::ReviewersController < ApplicationController
-  
-  # To avoid CSRF token authenticity.
-  protect_from_forgery with: :null_session
+class Api::V1::Admin::ReviewersController < ApiController
 
   # GET api/v1/admin/reviewers 
   def index
-    @user = User.all.where(role_id: 2)
+    role = Role.where(name: 'reviewer').first
+    @users = User.where(role: role)
     #UserSerializer.new(@user).as_json
-    render json: @user, each_serializer: UserSerializer
+    render_success(data: {users: serialize_resource( @users, UserSerializer )}, message: I18n.t('index.success', model_name: 'Reviewer'))
+
   end
 
   # POST api/v1/admin/reviewers 
@@ -16,31 +15,31 @@ class Api::V1::Admin::ReviewersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       #byebug
-      UserSerializer.new(@user).as_json
+      render_success(data: {user: serialize_resource( @user, UserSerializer )}, message: I18n.t('create.success', model_name: 'Reviewer') , status: 201)
     end
   end
 
   # GET api/v1/admin/reviewers/:id  
   def show
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
       if @user
-        UserSerializer.new(@user).as_json
+        render_success(data: {user: serialize_resource( @user, UserSerializer )}, message: I18n.t('show.success', model_name: 'Reviewer'))
       end
   end
 
   def update
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
     if @user.update(user_params)
       #byebug
-      UserSerializer.new(@user).as_json
+      render_success(data: {user: serialize_resource( @user, UserSerializer )}, message: I18n.t('update.success', model_name: 'Reviewer'))
     end
   end
 
   # DELETE /reviewers/1 
   def destroy
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
     if @user.delete
-      UserSerializer.new(@user).as_json  
+      render_success(data: {user: serialize_resource( @user, UserSerializer )}, message: I18n.t('destroy.success', model_name: 'Reviewer'))
     end
   end
 

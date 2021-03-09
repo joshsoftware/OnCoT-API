@@ -32,3 +32,13 @@
 en:
   hello: 'Hello world'
   message: 'Success'
+  create: 
+    success: "%{model_name} created successfully."
+  index: 
+    success: "%{model_name} list displayed successfully."
+  update: 
+    success: "%{model_name} updated successfully."
+  destroy: 
+    success: "%{model_name} deleted successfully."
+  show:
+    success: "%{model_name} displayed successfully."
