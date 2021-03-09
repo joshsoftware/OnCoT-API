@@ -7,4 +7,13 @@ Rails.application.routes.draw do
   resources :languages, only: %i[index show] do
     get 'all', on: :collection
   end
+
+  namespace :api do
+  	namespace :v1 do
+  		namespace :admin do
+  			resources :problems
+  		end
+  	end
+  end
+  
 end
