@@ -1,8 +1,7 @@
 class CandidatesController < ApiController
-  
   def invite
     if params[:emails].blank?
-      return render_error(I18n.t("#{:blank_input}.message"), :unprocessable_entity)
+      return render_error(message:I18n.t("#{:blank_input}.message"), status: :unprocessable_entity)
     end
 
     emails=params[:emails]
@@ -26,5 +25,20 @@ class CandidatesController < ApiController
     else
       render json: {failed_invitaion:failed_invitaion}
     end
+    
+  def update
+    candidate = Candidate.find_by_id(params[:id])
+    if candidate.update(candidate_params)
+      render_success(data: candidate, message: I18n.t(:message))
+    else
+      render_error(message: 'Not Updated, Please try again')
+    end
+  end
+
+  private
+
+  def candidate_params
+    params.permit(:first_name, :last_name, :email, :is_profile_complete, :drive_id, :invite_status, :created_at,
+                  :updated_at)
   end
 end
