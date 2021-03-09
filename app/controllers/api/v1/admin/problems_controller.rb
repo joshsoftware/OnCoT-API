@@ -26,7 +26,7 @@ module Api
         end
 
         def show
-          problem = Problem.find(params[:id])
+          problem = Problem.find_by(id: params[:id])
           if problem
             render_success(data: { problem: serialize_resource(problem, ProblemSerializer) },
                            message: I18n.t('show.success', model_name: Problem))
@@ -36,7 +36,7 @@ module Api
         end
 
         def update
-          problem = Problem.find(params[:id])
+          problem = Problem.find_by(id: params[:id])
           if problem.update(problem_params)
             render_success(data: { problem: serialize_resource(problem, ProblemSerializer) },
                            message: I18n.t('update.success', model_name: Problem))
@@ -46,7 +46,7 @@ module Api
         end
 
         def destroy
-          problem = Problem.find(params[:id])
+          problem = Problem.find_by(id: params[:id])
           if problem.destroy
             render_success(message: I18n.t('destroy.success', model_name: Problem))
           else
