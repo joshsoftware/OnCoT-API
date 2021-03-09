@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'json'
 
 RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
-  
+
   context 'index' do  
     it 'returns all reviewers details' do
       created_reviewer = FactoryBot.create(:reviewer)
