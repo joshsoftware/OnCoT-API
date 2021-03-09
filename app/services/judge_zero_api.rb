@@ -1,11 +1,11 @@
-require "http"
+require 'http'
 
 class JudgeZeroApi
   BASE_URI = 'http://roupi.xyz'
 
-  def initialize(params={}, headers={})
+  def initialize(params = {}, headers = {})
     @params = params
-    @headers=headers
+    @headers = headers
   end
 
   def get(path)
@@ -13,6 +13,6 @@ class JudgeZeroApi
   end
 
   def post(path)
-    HTTP.post("#{BASE_URI}#{path}", headers: @headers,body: @params.to_json)
+    HTTP.post("#{BASE_URI}#{path}", headers: @headers, body: @params.to_json)
   end
 end
