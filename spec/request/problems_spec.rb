@@ -14,10 +14,10 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
            params: { title: 'a', description: 'b', created_at: Time.now, updated_at: Time.now, created_by_id: user.id,
                      updated_by_id: user.id, organization_id: organization.id }
 
-      problem = parseJson(response.body)
+      problem = parse_json(response.body)
 
       p problem['title']
-      expect(problem['title']).to eq('a')
+      expect(problem['problem']['title']).to eq('a')
       expect(response).to have_http_status(:ok)
     end
 
@@ -26,8 +26,8 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
           params: { id: problem.id, title: 'b', description: 'b', created_at: Time.now, updated_at: Time.now,
                     created_by_id: user.id, updated_by_id: user.id, organization_id: organization.id }
 
-      problem = parseJson(response.body)
-      expect(problem['title']).to eq('b')
+      problem = parse_json(response.body)
+      expect(problem['problem']['title']).to eq('b')
       expect(response).to have_http_status(:ok)
     end
 

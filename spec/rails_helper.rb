@@ -33,10 +33,10 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
-def parseJson(obj)
-  problem_data = JSON.parse(obj)
+def parse_json(obj)
+  data = JSON.parse(obj)
 
-  problem_data['data']['problem']
+  data['data']
 end
 
 RSpec.configure do |config|
