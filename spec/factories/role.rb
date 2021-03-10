@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :role, class: Role do
-    type { 'admin' }
+    name { 'admin' }
     created_at { Time.now }
     updated_at { Time.now }
   end

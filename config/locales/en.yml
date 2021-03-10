@@ -44,6 +44,6 @@ en:
   update:
     success: "%{model_name} updated successfully"
     error: "Error in updating %{model_name}"
-  destroy:
-    success: "%{model_name} destroyed successfully"
-    error: "Error in deleting %{model_name}"
+  # destroy:
+  #   success: "%{model_name} destroyed successfully"
+  #   error: "Error in deleting %{model_name}"

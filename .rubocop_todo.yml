@@ -20,6 +20,7 @@ Metrics/BlockLength:
   Exclude:
     - 'db/schema.rb'
     - 'app/admin/*'
+    - 'spec/request/*'
 
 # Offense count: 1
 # Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
