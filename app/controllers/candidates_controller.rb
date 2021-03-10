@@ -26,8 +26,13 @@ class CandidatesController < ApiController
   end
 
   def update
-    drive_candidate = DrivesCandidate.find_by(token: params[:id])
-    candidate = Candidate.find_by(drive_candidate.candidate_id)
+    token = params[:token].to_s
+    if token.blank?
+      return render_error(message:I18n.t("#{:token_not_found}.message"), status: :not_found)
+    end
+
+    drive_candidate=DrivesCandidate.find_by(token: token)
+    candidate =Drive.find_by(id:drive_candidate.candidate_id)
     if candidate.update(candidate_params)
       render_success(data: candidate, message: I18n.t(:message))
     else
