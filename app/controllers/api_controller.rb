@@ -10,7 +10,13 @@ class ApiController < ActionController::API
   end
 
   def serialize_resource(resources, serializer, root = nil, extra = {})
-   opts = { each_serializer: serializer, root: root }.merge(extra)
-   ActiveModelSerializers::SerializableResource.new(resources, opts) if resources
+    opts = { each_serializer: serializer, root: root }.merge(extra)
+    ActiveModelSerializers::SerializableResource.new(resources, opts) if resources
+  end
+
+  rescue_from ActiveRecord::RecordNotFound, with: :error_render_method
+
+  def error_render_method
+    render_error(message: 'Record not found')
   end
 end

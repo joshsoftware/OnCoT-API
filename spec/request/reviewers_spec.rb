@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require 'json'
 
@@ -6,7 +8,7 @@ RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
     it 'returns all reviewers details' do
       created_reviewer = create(:reviewer)
       get :index
-      parsed_json_data = JSON.parse(response.body)
+      parsed_json_data = json(response)
       expect(parsed_json_data['data']['users'][0]['first_name']).to eq(created_reviewer.first_name)
       expect(response).to have_http_status(:ok)
     end
@@ -25,7 +27,7 @@ RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
         password: 'josh123'
       }
       post :create, params: params
-      parsed_json_data = JSON.parse(response.body)
+      parsed_json_data = json(response)
       expect(parsed_json_data['data']['user']['first_name']).to eq(params[:first_name])
       expect(response).to have_http_status(201)
     end
@@ -39,7 +41,7 @@ RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
         first_name: 'Neha update'
       }
       put :update, params: params_to_be_updated
-      parsed_json_data = JSON.parse(response.body)
+      parsed_json_data = json(response)
       expect(parsed_json_data['data']['user']['first_name']).to eq(params_to_be_updated[:first_name])
       expect(response).to have_http_status(:ok)
     end
@@ -49,7 +51,8 @@ RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
     it 'displays the particular reviewer details' do
       created_reviewer = create(:reviewer)
       get :show, params: { id: created_reviewer.id }
-      parsed_json_data = JSON.parse(response.body)
+      # parsed_json_data = JSON.parse(response.body)
+      parsed_json_data = json(response)
       expect(parsed_json_data['data']['user']['first_name']).to eq(created_reviewer[:first_name])
       expect(response).to have_http_status(:ok)
     end
@@ -59,7 +62,7 @@ RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
     it 'destorys the particular reviewer details' do
       created_reviewer = create(:reviewer)
       delete :destroy, params: { id: created_reviewer.id }
-      parsed_json_data = JSON.parse(response.body)
+      parsed_json_data = json(response)
       expect(parsed_json_data['data']['user']['first_name']).to eq(created_reviewer[:first_name])
       expect(response).to have_http_status(:ok)
     end

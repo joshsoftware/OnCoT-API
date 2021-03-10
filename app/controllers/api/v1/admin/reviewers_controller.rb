@@ -1,55 +1,54 @@
-class Api::V1::Admin::ReviewersController < ApiController
-  def index
-    role = Role.where(name: 'reviewer').first
-    @users = User.where(role: role)
-    render_success(data: { users: serialize_resource(@users, UserSerializer) },
-                   message: I18n.t('index.success', model_name: 'Reviewer'))
-  end
+# frozen_string_literal: true
 
-  def create
-    @user = User.new(user_params)
-    if @user.save
-      render_success(data: { user: serialize_resource(@user, UserSerializer) },
-                     message: I18n.t('create.success', model_name: 'Reviewer'), status: 201)
-    else
-      render_error(message: I18n.t('create.failed', model_name: 'Reviewer'))
+module Api
+  module V1
+    module Admin
+      class ReviewersController < ApiController
+        def index
+          role = Role.reviewer.first
+          @users = User.where(role: role)
+          render_success(data: { users: serialize_resource(@users, UserSerializer) },
+                         message: I18n.t('index.success', model_name: 'Reviewer'))
+        end
+
+        def create
+          @user = User.new(user_params)
+          return unless @user.save
+
+          render_success(data: { user: serialize_resource(@user, UserSerializer) },
+                         message: I18n.t('create.success', model_name: 'Reviewer'), status: 201)
+        end
+
+        def show
+          @user = User.find(params[:id])
+          return unless @user
+
+          render_success(data: { user: serialize_resource(@user, UserSerializer) },
+                         message: I18n.t('show.success', model_name: 'Reviewer'))
+        end
+
+        def update
+          @user = User.find(params[:id])
+          return unless @user.update(user_params)
+
+          render_success(data: { user: serialize_resource(@user, UserSerializer) },
+                         message: I18n.t('update.success', model_name: 'Reviewer'))
+        end
+
+        def destroy
+          @user = User.find(params[:id])
+          return unless @user.destroy
+
+          render_success(data: { user: serialize_resource(@user, UserSerializer) },
+                         message: I18n.t('destroy.success', model_name: 'Reviewer'))
+        end
+
+        private
+
+        def user_params
+          params.permit(:first_name, :last_name, :email, :organization_id, :role_id, :password)
+        end
+      end
     end
-  end
-
-  def show
-    @user = User.find_by(id: params[:id])
-    if @user
-      render_success(data: { user: serialize_resource(@user, UserSerializer) },
-                     message: I18n.t('show.success', model_name: 'Reviewer'))
-    else
-      render_error(message: I18n.t('show.failed', model_name: 'Reviewer'))
-    end
-  end
-
-  def update
-    @user = User.find_by(id: params[:id])
-    if @user.update(user_params)
-      render_success(data: { user: serialize_resource(@user, UserSerializer) },
-                     message: I18n.t('update.success', model_name: 'Reviewer'))
-    else
-      render_error(message: I18n.t('update.failed', model_name: 'Reviewer'))
-    end
-  end
-
-  def destroy
-    @user = User.find_by(id: params[:id])
-    if @user.destroy
-      render_success(data: { user: serialize_resource(@user, UserSerializer) },
-                     message: I18n.t('destroy.success', model_name: 'Reviewer'))
-    else
-      render_error(message: I18n.t('destroy.failed', model_name: 'Reviewer'))
-    end
-  end
-
-  private
-
-  def user_params
-    params.permit(:first_name, :last_name, :email, :organization_id, :role_id, :password)
   end
 end
-
