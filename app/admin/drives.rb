@@ -18,7 +18,7 @@ ActiveAdmin.register Drive do
       f.input :start_time
       f.input :end_time
       f.input :organization
-    end
+      end
     f.actions
   end
 end

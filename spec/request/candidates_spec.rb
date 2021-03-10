@@ -10,12 +10,10 @@ RSpec.describe CandidatesController, type: :controller do
                      organization: organization)
     end
    
-    let(:drives_candidates) { create(:drives_candidates, drive_id: drive.id,candidate_id: candidate.id) }
-
-    # let(:candidate) { create(:candidate, drive_id: drive.id) }
+    let(:drives_candidate) { create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id) }
 
     it 'update the candidate details' do
-      get :update, params: { id: drives_candidates.candidate_id }
+      patch :update, params: { id: drives_candidate.candidate_id , first_name:"test"}
 
       expect(response.body).to eq({ data: candidate, message: 'Success' }.to_json)
       expect(response).to have_http_status(200)

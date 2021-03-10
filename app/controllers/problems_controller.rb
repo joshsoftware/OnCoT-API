@@ -1,7 +1,7 @@
 class ProblemsController < ApiController
   def show
-    drives_problem = DrivesProblem.find_by_id(params[:id])
-    problem = Problem.find_by_id(drives_problem.problem_id)
+    drives_problem = DrivesProblem.find_by(params[:id])
+    problem = Problem.find(drives_problem.problem_id)
     # drive = Drive.find_by(id: params[:id])
 
     # problem = drive.problems.first

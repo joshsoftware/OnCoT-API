@@ -27,7 +27,7 @@ class CandidatesController < ApiController
 
   def update
     drive_candidate = DrivesCandidate.find_by(token: params[:id])
-    candidate = Candidate.find_by_id(drive_candidate.candidate_id)
+    candidate = Candidate.find_by(drive_candidate.candidate_id)
     if candidate.update(candidate_params)
       render_success(data: candidate, message: I18n.t(:message))
     else
@@ -38,7 +38,7 @@ class CandidatesController < ApiController
   private
 
   def candidate_params
-    params.permit(:first_name, :last_name, :email, :is_profile_complete, :drive_id, :invite_status, :created_at,
+    params.permit(:first_name, :last_name, :email, :is_profile_complete, :created_at,
                   :updated_at)
   end
 end
