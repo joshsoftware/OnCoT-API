@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register User do
   actions :all, except: [:destroy]
   permit_params :first_name, :last_name, :email, :password, :password_confirmation, :organization_id, :role_id
@@ -31,5 +33,4 @@ ActiveAdmin.register User do
     end
     f.actions
   end
-
 end
