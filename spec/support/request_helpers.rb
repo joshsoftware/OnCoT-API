@@ -2,10 +2,8 @@
 
 module Requests
   module JsonHelpers
-    def parse_json(obj)
-      data = JSON.parse(obj)
-
-      data['data']
+    def json(response)
+      @json = JSON.parse(response.body)
     end
   end
 end

@@ -7,4 +7,6 @@ class Problem < ApplicationRecord
   has_many :test_cases
   has_many :submissions
   has_and_belongs_to_many :drives, class_name: 'Drive'
+
+  scope :get_problem, ->(id) { find(id) }
 end

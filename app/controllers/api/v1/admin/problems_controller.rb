@@ -36,7 +36,9 @@ module Api
         end
 
         def update
-          problem = Problem.find(params[:id])
+          id = params[:id]
+          problem = Problem.get_problem(id)
+
           if problem.update(problem_params)
             render_success(data: { problem: serialize_resource(problem, ProblemSerializer) },
                            message: I18n.t('update.success', model_name: Problem))
@@ -48,7 +50,7 @@ module Api
         private
 
         def problem_params
-          params.permit(:title, :description, :created_by_id, :updated_by_id, :organization_id, :created_at, :updated_at,
+          params.permit(:id, :title, :description, :created_by_id, :updated_by_id, :organization_id, :created_at, :updated_at,
                         :drive_id)
         end
       end
