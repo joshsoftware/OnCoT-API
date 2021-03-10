@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateDrivesProblems < ActiveRecord::Migration[5.2]
   def change
     create_table :drives_problems do |t|
