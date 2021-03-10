@@ -3,6 +3,6 @@ FactoryBot.define do
     email { Faker::Internet.email }
     first_name { 'Samruddhi' }
     last_name { 'Deshpande' }
- 
+    
   end
 end

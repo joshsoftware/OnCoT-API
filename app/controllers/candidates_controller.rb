@@ -32,7 +32,7 @@ class CandidatesController < ApiController
     end
 
     drive_candidate=DrivesCandidate.find_by(token: token)
-    candidate =Drive.find_by(id:drive_candidate.candidate_id)
+    candidate =Candidate.find_by(id: drive_candidate.candidate_id)
     if candidate.update(candidate_params)
       render_success(data: candidate, message: I18n.t(:message))
     else

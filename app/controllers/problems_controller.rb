@@ -1,10 +1,10 @@
 class ProblemsController < ApiController
   def show
-    drives_problem = DrivesProblem.find_by(params[:id])
-    problem = Problem.find(drives_problem.problem_id)
-    # drive = Drive.find_by(id: params[:id])
+    # drives_problem = DrivesProblem.find_by(drive_id: params[:id].to_i)
+    # problem = Problem.find(problem_id:drives_problem.problem_id)
 
-    # problem = drive.problems.first
+    drive = Drive.find_by(id: params[:id])
+    problem = drive.problems.first
     if problem
       render_success(data: problem, message: 'Success')
     else
