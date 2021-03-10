@@ -16,7 +16,10 @@ Lint/UselessAssignment:
 # Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
 # IgnoredMethods: refine
 Metrics/BlockLength:
-  Max: 139
+  Max: 20
+  Exclude:
+    - 'db/schema.rb'
+    - 'app/admin/*'
 
 # Offense count: 1
 # Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
@@ -38,4 +41,7 @@ Style/MixinUsage:
 # Configuration parameters: AutoCorrect, AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Layout/LineLength:
-  Max: 154
+  Max: 130
+  Exclude:
+    - 'config/initializers/devise.rb'
+
