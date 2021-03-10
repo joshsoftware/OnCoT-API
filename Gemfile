@@ -56,4 +56,5 @@ gem 'http'
 
 gem 'activeadmin'
 gem 'devise'
+gem 'overcommit'
 gem 'sassc-rails'
