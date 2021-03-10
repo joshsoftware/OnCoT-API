@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CandidatesController < ApiController
   def update
     candidate = Candidate.find_by_id(params[:id])

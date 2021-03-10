@@ -1,9 +1,11 @@
-require "http"
+# frozen_string_literal: true
+
+require 'http'
 
 class JudgeZeroApi
   BASE_URI = 'http://localhost:3000'
 
-  def initialize(params={})
+  def initialize(params = {})
     @params = params
   end
 
