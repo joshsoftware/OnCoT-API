@@ -26,7 +26,8 @@ module Api
         end
 
         def show
-          problem = Problem.find(params[:id])
+          id = params[:id]
+          problem = Problem.get_problem(id)
           if problem
             render_success(data: { problem: serialize_resource(problem, ProblemSerializer) },
                            message: I18n.t('show.success', model_name: Problem))
