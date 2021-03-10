@@ -1,14 +1,22 @@
 class ProblemsController < ApiController
+  before_action :find_problem
   def show
-    # drives_problem = DrivesProblem.find_by(drive_id: params[:id].to_i)
-    # problem = Problem.find(problem_id:drives_problem.problem_id)
-
-    drive = Drive.find_by(id: params[:id])
-    problem = drive.problems.first
+    problem = Problem.find_by(id: @drives_problem.problem_id)
     if problem
-      render_success(data: problem, message: 'Success')
+      render_success(data: problem, message: I18n.t('success.message'))
     else
-      render_error(message:'Problems not exist')
+      render_error(message: I18n.t('not_found.message'))
     end
+  end
+
+  private
+
+  def find_problem
+    token = params[:token].to_s
+    return render_error(message: I18n.t('token_not_found.message'), status: :not_found) if token.blank?
+
+    drive_candidate = DrivesCandidate.find_by(token: token)
+    drive = Drive.find_by(id: drive_candidate.drive_id)
+    @drives_problem = DrivesProblem.find_by(id: drive.id)
   end
 end

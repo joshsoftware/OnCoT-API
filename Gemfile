@@ -58,4 +58,4 @@ gem 'activeadmin'
 gem 'devise'
 gem 'overcommit'
 gem 'sassc-rails'
-
+gem 'webmock'
