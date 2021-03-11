@@ -13,9 +13,15 @@ RSpec.describe CandidatesController, type: :controller do
     let(:drives_candidate) { create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id) }
 
     it 'update the candidate details' do
-      patch '/candidates/:token' => 'candidates#update_candidate', params: { id: drives_candidate.candidate_id }
+      patch :update, params: { id: drives_candidate.token }
       expect(response.body).to eq({ data: candidate, message: 'Success' }.to_json)
       expect(response).to have_http_status(200)
+    end
+
+    it 'returns the not found error as passing random id which is not present in database' do
+      patch :update, params: { id: Faker::Number }
+
+      expect(response).to have_http_status(404)
     end
   end
 end

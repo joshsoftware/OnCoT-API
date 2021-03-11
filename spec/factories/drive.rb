@@ -4,10 +4,5 @@ FactoryBot.define do
     description { 'Drive details' }
     created_at { Time.now }
     updated_at { Time.now }
-
-    # before(:create) do |drive|
-    #   drive.organization = create(:organization)
-    #   drive.user = create(:user)
-    # end
   end
 end

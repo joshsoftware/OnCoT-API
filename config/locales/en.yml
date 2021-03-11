@@ -14,7 +14,7 @@ en:
     message: "ok"
 
   not_found:
-    message:"Not found"
+    message: "Not found"
 
   error:
     message: "Error, Please try again"
