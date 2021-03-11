@@ -3,18 +3,18 @@
 require 'http'
 
 class JudgeZeroApi
-  BASE_URI = 'http://roupi.xyz'
+  BASE_URI = 'http://localhost:3000'
 
-  def initialize(params = {}, headers = {})
+  def initialize(params = {})
     @params = params
-    @headers = headers
   end
 
   def get(path)
     response = HTTP.get("#{BASE_URI}#{path}")
+    response = JSON.parse response
   end
 
   def post(path)
-    HTTP.post("#{BASE_URI}#{path}", headers: @headers, body: @params.to_json)
+    HTTP.post("#{BASE_URI}#{path}", params: @params)
   end
 end
