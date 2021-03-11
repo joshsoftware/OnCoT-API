@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProblemsController < ApiController
   def display
     problem = Problem.find_by(drive_id: params[:id])

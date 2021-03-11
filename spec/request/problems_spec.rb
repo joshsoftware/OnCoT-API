@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe ProblemsController, type: :controller do
@@ -8,7 +10,6 @@ RSpec.describe ProblemsController, type: :controller do
       create(:drive, updated_by_id: user.id, created_by_id: user.id,
                      organization: organization)
     end
-
     let(:problem) do
       create(:problem, updated_by_id: user.id, created_by_id: user.id,
                        organization: organization, drive_id: drive.id)
@@ -21,7 +22,7 @@ RSpec.describe ProblemsController, type: :controller do
       expect(response).to have_http_status(200)
     end
 
-    it 'returns the not found error as passing random id which is not present in database' do
+    it 'returns error as passing random id which is not present in database' do
       get :display, params: { id: Faker::Number }
 
       expect(response).to have_http_status(404)

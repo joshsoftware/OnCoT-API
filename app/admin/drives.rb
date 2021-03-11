@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Drive do
   actions :all, except: [:destroy]
   permit_params do
@@ -18,7 +20,7 @@ ActiveAdmin.register Drive do
       f.input :start_time
       f.input :end_time
       f.input :organization
-      end
+    end
     f.actions
   end
 end

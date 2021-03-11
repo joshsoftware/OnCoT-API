@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register TestCase do
   actions :all, except: [:destroy]
   permit_params do
@@ -16,9 +18,7 @@ ActiveAdmin.register TestCase do
       f.input :input
       f.input :output
       f.input :marks
-
     end
     f.actions
   end
-  
 end

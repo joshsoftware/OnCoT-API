@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DrivesCandidate < ApplicationRecord
   belongs_to :drive
   belongs_to :candidate
@@ -7,14 +9,14 @@ class DrivesCandidate < ApplicationRecord
     self.email_sent_at = Time.now.utc
     save!
   end
-  
+
   def token_valid?
-    drive=Drive.find_by(id:self.drive_id)
+    drive = Drive.find_by(id: drive_id)
     (drive.end_time) > Time.now.utc
   end
 
   private
-  
+
   def generate_token
     SecureRandom.hex(20)
   end
