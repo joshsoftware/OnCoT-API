@@ -3,5 +3,6 @@ FactoryBot.define do
     association :organization
     title { 'problem' }
     description { 'Add 2 numbers' }
+    submission_count {4}
   end
 end
