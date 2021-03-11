@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe CandidatesController, type: :controller do
-  context 'candidates#update' do
+  context 'When testing the update method' do
     let(:organization) { create(:organization) }
     let(:user) { create(:user) }
     let(:candidate) { create(:candidate) }
@@ -16,6 +16,7 @@ RSpec.describe CandidatesController, type: :controller do
 
     it 'update the candidate details' do
       patch :update, params: { id: drives_candidate.token }
+
       expect(response.body).to eq({ data: candidate, message: 'Success' }.to_json)
       expect(response).to have_http_status(200)
     end

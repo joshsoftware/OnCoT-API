@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_308_063_125) do
+ActiveRecord::Schema.define(version: 20_210_311_140_451) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -98,7 +98,6 @@ ActiveRecord::Schema.define(version: 20_210_308_063_125) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.integer 'submission_count'
-    t.integer 'drive_id'
     t.index ['created_by_id'], name: 'index_problems_on_created_by_id'
     t.index ['organization_id'], name: 'index_problems_on_organization_id'
     t.index ['updated_by_id'], name: 'index_problems_on_updated_by_id'

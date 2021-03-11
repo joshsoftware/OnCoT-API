@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :drives_problem, class: DrivesProblem do
+  factory :test_case, class: TestCase do
   end
 end

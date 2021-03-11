@@ -14,7 +14,7 @@
 # https://github.com/sds/overcommit#configuration
 #
 # Uncomment the following lines to make the configuration take effect.
-
+gemfile: Gemfile
 PreCommit:
   RuboCop:
     enabled: true
