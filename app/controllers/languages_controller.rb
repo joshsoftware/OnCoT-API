@@ -3,14 +3,12 @@
 class LanguagesController < ApplicationController
   def index
     response = JudgeZeroApi.new.get('/languages')
-    body = JSON.parse(response.body)
-    render json: body
+    render json: response
   end
 
   def all
     response = JudgeZeroApi.new.get('/languages/all')
-    body = JSON.parse(response.body)
-    render json: body
+    render json: response
   end
 
   def show
