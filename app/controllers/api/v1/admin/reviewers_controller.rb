@@ -5,42 +5,37 @@ module Api
     module Admin
       class ReviewersController < ApiController
         def index
-          role = Role.reviewer.first
-          @users = User.where(role: role)
-          render_success(data: { users: serialize_resource(@users, UserSerializer) },
+          users = User.joins(:role).where(roles: { name: 'reviewer' })
+          render_success(data: { users: serialize_resource(users, UserSerializer) },
                          message: I18n.t('index.success', model_name: 'Reviewer'))
         end
 
         def create
-          @user = User.new(user_params)
-          return unless @user.save
+          user = User.new(user_params)
+          if user.save
 
-          render_success(data: { user: serialize_resource(@user, UserSerializer) },
-                         message: I18n.t('create.success', model_name: 'Reviewer'), status: 201)
+            render_success(data: { user: serialize_resource(user, UserSerializer) },
+                           message: I18n.t('create.success', model_name: 'Reviewer'), status: 201)
+          else
+
+            render_error(message: I18n.t('create.failed', model_name: 'Reviewer'), status: 400)
+          end
         end
 
         def show
-          @user = User.find(params[:id])
-          return unless @user
+          user = User.find(params[:id])
+          return unless user
 
-          render_success(data: { user: serialize_resource(@user, UserSerializer) },
+          render_success(data: { user: serialize_resource(user, UserSerializer) },
                          message: I18n.t('show.success', model_name: 'Reviewer'))
         end
 
         def update
-          @user = User.find(params[:id])
-          return unless @user.update(user_params)
+          user = User.find(params[:id])
+          return unless user.update(user_params)
 
-          render_success(data: { user: serialize_resource(@user, UserSerializer) },
+          render_success(data: { user: serialize_resource(user, UserSerializer) },
                          message: I18n.t('update.success', model_name: 'Reviewer'))
-        end
-
-        def destroy
-          @user = User.find(params[:id])
-          return unless @user.destroy
-
-          render_success(data: { user: serialize_resource(@user, UserSerializer) },
-                         message: I18n.t('destroy.success', model_name: 'Reviewer'))
         end
 
         private

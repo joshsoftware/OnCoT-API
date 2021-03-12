@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 class ApiController < ActionController::API
+  rescue_from ActiveRecord::RecordNotFound, with: :error_render_method
   def render_success(data: nil, message: nil, status: 200)
     render json: { data: data, message: message }, status: status
   end
 
-  def render_error(message: nil)
-    render json: message, status: 400
+  def render_error(message: nil, status: 400)
+    render json: message, status: status
   end
 
   def serialize_resource(resources, serializer, root = nil, extra = {})
@@ -14,9 +15,7 @@ class ApiController < ActionController::API
     ActiveModelSerializers::SerializableResource.new(resources, opts) if resources
   end
 
-  rescue_from ActiveRecord::RecordNotFound, with: :error_render_method
-
   def error_render_method
-    render_error(message: 'Record not found')
+    render_error(message: 'Record not found', status: 404)
   end
 end

@@ -6,10 +6,10 @@ require 'json'
 RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
   describe 'index' do
     it 'returns all reviewers details' do
-      created_reviewer = create(:reviewer)
+      reviewer = create(:reviewer)
       get :index
       parsed_json_data = json(response)
-      expect(parsed_json_data['data']['users'][0]['first_name']).to eq(created_reviewer.first_name)
+      expect(parsed_json_data['data']['users'][0]['first_name']).to eq(reviewer.first_name)
       expect(response).to have_http_status(:ok)
     end
   end
@@ -18,52 +18,41 @@ RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
     it 'creates a reviewer' do
       organization = create(:organization)
       role = create(:role)
-      params = {
-        first_name: Faker::Name.name,
-        last_name: Faker::Name.name,
-        email: Faker::Internet.email,
-        organization_id: organization.id,
-        role_id: role.id,
-        password: 'josh123'
-      }
-      post :create, params: params
-      parsed_json_data = json(response)
-      expect(parsed_json_data['data']['user']['first_name']).to eq(params[:first_name])
-      expect(response).to have_http_status(201)
+      expect do
+        post :create, params: {
+          first_name: Faker::Name.name,
+          last_name: Faker::Name.name,
+          email: Faker::Internet.email,
+          organization_id: organization.id,
+          role_id: role.id,
+          password: 'josh123'
+        }
+      end.to change { User.count }.to(1).from(0)
+      expect(response).to have_http_status(:created)
     end
   end
 
   describe 'update' do
     it 'updates the particular reviewer details' do
-      created_reviewer = create(:reviewer)
-      params_to_be_updated = {
-        id: created_reviewer.id,
-        first_name: 'Neha update'
+      reviewer = create(:reviewer, id: 10)
+      params = {
+        id: reviewer.id,
+        first_name: Faker::Name.name
       }
-      put :update, params: params_to_be_updated
-      parsed_json_data = json(response)
-      expect(parsed_json_data['data']['user']['first_name']).to eq(params_to_be_updated[:first_name])
-      expect(response).to have_http_status(:ok)
+      expect do
+        put :update, params: params
+      end.to change { reviewer.reload.first_name }.from(reviewer.first_name).to(params[:first_name])
+      expect(response).to have_http_status(:success)
     end
   end
 
   describe 'show' do
     it 'displays the particular reviewer details' do
-      created_reviewer = create(:reviewer)
-      get :show, params: { id: created_reviewer.id }
+      reviewer = create(:reviewer)
+      get :show, params: { id: reviewer.id }
       # parsed_json_data = JSON.parse(response.body)
       parsed_json_data = json(response)
-      expect(parsed_json_data['data']['user']['first_name']).to eq(created_reviewer[:first_name])
-      expect(response).to have_http_status(:ok)
-    end
-  end
-
-  describe 'destroy' do
-    it 'destorys the particular reviewer details' do
-      created_reviewer = create(:reviewer)
-      delete :destroy, params: { id: created_reviewer.id }
-      parsed_json_data = json(response)
-      expect(parsed_json_data['data']['user']['first_name']).to eq(created_reviewer[:first_name])
+      expect(parsed_json_data['data']['user']['first_name']).to eq(reviewer[:first_name])
       expect(response).to have_http_status(:ok)
     end
   end
