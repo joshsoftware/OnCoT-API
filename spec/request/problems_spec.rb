@@ -11,10 +11,10 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
   describe 'POST Create' do
     it 'Creates the problem' do
       post :create,
-           params: { title: 'a', description: 'b', created_at: Time.now, updated_at: Time.now, created_by_id: user.id,
+           params: { title: 'a', description: 'b', created_by_id: user.id,
                      updated_by_id: user.id, organization_id: organization.id }
 
-      problem = json(response)
+      problem = json
 
       expect(problem['data']['problem']['title']).to eq('a')
       expect(response).to have_http_status(:ok)
@@ -24,11 +24,12 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
   describe 'PUT Update' do
     it 'Updates a problem' do
       put :update,
-          params: { id: problem.id, title: 'b', description: 'b', created_at: Time.now, updated_at: Time.now,
+          params: { id: problem.id, title: 'b', description: 'b',
                     created_by_id: user.id, updated_by_id: user.id, organization_id: organization.id }
 
-      problem = json(response)
+      problem = json
       expect(problem['data']['problem']['title']).to eq('b')
+
       expect(response).to have_http_status(:ok)
     end
   end
@@ -37,6 +38,8 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
     it 'shows a problem' do
       get :show, params: { id: problem.id }
 
+      data = json
+      expect(data['data']['problem']['title']).to eq(problem.title)
       expect(response).to have_http_status(:ok)
     end
   end
@@ -45,6 +48,8 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
     it 'shows all problems' do
       get :index
 
+      data = json
+      expect(data['data']['problems'].count).to eq(Problem.count)
       expect(response).to have_http_status(:ok)
     end
   end

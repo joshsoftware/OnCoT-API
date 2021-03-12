@@ -6,46 +6,32 @@ module Api
       class ProblemsController < ApiController
         def create
           problem = Problem.new(problem_params)
-          if problem.save
-            render_success(data: { problem: serialize_resource(problem, ProblemSerializer) },
-                           message: I18n.t('create.success', model_name: Problem))
-          else
-            render_error(message: I18n.t('create.error', model_name: Problem))
-          end
+          problem.save
+          render_success(data: { problem: serialize_resource(problem, ProblemSerializer) },
+                         message: I18n.t('create.success', model_name: Problem))
         end
 
         def index
-          problems = Problem.all
+          # problems = Problem.all
+          problems = Problem.paginate(page: params[:page], per_page: 3)
 
-          if problems
-            render_success(data: { problems: serialize_resource(problems, ProblemSerializer) },
-                           message: I18n.t('index.success', model_name: Problem))
-          else
-            render_error(message: I18n.t('index.error', model_name: Problem))
-          end
+          render_success(data: { problems: serialize_resource(problems, ProblemSerializer) },
+                         message: I18n.t('index.success', model_name: Problem))
         end
 
         def show
-          id = params[:id]
-          problem = Problem.get_problem(id)
-          if problem
-            render_success(data: { problem: serialize_resource(problem, ProblemSerializer) },
-                           message: I18n.t('show.success', model_name: Problem))
-          else
-            render_error(message: I18n.t('show.error', model_name: Problem))
-          end
+          problem = Problem.find(params[:id])
+
+          render_success(data: { problem: serialize_resource(problem, ProblemSerializer) },
+                         message: I18n.t('show.success', model_name: Problem))
         end
 
         def update
-          id = params[:id]
-          problem = Problem.get_problem(id)
+          problem = Problem.find(params[:id])
 
-          if problem.update(problem_params)
-            render_success(data: { problem: serialize_resource(problem, ProblemSerializer) },
-                           message: I18n.t('update.success', model_name: Problem))
-          else
-            render_error(message: I18n.t('update.error', model_name: Problem))
-          end
+          problem.update(problem_params)
+          render_success(data: { problem: serialize_resource(problem, ProblemSerializer) },
+                         message: I18n.t('update.success', model_name: Problem))
         end
 
         private
