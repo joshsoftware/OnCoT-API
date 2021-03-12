@@ -12,7 +12,6 @@ module Api
         end
 
         def index
-          # problems = Problem.all
           problems = Problem.paginate(page: params[:page], per_page: 3)
 
           render_success(data: { problems: serialize_resource(problems, ProblemSerializer) },

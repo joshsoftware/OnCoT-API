@@ -23,12 +23,11 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
 
   describe 'PUT Update' do
     it 'Updates a problem' do
-      put :update,
-          params: { id: problem.id, title: 'b', description: 'b',
-                    created_by_id: user.id, updated_by_id: user.id, organization_id: organization.id }
-
-      problem = json
-      expect(problem['data']['problem']['title']).to eq('b')
+      expect do
+        put :update,
+            params: { id: problem.id, title: 'b', description: 'b',
+                      created_by_id: user.id, updated_by_id: user.id, organization_id: organization.id }
+      end.to change { problem.reload.title }.from(problem.title).to('b')
 
       expect(response).to have_http_status(:ok)
     end
