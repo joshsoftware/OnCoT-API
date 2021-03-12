@@ -11,7 +11,7 @@ class CandidatesController < ApiController
         render_error(message: I18n.t('error.message'))
       end
     else
-      render_error(message: I18n.t('not_found.message'))
+      render_error(message: I18n.t('not_found.message'), status: 404)
     end
   end
 
@@ -19,7 +19,7 @@ class CandidatesController < ApiController
 
   def candidate_params
     params.permit(:first_name, :last_name, :email, :is_profile_complete, :created_at, :mobile_number,
-                  :updated_at, :drive_id, :created_by_id, :updated_by_id)
+                  :updated_at, :created_by_id, :updated_by_id)
   end
 
   def find_candidate

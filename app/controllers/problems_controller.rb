@@ -11,8 +11,7 @@ class ProblemsController < ApiController
   end
 
   def find_problem
-    id = params[:id].to_s
-    @drive_problem = DrivesProblem.find_by(drive_id: id)
+    @drive_problem = DrivesProblem.find_by(drive_id: params[:id])
     return render_error(message: I18n.t('not_found.message'), status: :not_found) if @drive_problem.blank?
   end
 end
