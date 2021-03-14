@@ -8,6 +8,8 @@ en:
   ok:
     message: "ok"
 
-  hello: 'Hello world'
-  message: 'Success'
+  not_found:
+    message: "not found"
 
+  hello: "Hello world"
+  message: "Success"
