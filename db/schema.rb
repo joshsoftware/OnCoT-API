@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_226_052_202) do
+ActiveRecord::Schema.define(version: 20_210_225_203_338) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -33,12 +35,9 @@ ActiveRecord::Schema.define(version: 20_210_226_052_202) do
     t.string 'last_name'
     t.string 'email'
     t.boolean 'is_profile_complete'
-    t.string 'invite_status'
-    t.boolean 'is_qualified'
-    t.bigint 'drive_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.index ['drive_id'], name: 'index_candidates_on_drive_id'
+    t.string 'mobile_number'
   end
 
   create_table 'drives', force: :cascade do |t|
@@ -51,9 +50,25 @@ ActiveRecord::Schema.define(version: 20_210_226_052_202) do
     t.bigint 'organization_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.integer 'duration'
     t.index ['created_by_id'], name: 'index_drives_on_created_by_id'
     t.index ['organization_id'], name: 'index_drives_on_organization_id'
     t.index ['updated_by_id'], name: 'index_drives_on_updated_by_id'
+  end
+
+  create_table 'drives_candidates', force: :cascade do |t|
+    t.bigint 'drive_id'
+    t.bigint 'candidate_id'
+    t.string 'token'
+    t.datetime 'email_sent_at'
+    t.datetime 'start_time'
+    t.datetime 'end_time'
+    t.string 'invite_status'
+    t.boolean 'is_qualified'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['candidate_id'], name: 'index_drives_candidates_on_candidate_id'
+    t.index ['drive_id'], name: 'index_drives_candidates_on_drive_id'
   end
 
   create_table 'drives_problems', force: :cascade do |t|
@@ -82,15 +97,25 @@ ActiveRecord::Schema.define(version: 20_210_226_052_202) do
     t.bigint 'organization_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.integer 'submission_count'
     t.index ['created_by_id'], name: 'index_problems_on_created_by_id'
     t.index ['organization_id'], name: 'index_problems_on_organization_id'
     t.index ['updated_by_id'], name: 'index_problems_on_updated_by_id'
   end
 
   create_table 'roles', force: :cascade do |t|
-    t.string 'type'
+    t.string 'name'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+  end
+
+  create_table 'rules', force: :cascade do |t|
+    t.string 'type_name'
+    t.text 'description'
+    t.bigint 'drive_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['drive_id'], name: 'index_rules_on_drive_id'
   end
 
   create_table 'submissions', force: :cascade do |t|
@@ -145,7 +170,6 @@ ActiveRecord::Schema.define(version: 20_210_226_052_202) do
     t.index ['role_id'], name: 'index_users_on_role_id'
   end
 
-  add_foreign_key 'candidates', 'drives', column: 'drive_id'
   add_foreign_key 'drives', 'organizations'
   add_foreign_key 'drives', 'users', column: 'created_by_id'
   add_foreign_key 'drives', 'users', column: 'updated_by_id'
@@ -154,6 +178,7 @@ ActiveRecord::Schema.define(version: 20_210_226_052_202) do
   add_foreign_key 'problems', 'organizations'
   add_foreign_key 'problems', 'users', column: 'created_by_id'
   add_foreign_key 'problems', 'users', column: 'updated_by_id'
+  add_foreign_key 'rules', 'drives', column: 'drive_id'
   add_foreign_key 'submissions', 'candidates'
   add_foreign_key 'submissions', 'problems'
   add_foreign_key 'test_case_results', 'submissions'

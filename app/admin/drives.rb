@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register Drive do
   actions :all, except: [:destroy]
   permit_params do
