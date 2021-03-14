@@ -31,6 +31,10 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
 
       expect(response).to have_http_status(:ok)
     end
+    it 'returns the not found error as passing random id which is not present in database' do
+      patch :update, params: { id: Faker::Number }
+      expect(response).to have_http_status(404)
+    end
   end
 
   describe 'GET show' do
