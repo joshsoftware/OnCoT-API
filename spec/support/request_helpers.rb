@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Requests
-  module TimeHelpers
+  module ScenarioHelpers
     def yet_to_start?
       return true if start_date > Time.current
     end
