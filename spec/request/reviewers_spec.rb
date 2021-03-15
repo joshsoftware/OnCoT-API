@@ -44,16 +44,35 @@ RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
       end.to change { reviewer.reload.first_name }.from(reviewer.first_name).to(params[:first_name])
       expect(response).to have_http_status(:success)
     end
+
+    it 'raises error exception if particular reviewer is not found' do
+      params = {
+        id: Faker::Number,
+        first_name: Faker::Name.name
+      }
+      expect do
+        put :update, params: params
+      end
+      p response.status, '--------------'
+      expect(response).to have_http_status(:not_found)
+    end
   end
 
   describe 'show' do
     it 'displays the particular reviewer details' do
       reviewer = create(:reviewer)
       get :show, params: { id: reviewer.id }
-      # parsed_json_data = JSON.parse(response.body)
       parsed_json_data = json(response)
       expect(parsed_json_data['data']['user']['first_name']).to eq(reviewer[:first_name])
       expect(response).to have_http_status(:ok)
+    end
+
+    it 'raises error exception if particular reviewer is not found' do
+      expect do
+        get :show, params: { id: Faker::Number }
+      end
+      p response.status, '--------------'
+      expect(response).to have_http_status(:not_found)
     end
   end
 end
