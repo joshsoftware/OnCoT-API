@@ -30,5 +30,19 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: 'Hello world'
-  message: 'Success'
+  hello: "Hello world"
+  message: "Success"
+  create:
+    success: "%{model_name} created successfully."
+    failed: "%{model_name} couldn't be created successfully."
+  index:
+    success: "%{model_name} list displayed successfully."
+  update:
+    success: "%{model_name} updated successfully."
+    failed: "Particular %{model_name} couldn't be found."
+  destroy:
+    success: "%{model_name} deleted successfully."
+    failed: "Particular %{model_name} couldn't be found."
+  show:
+    success: "%{model_name} displayed successfully."
+    failed: "Particular %{model_name} couldn't be found."

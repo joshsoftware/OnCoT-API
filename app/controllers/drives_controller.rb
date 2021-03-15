@@ -8,9 +8,9 @@ class DrivesController < ApiController
     time_left = drive_time - current_time
 
     if time_left.negative?
-      render_success(message: 'Drive is already started', status: 200)
+      render_success(data: time_left, message: 'Drive is already started', status: 200)
     else
-      render_success(message: 'Drive is yet to be started.', status: 200)
+      render_success(data: time_left, message: 'Drive is yet to be started.', status: 200)
     end
   end
 end
