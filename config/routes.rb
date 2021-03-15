@@ -9,6 +9,5 @@ Rails.application.routes.draw do
     get 'all', on: :collection
   end
   resources :candidates, only: [:update]
-  resources :problems
-  get '/drives/:id/problems' => 'problems#display'
+  get '/drives/:id/problem' => 'problems#show'
 end

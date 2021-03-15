@@ -2,7 +2,7 @@
 
 class ProblemsController < ApiController
   before_action :find_problem
-  def display
+  def show
     if (problem = @drive_problem.problem)
       render_success(data: problem, message: I18n.t('success.message'))
     else

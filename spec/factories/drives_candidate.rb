@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :drives_candidate, class: DrivesCandidate do
-    created_at { Time.now }
-    updated_at { Time.now }
+    association :drive
+    association :candidate
     token { '123456' }
   end
 end
