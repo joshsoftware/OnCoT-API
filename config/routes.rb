@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   devise_for :users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   resources :statuses, only: [:index]
-  resources :candidates, only: [:update]
+  resources :candidates, only: %i[update show]
   resources :languages, only: %i[index show] do
     get 'all', on: :collection
   end
