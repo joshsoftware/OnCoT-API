@@ -53,7 +53,6 @@ RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
       expect do
         put :update, params: params
       end
-      p response.status, '--------------'
       expect(response).to have_http_status(:not_found)
     end
   end
@@ -71,7 +70,6 @@ RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
       expect do
         get :show, params: { id: Faker::Number }
       end
-      p response.status, '--------------'
       expect(response).to have_http_status(:not_found)
     end
   end
