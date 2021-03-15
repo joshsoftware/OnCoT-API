@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'yet_to_start?'
-require 'ended?'
-require 'ongoing?'
 
 RSpec.describe DrivesController, type: :controller do
   describe 'drive is yet to start' do
-    it 'returns true if start time < current time' do
+    it 'returns true if start time > current time' do
       drive = create(:drive)
       travel_to(Time.current - 1.day)
       expect(drive.yet_to_start?).to eq(true)
@@ -21,7 +18,7 @@ RSpec.describe DrivesController, type: :controller do
   end
 
   describe 'drive is completed' do
-    it 'return false if start time < current time' do
+    it 'return false if start time > current time' do
       drive = create(:drive)
       travel 4.day
       expect(drive.yet_to_start?).to eq(false)

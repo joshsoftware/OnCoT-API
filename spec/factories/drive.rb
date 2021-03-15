@@ -12,8 +12,6 @@ FactoryBot.define do
 
     before(:create) do |_drive|
       organization = create(:organization)
-      # admin = create(:user, :role, name: 'admin')
-      # p admin , "------------------"
     end
   end
 end

@@ -2,9 +2,9 @@
 
 FactoryBot.define do
   factory :candidate, class: Candidate do
+    first_name { Faker::Name.name }
+    last_name { Faker::Name.name  }
     email { Faker::Internet.email }
-    first_name { 'Samruddhi' }
-    last_name { 'Deshpande' }
     is_profile_complete { 'Yes' }
     drive_id { 9 }
   end
