@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe CandidatesController, type: :controller do
   describe 'PATCH update' do
-    context 'testing with correct id' do
+    context 'with correct id' do
       let(:organization) { create(:organization) }
       let(:user) { create(:user) }
       let(:candidate) { create(:candidate) }
@@ -23,7 +23,7 @@ RSpec.describe CandidatesController, type: :controller do
       end
     end
 
-    context 'testing with random id which is not present in database' do
+    context 'with random id which is not present in database' do
       it 'returns the not found error' do
         patch :update, params: { id: Faker::Number }
 
