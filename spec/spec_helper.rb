@@ -77,31 +77,4 @@ RSpec.configure do |config|
   #   # test failures related to randomization by passing the same `--seed` value
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
-  config.before(:each) do
-    stub_request(:get, 'http://roupi.xyz/submissions/8d0c8819-0346-45df-b089-94ac3cf868ed')
-      .to_return({
-                   "status": 200,
-                   "body":
-          "{\"stdout\":\"Hello World\\n\",\"time\":\"0.287\",\"memory\":7908,\"stderr\":null,
-          \"token\":\"8d0c8819-0346-45df-b089-94ac3cf868ed\",\"compile_output\":null,
-          \"message\":null,\"status\":{\"id\":3,\"description\":\"Accepted\"}}"
-                 })
-  end
-
-  config.before(:each) do
-    stub_request(:post, 'http://roupi.xyz/submissions/?base64_encoded=false&wait=false')
-      .with(
-        body: '{"language_id":71,"source_code":"print(\\"Hello World\\")","controller":"executions","action":"submission_token","execution":{"language_id":71,"source_code":"print(\\"Hello World\\")"}}',
-        headers: {
-          'Connection' => 'close',
-          'Content-Type' => 'application/json',
-          'Host' => 'roupi.xyz',
-          'User-Agent' => 'http.rb/4.4.1'
-        }
-      )
-      .to_return({
-                   "status": 201,
-                   "body": '{"token":"fc77ad79-02f3-44ac-877f-bc10154466b2"}'
-                 })
-  end
 end

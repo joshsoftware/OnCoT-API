@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     get 'all', on: :collection
   end
 
-  post '/token', to: 'executions#submission_token'
-  get '/submission/:token', to: 'executions#submission_status'
+  resources :executions do
+    post :submission_token, on: :collection
+    get :submission_status, on: :member
+  end
 end
