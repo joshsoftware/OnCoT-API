@@ -19,6 +19,14 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
       expect(problem['data']['problem']['title']).to eq('a')
       expect(response).to have_http_status(:ok)
     end
+
+    it 'fails Create action as not passing organization id' do
+      post :create,
+           params: { title: 'a', description: 'b', created_by_id: user.id,
+                     updated_by_id: user.id }
+
+      expect(response).to have_http_status(400)
+    end
   end
 
   describe 'PUT Update' do
@@ -31,6 +39,7 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
 
       expect(response).to have_http_status(:ok)
     end
+
     it 'returns the not found error as passing random id which is not present in database' do
       patch :update, params: { id: Faker::Number }
       expect(response).to have_http_status(404)
@@ -45,6 +54,11 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
       expect(data['data']['problem']['title']).to eq(problem.title)
       expect(response).to have_http_status(:ok)
     end
+
+    it 'returns the not found error as passing random id which is not present in database' do
+      patch :update, params: { id: Faker::Number }
+      expect(response).to have_http_status(404)
+    end
   end
 
   describe 'GET index' do
@@ -54,6 +68,10 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
       data = json
       expect(data['data']['problems'].count).to eq(Problem.count)
       expect(response).to have_http_status(:ok)
+    end
+    it 'returns the not found error ' do
+      patch :update, params: { id: Faker::Number }
+      expect(response).to have_http_status(404)
     end
   end
 end
