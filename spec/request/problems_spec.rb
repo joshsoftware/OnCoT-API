@@ -25,6 +25,9 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
            params: { title: 'a', description: 'b', created_by_id: user.id,
                      updated_by_id: user.id }
 
+      problem = json
+
+      expect(problem['organization'][0]).to eq('must exist')
       expect(response).to have_http_status(400)
     end
   end
@@ -42,6 +45,7 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
 
     it 'returns the not found error as passing random id which is not present in database' do
       patch :update, params: { id: Faker::Number }
+      expect(response.body).to eq('Record not found')
       expect(response).to have_http_status(404)
     end
   end
@@ -57,6 +61,7 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
 
     it 'returns the not found error as passing random id which is not present in database' do
       patch :update, params: { id: Faker::Number }
+      expect(response.body).to eq('Record not found')
       expect(response).to have_http_status(404)
     end
   end
@@ -71,6 +76,7 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
     end
     it 'returns the not found error ' do
       patch :update, params: { id: Faker::Number }
+      expect(response.body).to eq('Record not found')
       expect(response).to have_http_status(404)
     end
   end

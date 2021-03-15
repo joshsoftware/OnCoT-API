@@ -10,18 +10,15 @@ module Api
             render_success(data: { problem: serialize_resource(problem, ProblemSerializer) },
                            message: I18n.t('create.success', model_name: Problem))
           else
-            render_error(message: I18n.t('create.error', model_name: Problem), status: 400)
+            render_error(message: problem.errors.messages, status: 400)
           end
         end
 
         def index
-          problems = Problem.paginate(page: params[:page], per_page: 3)
-          if problems
-            render_success(data: { problems: serialize_resource(problems, ProblemSerializer) },
-                           message: I18n.t('index.success', model_name: Problem))
-          else
-            render_error(message: I18n.t('index.error', model_name: Problem), status: 400)
-          end
+          problems = Problem.paginate(page: params[:page], per_page: 15)
+
+          render_success(data: { problems: serialize_resource(problems, ProblemSerializer) },
+                         message: I18n.t('index.success', model_name: Problem))
         end
 
         def show
@@ -38,7 +35,7 @@ module Api
             render_success(data: { problem: serialize_resource(problem, ProblemSerializer) },
                            message: I18n.t('update.success', model_name: Problem))
           else
-            render_error(message: I18n.t('update.error', model_name: Problem), status: 400)
+            render_error(message: I18n.t(problem.errors.messages, model_name: Problem), status: 400)
           end
         end
 
