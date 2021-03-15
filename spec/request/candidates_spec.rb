@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe CandidatesController, type: :controller do
-  describe 'update' do
-    context ' testing with correct id' do
+  describe 'PATCH update' do
+    context 'testing with correct id' do
       let(:organization) { create(:organization) }
       let(:user) { create(:user) }
       let(:candidate) { create(:candidate) }
@@ -15,7 +15,7 @@ RSpec.describe CandidatesController, type: :controller do
 
       let(:drives_candidate) { create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id) }
 
-      it 'update the candidate details' do
+      it 'returns updated candidate details' do
         patch :update, params: { id: drives_candidate.token }
 
         expect(response.body).to eq({ data: candidate, message: 'Success' }.to_json)

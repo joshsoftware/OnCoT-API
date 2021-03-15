@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe ProblemsController, type: :controller do
-  describe 'show' do
+  describe 'GET show' do
     context 'testing with correct id ' do
       let(:organization) { create(:organization) }
       let(:user) { create(:user) }
