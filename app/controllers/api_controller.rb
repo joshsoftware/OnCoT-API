@@ -2,6 +2,7 @@
 
 class ApiController < ActionController::API
   rescue_from ActiveRecord::RecordNotFound, with: :error_render_method
+
   def render_success(data: nil, message: nil, status: 200)
     render json: { data: data, message: message }, status: status
   end

@@ -47,12 +47,10 @@ RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
 
     it 'raises error exception if particular reviewer is not found' do
       params = {
-        id: Faker::Number,
+        id: 0,
         first_name: Faker::Name.name
       }
-      expect do
-        put :update, params: params
-      end
+      put :update, params: params
       expect(response).to have_http_status(:not_found)
     end
   end
@@ -67,9 +65,7 @@ RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
     end
 
     it 'raises error exception if particular reviewer is not found' do
-      expect do
-        get :show, params: { id: Faker::Number }
-      end
+      get :show, params: { id: Faker::Number }
       expect(response).to have_http_status(:not_found)
     end
   end
