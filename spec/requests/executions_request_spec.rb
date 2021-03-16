@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'spec_helper'
+require 'json'
 
 RSpec.describe 'Executions', type: :request do
   let(:token) { '8d0c8819-0346-45df-b089-94ac3cf868ed' }
@@ -23,15 +24,17 @@ RSpec.describe 'Executions', type: :request do
       post '/executions/submission_token', params: params.to_json,
                                            headers: { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
     end
+
     it 'returns http success' do
       expect(response).to have_http_status(:success)
     end
+
     it 'JSON body response contains expected token attributes' do
       expect(response.body).not_to eq('null')
     end
   end
 
-  describe 'GET /executions/:token/submission_status' do
+  describe 'GET #submission_status' do
     before(:each) do
       stub_request(:get, 'http://65.1.201.245/submissions/8d0c8819-0346-45df-b089-94ac3cf868ed')
         .with(
@@ -47,12 +50,13 @@ RSpec.describe 'Executions', type: :request do
           \"message\":null,\"status\":{\"id\":3,\"description\":\"Accepted\"}}", headers: {})
     end
     before { get "/executions/#{token}/submission_status" }
+
     it 'returns status code 200' do
       expect(response).to have_http_status(200)
     end
 
     it 'JSON body response contains expected submission attributes' do
-      body = JSON.parse(response.body)
+      body = json(response)
       expect(body['data'].keys).to match_array(%w[compile_output memory message status stderr stdout time
                                                   token])
     end

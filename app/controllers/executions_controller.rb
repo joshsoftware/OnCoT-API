@@ -15,7 +15,7 @@ class ExecutionsController < ApiController
     response = JudgeZeroApi.new(params).get("/submissions/#{token}")
     body = JSON.parse(response.body)
     if body['error']
-      render_error(message: I18n.t(body['error']), status: :not_found)
+      render_error(message: body['error'], status: :not_found)
     else
       render_success(data: body, message: I18n.t('ok.message'))
     end
