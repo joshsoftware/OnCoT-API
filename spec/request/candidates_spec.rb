@@ -3,21 +3,32 @@
 require 'rails_helper'
 
 RSpec.describe CandidatesController, type: :controller do
-  context 'candidates#update' do
-    let(:organization) { create(:organization) }
-    let(:user) { create(:user) }
-    let(:drive) do
-      create(:drive, updated_by_id: user.id, created_by_id: user.id,
-                     organization: organization)
+  describe 'PATCH update' do
+    context 'with correct id' do
+      let(:organization) { create(:organization) }
+      let(:user) { create(:user) }
+      let(:candidate) { create(:candidate) }
+      let(:drive) do
+        create(:drive, updated_by_id: user.id, created_by_id: user.id,
+                       organization: organization)
+      end
+
+      let(:drives_candidate) { create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id) }
+
+      it 'returns updated candidate details' do
+        patch :update, params: { id: drives_candidate.token }
+
+        expect(response.body).to eq({ data: candidate, message: 'Success' }.to_json)
+        expect(response).to have_http_status(200)
+      end
     end
 
-    let(:candidate) { create(:candidate, drive_id: drive.id) }
+    context 'with random id which is not present in database' do
+      it 'returns the not found error' do
+        patch :update, params: { id: Faker::Number }
 
-    it 'update the candidate details' do
-      get :update, params: { id: candidate.id }
-
-      expect(response.body).to eq({ data: candidate, message: 'Success' }.to_json)
-      expect(response).to have_http_status(200)
+        expect(response).to have_http_status(404)
+      end
     end
   end
 end

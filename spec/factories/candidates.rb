@@ -3,9 +3,8 @@
 FactoryBot.define do
   factory :candidate, class: Candidate do
     email { Faker::Internet.email }
-    first_name { 'Samruddhi' }
-    last_name { 'Deshpande' }
-    is_profile_complete { 'Yes' }
-    drive_id { 9 }
+    first_name { Faker::Name.first_name }
+    last_name { Faker::Name.last_name }
+    mobile_number { Faker::PhoneNumber }
   end
 end
