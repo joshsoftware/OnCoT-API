@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ExecutionsController < ApiController
   def submission_token
     headers = { "Content-Type": 'application/json' }

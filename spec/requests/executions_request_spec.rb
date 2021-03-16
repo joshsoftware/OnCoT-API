@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require 'spec_helper'
 require 'json'
@@ -8,7 +10,8 @@ RSpec.describe 'Executions', type: :request do
     before(:each) do
       stub_request(:post, 'http://65.1.201.245/submissions/?base64_encoded=false&wait=false')
         .with(
-          body: '{"language_id":71,"source_code":"print(\\"Hello World\\")","controller":"executions","action":"submission_token","execution":{"language_id":71,"source_code":"print(\\"Hello World\\")"}}',
+          body: '{"language_id":71,"source_code":"print(\\"Hello World\\")","controller":"executions",
+                "action":"submission_token","execution":{"language_id":71,"source_code":"print(\\"Hello World\\")"}}',
           headers: {
             'Connection' => 'close',
             'Content-Type' => 'application/json',

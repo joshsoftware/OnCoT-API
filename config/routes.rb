@@ -10,11 +10,11 @@ Rails.application.routes.draw do
     post :submission_token, on: :collection
     get :submission_status, on: :member
   end
-  
+
   resources :languages, only: %i[index show] do
     get 'all', on: :collection
   end
-  
+
   resources :candidates, only: [:update]
   get '/drives/:id/problem' => 'problems#index'
 end
