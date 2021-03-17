@@ -17,6 +17,6 @@ class ApiController < ActionController::API
   end
 
   def error_render_method
-    render_error(message: 'Record not found', status: 404)
+    render_error(message: I18n.t('not_found.message'), status: 404)
   end
 end

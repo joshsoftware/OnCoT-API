@@ -6,10 +6,12 @@ require 'json'
 RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
   describe 'index' do
     it 'returns all reviewers details' do
-      reviewer = create(:reviewer)
+      reviewer = create_list(:reviewer, 5)
       get :index
-      parsed_json_data = json(response)
-      expect(parsed_json_data['data']['users'][0]['first_name']).to eq(reviewer.first_name)
+      
+      parsed_json_data = json_response(response)
+      expect(parsed_json_data['data']['users'][0]['first_name']).to eq(reviewer[0].first_name)
+      expect(parsed_json_data['data']['users'].count).to eq(5)
       expect(response).to have_http_status(:ok)
     end
   end
@@ -51,6 +53,7 @@ RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
         first_name: Faker::Name.name
       }
       put :update, params: params
+
       expect(response).to have_http_status(:not_found)
     end
   end
@@ -59,13 +62,15 @@ RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
     it 'displays the particular reviewer details' do
       reviewer = create(:reviewer)
       get :show, params: { id: reviewer.id }
-      parsed_json_data = json(response)
+
+      parsed_json_data = json_response(response)
       expect(parsed_json_data['data']['user']['first_name']).to eq(reviewer[:first_name])
       expect(response).to have_http_status(:ok)
     end
 
     it 'raises error exception if particular reviewer is not found' do
       get :show, params: { id: Faker::Number }
+
       expect(response).to have_http_status(:not_found)
     end
   end
