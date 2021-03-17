@@ -10,14 +10,16 @@ class CandidatesController < ApiController
     candidate = Candidate.find(params[:id])
     return unless candidate
 
-    render_success(data: candidate, message: I18n.t('show.success', model_name: 'Candidate'))
+    render_success(data: { candidate: serialize_resource(candidate, CandidateSerializer) },
+                   message: I18n.t('show.success', model_name: 'Candidate'))
   end
 
   def update
     candidate = Candidate.find(params[:id])
     return unless candidate.update(candidate_params)
 
-    render_success(data: candidate, message: I18n.t('update.success', model_name: 'Candidate'))
+    render_success(data: { candidate: serialize_resource(candidate, CandidateSerializer) },
+                   message: I18n.t('update.success', model_name: 'Candidate'))
   end
 
   def candidate_test_time_left

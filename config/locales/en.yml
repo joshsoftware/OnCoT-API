@@ -33,26 +33,30 @@ en:
   success:
     message: "Success"
   not_found:
-    message: "Not found"
+    message: "Record Not found"
   error:
     message: "Error, Please try again"
   hello: "Hello world"
   message: "Success"
   create:
     success: "%{model_name} created successfully."
-    failed: "%{model_name} couldn't be created successfully."
+    failed: "Unable to create %{model_name}"
   index:
     success: "%{model_name} list displayed successfully."
   update:
     success: "%{model_name} updated successfully."
-    failed: "Particular %{model_name} couldn't be found."
+    failed: "Unable to update %{model_name}"
   destroy:
     success: "%{model_name} deleted successfully."
-    failed: "Particular %{model_name} couldn't be found."
+    failed: "Unable to destroy %{model_name}"
   show:
     success: "%{model_name} displayed successfully."
-    failed: "Particular %{model_name} couldn't be found."
+    failed: "Unable to show %{model_name}"
   test:
     time_over: "Test Time Over!"
     time_remaining: "Time Remaining"
+  drive:
+    yet_to_start: "Drive is yet to start."
+    started: "Drive has already started."
+    ended: "Drive has already ended."
 
