@@ -5,7 +5,7 @@ FactoryBot.define do
     first_name { Faker::Name.name }
     last_name { Faker::Name.name  }
     email { Faker::Internet.email }
-    is_profile_complete { 'Yes' }
-    drive_id { 9 }
+    mobile_number { Faker::PhoneNumber }
+    is_profile_complete { true }
   end
 end

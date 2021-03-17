@@ -10,15 +10,15 @@ class Drive < ApplicationRecord
   has_one :rule
 
   def yet_to_start?
-    start_time > Time.current
+    start_time.localtime > DateTime.current.localtime
   end
 
   def ended?
-    end_time < Time.current
+    end_time.localtime < DateTime.current.localtime
   end
 
   def ongoing?
-    if start_time < Time.current && Time.current < end_time
+    if start_time.localtime < DateTime.current.localtime && DateTime.current.localtime < end_time.localtime
       true
     else
       false

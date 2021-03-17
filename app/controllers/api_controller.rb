@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class ApiController < ActionController::API
-  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from ActiveRecord::RecordNotFound, with: :error_render_method
 
-  def render_error_method
-    render_error(message: '404 Not found', status: 404)
+  def error_render_method
+    render_error(message: 'Record not found', status: 404)
   end
 
   def render_success(data: nil, message: nil, status: 200)

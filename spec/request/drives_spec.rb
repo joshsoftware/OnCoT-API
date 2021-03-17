@@ -23,14 +23,14 @@ RSpec.describe DrivesController, type: :controller do
     it 'returns true if start time > current time' do
       drive = create(:drive, updated_by_id: @user.id, created_by_id: @user.id,
                              organization: @organization)
-      travel_to(Time.current - 1.hours)
+      travel_to(DateTime.current.localtime - 1.hours)
       expect(drive.yet_to_start?).to eq(true)
     end
 
     it 'return true if end time > current time' do
       drive = create(:drive, updated_by_id: @user.id, created_by_id: @user.id,
                              organization: @organization)
-      travel_to(Time.current - 1.hours)
+      travel_to(DateTime.current.localtime - 1.hours)
       expect(drive.ended?).to eq(false)
     end
   end
