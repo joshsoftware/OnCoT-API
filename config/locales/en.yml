@@ -30,6 +30,12 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  success:
+    message: "Success"
+  not_found:
+    message: "Not found"
+  error:
+    message: "Error, Please try again"
   hello: 'Hello world'
   message: 'Success'
   create:

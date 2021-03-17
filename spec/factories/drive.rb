@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :drive, class: Drive do
+    association :organization
     name { 'drive1' }
     description { 'Drive details' }
   end
