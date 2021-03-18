@@ -8,7 +8,7 @@ RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
     it 'returns all reviewers details' do
       reviewer = create_list(:reviewer, 5)
       get :index
-      
+
       parsed_json_data = json(response)
       expect(parsed_json_data['data']['users'][0]['first_name']).to eq(reviewer[0].first_name)
       expect(parsed_json_data['data']['users'].count).to eq(5)
