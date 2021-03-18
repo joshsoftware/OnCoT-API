@@ -20,6 +20,7 @@ Metrics/BlockLength:
   Exclude:
     - 'db/schema.rb'
     - 'app/admin/*'
+    - 'spec/request/api/v1/admin/problems_spec.rb'
     - 'config/environments/development.rb'
     - 'spec/request/problems_spec.rb'
     - 'spec/request/candidates_spec.rb'
