@@ -3,7 +3,7 @@
 class ApiController < ActionController::API
   rescue_from ActiveRecord::RecordNotFound, with: :error_render_method
 
-  def render_error(message: nil, status: 404)
+  def render_error(message: nil, status: 400)
     render json: message, status: status
   end
 

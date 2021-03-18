@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'spec_helper'
+require 'json'
 
 RSpec.describe CandidatesController, type: :controller do
   before :each do
@@ -10,7 +12,7 @@ RSpec.describe CandidatesController, type: :controller do
     drive_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: @candidate.id)
   end
 
-  describe 'update' do
+  describe 'PUT update' do
     it 'updates the particular candidate details' do
       params = {
         id: @candidate.id,
@@ -34,7 +36,7 @@ RSpec.describe CandidatesController, type: :controller do
     end
   end
 
-  describe 'candidate test time' do
+  describe 'GET candidate_test_time_left' do
     it 'returns the time remaining for a candidate if test is in progress' do
       params = {
         drife_id: @drive.id,

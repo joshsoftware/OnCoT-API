@@ -16,10 +16,13 @@ class CandidatesController < ApiController
 
   def update
     candidate = Candidate.find(params[:id])
-    return unless candidate.update(candidate_params)
-
-    render_success(data: { candidate: serialize_resource(candidate, CandidateSerializer) },
-                   message: I18n.t('update.success', model_name: 'Candidate'))
+    if candidate.update(candidate_params)
+      render_success(data: { candidate: serialize_resource(candidate, CandidateSerializer) },
+                     message: I18n.t('update.success', model_name: 'Candidate'))
+    else
+      render_error(data: { candidate: serialize_resource(candidate, CandidateSerializer) },
+                   message: I18n.t('update.failed', model_name: 'Candidate'))
+    end
   end
 
   def candidate_test_time_left
@@ -27,11 +30,12 @@ class CandidatesController < ApiController
 
     time_left = (@duration.to_f * 60) - (DateTime.now.localtime - @drive_candidate.start_time.localtime).to_f
 
-    if time_left.negative?
-      render_success(data: { time_left: time_left }, message: I18n.t('test.time_over'), status: 200)
-    else
-      render_success(data: { time_left: time_left }, message: I18n.t('test.time_remaining'), status: 200)
-    end
+    message = if time_left.negative?
+                I18n.t('test.time_over')
+              else
+                I18n.t('test.time_remaining')
+              end
+    render_success(data: { time_left: time_left }, message: message)
   end
 
   private
@@ -42,12 +46,11 @@ class CandidatesController < ApiController
   end
 
   def load_drive
-    # byebug
     @drive = Drive.find_by(id: params[:drife_id])
   end
 
   def load_duration
-    @duration = @drive.duration if @drive
+    @duration = @drive&.duration
   end
 
   def load_drive_candidate

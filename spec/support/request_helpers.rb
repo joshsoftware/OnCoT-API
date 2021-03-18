@@ -2,7 +2,7 @@
 
 module Requests
   module JsonHelpers
-    def json
+    def json(response)
       @json = JSON.parse(response.body)
     end
   end
