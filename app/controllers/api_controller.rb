@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApiController < ActionController::API
+  include DeviseTokenAuth::Concerns::SetUserByToken
+
   rescue_from ActiveRecord::RecordNotFound, with: :error_render_method
 
   def render_error(message: nil, status: 404)

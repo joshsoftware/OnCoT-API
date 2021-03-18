@@ -50,3 +50,5 @@ en:
   update:
     success: "%{model_name} updated successfully"
     error: "Error in updating %{model_name}"
+  reviewer:
+    error: "Unothorized user, login as admin"
