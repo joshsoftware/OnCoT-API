@@ -164,10 +164,10 @@ ActiveRecord::Schema.define(version: 20_210_316_132_746) do
     t.string 'reset_password_token'
     t.datetime 'reset_password_sent_at'
     t.datetime 'remember_created_at'
-    t.datetime 'confirmed_at'
     t.string 'provider', default: 'email', null: false
     t.string 'uid', default: '', null: false
     t.string 'confirmation_token'
+    t.datetime 'confirmed_at'
     t.datetime 'confirmation_sent_at'
     t.string 'unconfirmed_email'
     t.json 'tokens'
