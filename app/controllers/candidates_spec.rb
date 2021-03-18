@@ -42,7 +42,7 @@ RSpec.describe CandidatesController, type: :controller do
       }
       get :candidate_test_time_left, params: params
 
-      parsed_json_data = json_response(response)
+      parsed_json_data = json(response)
       expect(parsed_json_data['data']['time_left']).to be > 0
       expect(response).to have_http_status(:ok)
     end

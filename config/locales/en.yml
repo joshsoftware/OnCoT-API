@@ -33,6 +33,7 @@ en:
   success:
     message: "Success"
   not_found:
+<<<<<<< HEAD
     message: "Record Not found"
   error:
     message: "Error, Please try again"
@@ -60,3 +61,25 @@ en:
     started: "Drive has already started."
     ended: "Drive has already ended."
 
+=======
+    message: "Not found"
+  error:
+    message: "Error, Please try again"
+  hello: 'Hello world'
+  message: 'Success'
+  create:
+    success: "%{model_name} created successfully"
+    error: "%{model_name} creation failed"
+  show:
+    success: "%{model_name} Showed successfully"
+    error: "Error in showing %{model_name}"
+  index:
+    success: "All %{model_name}s showed successfully"
+    error: "Error in showing %{model_name}s"
+  update:
+    success: "%{model_name} updated successfully"
+    error: "Error in updating %{model_name}"
+  # destroy:
+  #   success: "%{model_name} destroyed successfully"
+  #   error: "Error in deleting %{model_name}"
+>>>>>>> development

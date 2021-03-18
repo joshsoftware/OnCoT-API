@@ -7,11 +7,9 @@ class DrivesController < ApiController
   def drive_time_left
     if @time_left_to_start.negative?
       if @time_left_already_stated.positive?
-        render_success(data: @time_left_already_stated, message: I18n.t('drive.started'),
-                       status: 200)
+        render_success(data: @time_left_already_stated, message: I18n.t('drive.started'))
       else
-        render_success(data: @time_left_already_stated, message: I18n.t('drive.ended'),
-                       status: 200)
+        render_success(data: @time_left_already_stated, message: I18n.t('drive.ended'))
       end
     else
       render_success(data: @time_left_to_start, message: I18n.t('drive.yet_to_start'), status: 200)
