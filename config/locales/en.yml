@@ -30,5 +30,23 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  success:
+    message: "Success"
+  not_found:
+    message: "Not found"
+  error:
+    message: "Error, Please try again"
   hello: 'Hello world'
   message: 'Success'
+  create:
+    success: "%{model_name} created successfully"
+    error: "%{model_name} creation failed"
+  show:
+    success: "%{model_name} Showed successfully"
+    error: "Error in showing %{model_name}"
+  index:
+    success: "All %{model_name}s showed successfully"
+    error: "Error in showing %{model_name}s"
+  update:
+    success: "%{model_name} updated successfully"
+    error: "Error in updating %{model_name}"

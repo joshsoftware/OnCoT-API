@@ -56,6 +56,8 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'http'
 
 gem 'activeadmin'
+gem 'active_model_serializers'
 gem 'devise'
 gem 'overcommit'
 gem 'sassc-rails'
+gem 'will_paginate'
