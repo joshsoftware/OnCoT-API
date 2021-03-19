@@ -12,10 +12,14 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       namespace :admin do
+        resources :reviewers
         resources :problems
       end
     end
   end
+
+  root 'api/v1/admin/reviewers#index'
+
   resources :candidates, only: [:update]
   get '/drives/:id/problem' => 'problems#index'
 end
