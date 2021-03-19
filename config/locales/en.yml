@@ -40,18 +40,18 @@ en:
   message: "Success"
   create:
     success: "%{model_name} created successfully."
-    failed: "Unable to create %{model_name}"
+    failed: "Unable to create %{model_name}."
   index:
     success: "%{model_name} list displayed successfully."
   update:
     success: "%{model_name} updated successfully."
-    failed: "Unable to update %{model_name}"
+    failed: "Unable to create %{model_name}."
   destroy:
     success: "%{model_name} deleted successfully."
-    failed: "Unable to destroy %{model_name}"
+    failed: "Unable to destroy %{model_name}."
   show:
     success: "%{model_name} displayed successfully."
-    failed: "Unable to show %{model_name}"
+    failed: "Unable to show %{model_name}."
   test:
     time_over: "Test Time Over!"
     time_remaining: "Time Remaining"
