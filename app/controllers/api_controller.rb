@@ -14,4 +14,9 @@ class ApiController < ActionController::API
   def render_error(message: nil, status: nil)
     render json: message, status: status
   end
+
+  def serialize_resource(resources, serializer, root = nil, extra = {})
+    opts = { each_serializer: serializer, root: root }.merge(extra)
+    ActiveModelSerializers::SerializableResource.new(resources, opts) if resources
+  end
 end
