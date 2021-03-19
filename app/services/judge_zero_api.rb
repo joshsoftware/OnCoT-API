@@ -4,10 +4,9 @@ require 'http'
 
 class JudgeZeroApi
   BASE_URI = ENV['BASE_URI']
-
-  def initialize(params = {}, headers = {})
+  HEADERS = { "Content-Type": 'application/json' }.freeze
+  def initialize(params = {}, _headers = {})
     @params = params
-    @headers = headers
   end
 
   def get(path)
@@ -15,6 +14,6 @@ class JudgeZeroApi
   end
 
   def post(path)
-    HTTP.post("#{BASE_URI}#{path}", headers: @headers, body: @params.to_json)
+    HTTP.post("#{BASE_URI}#{path}", headers: HEADERS, body: @params.to_json)
   end
 end

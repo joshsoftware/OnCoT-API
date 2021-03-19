@@ -2,8 +2,7 @@
 
 class ExecutionsController < ApiController
   def submission_token
-    headers = { "Content-Type": 'application/json' }
-    response = JudgeZeroApi.new(params, headers).post('/submissions/?base64_encoded=false&wait=false')
+    response = JudgeZeroApi.new(params).post('/submissions/?base64_encoded=false&wait=false')
     token = JSON.parse(response.body)['token']
     if token
       render_success(data: { token: token }, message: I18n.t('ok.message'))

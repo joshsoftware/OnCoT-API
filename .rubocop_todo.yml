@@ -23,7 +23,7 @@ Metrics/BlockLength:
     - 'config/environments/development.rb'
     - 'spec/request/problems_spec.rb'
     - 'spec/request/candidates_spec.rb'
-    - 'spec/request/executions_request_spec.rb'
+    - 'spec/requests/executions_request_spec.rb'
 
 # Offense count: 1
 # Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
