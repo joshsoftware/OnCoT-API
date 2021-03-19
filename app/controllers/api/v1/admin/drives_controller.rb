@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     module Admin
@@ -9,21 +11,30 @@ module Api
         end
 
         def create
-          drive = Drive.create(drive_params)
+          drive = Drive.new(drive_params)
           if drive.save
             render_success(data: { drive: serialize_resource(drive, DriveSerializer) },
                            message: I18n.t('create.success', model_name: 'Drive'))
           else
-            render_error(message: I18n.t('create.failed', model_name: 'Drive'))
+            render_error(message: drive.errors.messages, status: 400)
           end
         end
 
         def update
           drive = Drive.find(params[:id])
-          return unless drive.update(drive_params)
+          if drive.update(drive_params)
+            render_success(data: { drive: serialize_resource(drive, DriveSerializer) },
+                           message: I18n.t('update.success', model_name: 'Drive'))
+          else
+            render_error(message: I18n.t(drive.errors.messages, model_name: 'Drive'), status: 400)
+          end
+        end
+
+        def show
+          drive = Drive.find(params[:id])
 
           render_success(data: { drive: serialize_resource(drive, DriveSerializer) },
-                         message: I18n.t('update.success', model_name: 'Drive'))
+                         message: I18n.t('show.success', model_name: 'Drive'))
         end
 
         private
