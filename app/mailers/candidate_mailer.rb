@@ -1,8 +1,9 @@
-class CandidateMailer < ApplicationMailer
+# frozen_string_literal: true
 
-  def invitation_email
-    @user = params[:user]
-    @drive_candidate=params[:drive_candidate]
-    mail(to: @user.email , from: ENV["MAIL_USERNAME"], subject: 'Invitation for coding round', message:'Link has been sent')
+class CandidateMailer < ApplicationMailer
+  def invitation_email(user, drive_candidate)
+    @token = drive_candidate.token.to_s
+    mail(to: user.email, from: ENV['MAIL_USERNAME'], subject: 'Invitation for coding round',
+         message: 'Link has been sent')
   end
 end
