@@ -4,3 +4,7 @@ en:
 
   ok:
     message: "ok"
+
+  hello: 'Hello world'
+  message: 'Success'
+
