@@ -11,6 +11,7 @@ Lint/UselessAssignment:
   Exclude:
     - 'app/controllers/languages_controller.rb'
     - 'app/services/judge_zero_api.rb'
+    - 'app/controllers/candidates_controller_spec.rb'
 
 # Offense count: 2
 # Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
@@ -24,12 +25,18 @@ Metrics/BlockLength:
     - 'spec/request/api/v1/admin/problems_spec.rb'
     - 'config/environments/development.rb'
     - 'spec/request/problems_spec.rb'
-    - 'spec/request/candidates_spec.rb'
+    - 'config/routes.rb'
+    - 'app/controllers/drives_controller_spec.rb'
+    - 'app/controllers/candidates_controller_spec.rb'
 
 # Offense count: 1
 # Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
 Metrics/MethodLength:
   Max: 11
+
+Metrics/AbcSize:
+  Exclude:
+    - 'app/controllers/candidates_controller.rb'
 
 # Offense count: 26
 Style/Documentation:
@@ -50,3 +57,6 @@ Layout/LineLength:
   Exclude:
     - 'config/initializers/devise.rb'
 
+Style/NumericPredicate:
+  Exclude:
+    - 'app/controllers/candidates_controller_spec.rb'

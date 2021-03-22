@@ -52,3 +52,10 @@ en:
   show:
     success: "%{model_name} displayed successfully."
     failed: "Unable to show %{model_name}."
+  test:
+    time_over: "Test Time Over!"
+    time_remaining: "Time Remaining"
+  drive:
+    yet_to_start: "Drive is yet to start."
+    started: "Drive has already started."
+    ended: "Drive has already ended."
