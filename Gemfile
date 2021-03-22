@@ -57,6 +57,7 @@ gem 'http'
 
 gem 'activeadmin'
 gem 'active_model_serializers'
+gem 'cancancan'
 gem 'devise'
 gem 'overcommit'
 gem 'sassc-rails'

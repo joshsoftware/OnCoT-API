@@ -5,7 +5,7 @@ module Api
     module Admin
       class ProblemsController < ApiController
         before_action :authenticate_user!
-        before_action :user_admin?, except: %i[show index]
+        load_and_authorize_resource
 
         def create
           problem = Problem.new(problem_params)
@@ -51,12 +51,6 @@ module Api
           params['organization_id'] = current_user.organization_id
           params.permit(:id, :title, :description, :created_by_id, :updated_by_id, :organization_id,
                         :drive_id)
-        end
-
-        def user_admin?
-          role = Role.find(current_user.role_id)
-
-          render_error(message: I18n.t('reviewer.error'), status: 403) if role.name != 'Admin'
         end
       end
     end
