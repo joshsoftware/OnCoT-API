@@ -59,3 +59,6 @@ gem 'active_model_serializers'
 gem 'devise'
 gem 'overcommit'
 gem 'sassc-rails'
+
+gem 'simplecov', require: false
+gem 'will_paginate'
