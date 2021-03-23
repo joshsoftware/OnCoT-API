@@ -33,7 +33,7 @@ en:
   success:
     message: "Success"
   not_found:
-    message: "Record Not found"
+    message: "Record not found"
   error:
     message: "Error, Please try again"
   hello: "Hello world"

@@ -23,7 +23,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       namespace :admin do
         resources :reviewers
-        resources :problems
+        resources :problems, except: [:destroy]
+        resources :rules, except: %i[destroy index]
       end
     end
   end
