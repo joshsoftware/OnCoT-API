@@ -9,13 +9,25 @@ Rails.application.routes.draw do
     get 'all', on: :collection
   end
 
+  resources :drives do
+    get :drive_time_left, on: :member
+  end
+
+  resources :drives do
+    resources :candidates do
+      get :candidate_test_time_left
+    end
+  end
+
   namespace :api do
     namespace :v1 do
       namespace :admin do
+        resources :reviewers
         resources :problems
       end
     end
   end
+
   resources :candidates, only: [:update]
   get '/drives/:id/problem' => 'problems#index'
 end
