@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       namespace :admin do
-        resources :problems
+        resources :problems, :testcases, except: [:destroy]
       end
     end
   end
