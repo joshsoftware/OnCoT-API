@@ -13,51 +13,59 @@ RSpec.describe CandidatesController, type: :controller do
   end
 
   describe 'PUT update' do
-    it 'updates the particular candidate details' do
-      params = {
-        id: @drive_candidate.token,
-        first_name: Faker::Name.name
-      }
-      expect do
-        put :update, params: params
-      end.to change { @candidate.reload.first_name }.from(@candidate.first_name).to(params[:first_name])
-      expect(response).to have_http_status(:success)
+    context 'when params are valid' do
+      it 'updates the particular candidate details' do
+        params = {
+          id: @drive_candidate.token,
+          first_name: Faker::Name.name
+        }
+        expect do
+          put :update, params: params
+        end.to change { @candidate.reload.first_name }.from(@candidate.first_name).to(params[:first_name])
+        expect(response).to have_http_status(:success)
+      end
     end
 
-    it 'raises error exception if particular candidate is not found' do
-      params = {
-        id: 0,
-        first_name: Faker::Name.name
-      }
-      put :update, params: params
+    context 'when particular id is not found' do
+      it 'raises error exception' do
+        params = {
+          id: 0,
+          first_name: Faker::Name.name
+        }
+        put :update, params: params
 
-      expect(response).to have_http_status(:not_found)
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 
   describe 'GET candidate_test_time_left' do
-    it 'returns the time remaining for a candidate if test is in progress' do
-      params = {
-        drife_id: @drive.id,
-        candidate_id: @candidate.id
-      }
-      get :candidate_test_time_left, params: params
+    context 'test is in progress' do
+      it 'returns the positive time remaining as current time < end time' do
+        params = {
+          drife_id: @drive.id,
+          candidate_id: @candidate.id
+        }
+        get :candidate_test_time_left, params: params
 
-      parsed_json_data = json
-      expect(parsed_json_data['data']['time_left']).to be > 0
-      expect(response).to have_http_status(:ok)
+        parsed_json_data = json
+        expect(parsed_json_data['data']['time_left']).to be > 0
+        expect(response).to have_http_status(:ok)
+      end
     end
+    
+    context 'test already completed' do
+      it 'returns the negative time as current time > end time' do
+        params = {
+          drife_id: @drive.id,
+          candidate_id: @candidate.id
+        }
+        get :candidate_test_time_left, params: params
 
-    it 'test had already completed' do
-      params = {
-        drife_id: @drive.id,
-        candidate_id: @candidate.id
-      }
-      get :candidate_test_time_left, params: params
-
-      travel 4.hours
-      expect(@drive.end_time - DateTime.now.localtime).to be.negative?
-      expect(response).to have_http_status(:ok)
+        travel 4.hours
+        expect(@drive.end_time - DateTime.now.localtime).to be < 0
+        expect(response).to have_http_status(:ok)
+      end
     end
   end
 end
