@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_315_194_824) do
+ActiveRecord::Schema.define(version: 20_210_316_113_750) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -28,6 +26,11 @@ ActiveRecord::Schema.define(version: 20_210_315_194_824) do
     t.index %w[author_type author_id], name: 'index_active_admin_comments_on_author_type_and_author_id'
     t.index ['namespace'], name: 'index_active_admin_comments_on_namespace'
     t.index %w[resource_type resource_id], name: 'index_active_admin_comments_on_resource_type_and_resource_id'
+  end
+
+  create_table 'assessments', force: :cascade do |t|
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
   create_table 'candidates', force: :cascade do |t|
@@ -80,12 +83,6 @@ ActiveRecord::Schema.define(version: 20_210_315_194_824) do
     t.index ['problem_id'], name: 'index_drives_problems_on_problem_id'
   end
 
-  create_table 'jwt_denylist', force: :cascade do |t|
-    t.string 'jti', null: false
-    t.datetime 'expired_at', null: false
-    t.index ['jti'], name: 'index_jwt_denylist_on_jti'
-  end
-
   create_table 'organizations', force: :cascade do |t|
     t.string 'name'
     t.text 'description'
@@ -104,7 +101,6 @@ ActiveRecord::Schema.define(version: 20_210_315_194_824) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.integer 'submission_count'
-    t.integer 'drive_id'
     t.index ['created_by_id'], name: 'index_problems_on_created_by_id'
     t.index ['organization_id'], name: 'index_problems_on_organization_id'
     t.index ['updated_by_id'], name: 'index_problems_on_updated_by_id'
@@ -123,6 +119,11 @@ ActiveRecord::Schema.define(version: 20_210_315_194_824) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['drive_id'], name: 'index_rules_on_drive_id'
+  end
+
+  create_table 'samples', force: :cascade do |t|
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 
   create_table 'submissions', force: :cascade do |t|
@@ -171,15 +172,10 @@ ActiveRecord::Schema.define(version: 20_210_315_194_824) do
     t.string 'reset_password_token'
     t.datetime 'reset_password_sent_at'
     t.datetime 'remember_created_at'
-    t.string 'provider', default: 'email', null: false
-    t.string 'uid'
-    t.string 'authentication_token', limit: 30
-    t.index ['authentication_token'], name: 'index_users_on_authentication_token', unique: true
     t.index ['email'], name: 'index_users_on_email', unique: true
     t.index ['organization_id'], name: 'index_users_on_organization_id'
     t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true
     t.index ['role_id'], name: 'index_users_on_role_id'
-    t.index %w[uid provider], name: 'index_users_on_uid_and_provider', unique: true
   end
 
   add_foreign_key 'drives', 'organizations'
