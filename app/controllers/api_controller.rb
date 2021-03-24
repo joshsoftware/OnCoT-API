@@ -6,7 +6,7 @@ class ApiController < ActionController::API
   rescue_from ActiveRecord::RecordNotFound, with: :error_render_method
 
   rescue_from CanCan::AccessDenied do |_exception|
-    render json: { message: I18n.t('reviewer.error') }, status: 403
+    render json: { message: I18n.t('user.unauthorized') }, status: 403
   end
 
   def render_success(data: nil, message: nil, status: 200)
