@@ -6,78 +6,137 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
   let(:organization) { create(:organization) }
   let(:role) { create(:role) }
   let(:user) { create(:user) }
-  let(:problem) { create(:problem, created_by_id: user.id, updated_by_id: user.id, organization: organization) }
+  let(:problem) do
+    create(:problem, created_by_id: user.id,
+                     updated_by_id: user.id, organization: organization)
+  end
 
-  describe 'POST Create' do
-    it 'Creates the problem' do
-      post :create,
-           params: { title: 'a', description: 'b', created_by_id: user.id,
-                     updated_by_id: user.id, organization_id: organization.id }
+  describe 'POST #CREATE' do
+    context 'When user is logged in' do
+      it ' creates the problem' do
+        @request.env['devise.mapping'] = Devise.mappings[:user]
 
-      problem = json
+        auth_tokens_for_user(user)
+        post :create,
+             params: { title: 'a', description: 'b', created_by_id: user.id,
+                       updated_by_id: user.id, organization_id: organization.id }
 
-      expect(problem['data']['problem']['title']).to eq('a')
-      expect(response).to have_http_status(:ok)
+        problem = json
+
+        expect(problem['data']['problem']['title']).to eq('a')
+        expect(response.has_header?('access-token')).to eq(true)
+        expect(response).to have_http_status(:ok)
+      end
+
+      it ' creates problem even though not passing organization id,
+        created_by_id, it takes from sessions' do
+        auth_tokens_for_user(user)
+
+        post :create,
+             params: { title: Faker::Lorem.sentence, description: Faker::Lorem.paragraph }
+
+        problem = json
+        expect(problem['data']['problem']['created_by_id']).to eq(user.id)
+        expect(response).to have_http_status(200)
+      end
     end
 
-    it 'fails Create action as not passing organization id' do
-      post :create,
-           params: { title: 'a', description: 'b', created_by_id: user.id,
-                     updated_by_id: user.id }
+    context 'when user is not logged in' do
+      it ' ask for login ' do
+        post :create,
+             params: { title: Faker::Lorem.sentence, description: Faker::Lorem.paragraph }
 
-      problem = json
+        problem = json
 
-      expect(problem['organization'][0]).to eq('must exist')
-      expect(response).to have_http_status(400)
+        expect(problem['errors'].first).to eq('You need to sign in or sign up before continuing.')
+        expect(response).to have_http_status(401)
+      end
     end
   end
 
-  describe 'PUT Update' do
-    it 'Updates a problem' do
-      expect do
-        put :update,
-            params: { id: problem.id, title: 'b', description: 'b',
-                      created_by_id: user.id, updated_by_id: user.id, organization_id: organization.id }
-      end.to change { problem.reload.title }.from(problem.title).to('b')
+  describe 'PUT/PATCH #UPDATE' do
+    context 'When user is logged in' do
+      it 'Updates the problem' do
+        auth_tokens_for_user(user)
 
-      expect(response).to have_http_status(:ok)
+        expect do
+          put :update,
+              params: { id: problem.id, title: 'b', description: Faker::Lorem.paragraph }
+        end.to change { problem.reload.title }.from(problem.title).to('b')
+
+        expect(response.has_header?('access-token')).to eq(true)
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns the not found error as passing random id which is not present in database' do
+        auth_tokens_for_user(user)
+        patch :update, params: { id: Faker::Number }
+
+        expect(response.body).to eq('Record not found')
+        expect(response).to have_http_status(404)
+      end
     end
 
-    it 'returns the not found error as passing random id which is not present in database' do
-      patch :update, params: { id: Faker::Number }
-      expect(response.body).to eq('Record not found')
-      expect(response).to have_http_status(404)
+    context 'when user is not logged in' do
+      it ' ask to login ' do
+        patch :update, params: { id: problem.id }
+        problem = json
+        expect(problem['errors'].first).to eq('You need to sign in or sign up before continuing.')
+        expect(response).to have_http_status(401)
+      end
     end
   end
 
-  describe 'GET show' do
-    it 'shows a problem' do
-      get :show, params: { id: problem.id }
+  describe 'GET #SHOW' do
+    context 'when user is logged in' do
+      it 'shows a problem' do
+        auth_tokens_for_user(user)
+        get :show, params: { id: problem.id }
 
-      data = json
-      expect(data['data']['problem']['title']).to eq(problem.title)
-      expect(response).to have_http_status(:ok)
+        data = json
+        expect(data['data']['problem']['title']).to eq(problem.title)
+        expect(response.has_header?('access-token')).to eq(true)
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns the not found error as passing random id which is not present in database' do
+        auth_tokens_for_user(user)
+        get :show, params: { id: Faker::Number }
+        expect(response.body).to eq('Record not found')
+        expect(response).to have_http_status(404)
+      end
     end
 
-    it 'returns the not found error as passing random id which is not present in database' do
-      patch :update, params: { id: Faker::Number }
-      expect(response.body).to eq('Record not found')
-      expect(response).to have_http_status(404)
+    context 'when user is not logged in' do
+      it ' ask to login' do
+        get :show, params: { id: problem.id }
+        problem = json
+        expect(problem['errors'].first).to eq('You need to sign in or sign up before continuing.')
+        expect(response).to have_http_status(401)
+      end
     end
   end
 
   describe 'GET index' do
-    it 'shows all problems' do
-      get :index
+    context 'when user is logged in' do
+      it 'shows all problems' do
+        auth_tokens_for_user(user)
+        get :index
 
-      data = json
-      expect(data['data']['problems'].count).to eq(Problem.count)
-      expect(response).to have_http_status(:ok)
+        data = json
+        expect(data['data']['problems'].count).to eq(Problem.count)
+        expect(response.has_header?('access-token')).to eq(true)
+        expect(response).to have_http_status(:ok)
+      end
     end
-    it 'returns the not found error ' do
-      patch :update, params: { id: Faker::Number }
-      expect(response.body).to eq('Record not found')
-      expect(response).to have_http_status(404)
+
+    context 'when user is not logged in' do
+      it ' ask to login' do
+        get :index
+        problems = json
+        expect(problems['errors'].first).to eq('You need to sign in or sign up before continuing.')
+        expect(response).to have_http_status(401)
+      end
     end
   end
 end

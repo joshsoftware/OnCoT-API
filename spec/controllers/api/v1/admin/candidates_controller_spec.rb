@@ -56,7 +56,7 @@ RSpec.describe CandidatesController, type: :controller do
       get :candidate_test_time_left, params: params
 
       travel 4.hours
-      expect(@drive.end_time - DateTime.now.localtime).to be < 0
+      expect(@drive.end_time - DateTime.now.localtime).to be.negative?
       expect(response).to have_http_status(:ok)
     end
   end
