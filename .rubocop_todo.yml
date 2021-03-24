@@ -22,16 +22,18 @@ Metrics/BlockLength:
     - 'db/schema.rb'
     - 'app/admin/*'
     - 'spec/request/*'
-    - 'spec/request/api/v1/admin/problems_spec.rb'
+    - 'spec/controllers/api/v1/admin/problems_spec.rb'
     - 'config/environments/development.rb'
     - 'spec/request/problems_spec.rb'
 
     - 'spec/request/candidates_spec.rb'
-    - 'spec/request/api/v1/admin/drives_spec.rb'
 
     - 'config/routes.rb'
     - 'app/controllers/drives_controller_spec.rb'
-    - 'app/controllers/candidates_controller_spec.rb'
+    - 'spec/controllers/api/v1/admin/candidates_controller_spec.rb'
+    - 'app/controllers/api/v1/admin/reviewers_controller_spec.rb'
+    - 'spec/controllers/api/v1/admin/drives_controller_spec.rb'
+    - 'spec/controllers/api/v1/admin/drives_spec.rb'
 
 
 # Offense count: 1
