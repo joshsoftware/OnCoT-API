@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ResultsController, type: :controller do
   describe 'GET show' do
-    context 'with correct problem_id and candidate_id' do
+    context 'with valid params' do
       before do
         @organization = create(:organization)
         @user = create(:user)
@@ -28,15 +28,16 @@ RSpec.describe ResultsController, type: :controller do
       it 'returns the maximum marks obtained' do
         get :show, params: { id: @problem.id, candidate_id: @candidate.id }
 
-        expect(response.body).to eq({ data: 8, message: I18n.t('success.message') }.to_json)
+        expect(response.body).to eq({ data: 8, message: 'Success' }.to_json)
         expect(response).to have_http_status(200)
       end
+    end
 
-      it 'returns the marks = 0  as passing random id which is not actually present' do
+    context 'with invalid params' do
+      it 'returns not found as submissions not actually present' do
         get :show, params: { id: Faker::Number, candidate_id: Faker::Number }
 
-        expect(response.body).to eq({ data: 0, message: I18n.t('success.message') }.to_json)
-        expect(response).to have_http_status(200)
+        expect(response.body).to eq(I18n.t('not_found.message'))
       end
     end
   end
