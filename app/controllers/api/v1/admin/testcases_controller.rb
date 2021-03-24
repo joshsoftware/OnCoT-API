@@ -15,10 +15,14 @@ module Api
         end
 
         def index
-          testcases = TestCase.paginate(page: params[:page], per_page: 15)
-
-          render_success(data: { testcases: serialize_resource(testcases, TestcaseSerializer) },
-                         message: I18n.t('index.success', model_name: TestCase))
+          problem = Problem.find(params[:problem_id])
+          testcases = TestCase.where(problem_id: problem.id)
+          if testcases
+            render_success(data: { testcases: serialize_resource(testcases, TestcaseSerializer) },
+                           message: I18n.t('index.success', model_name: TestCase))
+          else
+            render_error(message: testcases.errors.messages, status: 400)
+          end
         end
 
         def show
