@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'drives/index'
   devise_for :users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
@@ -25,18 +24,11 @@ Rails.application.routes.draw do
       namespace :admin do
         resources :reviewers
         resources :problems
+        resources :drives
       end
     end
   end
 
   resources :candidates, only: [:update]
   get '/drives/:id/problem' => 'problems#index'
-
-  namespace :api do
-    namespace :v1 do
-      namespace :admin do
-        resources :drives
-      end
-    end
-  end
 end

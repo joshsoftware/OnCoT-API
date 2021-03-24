@@ -12,7 +12,7 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
       it 'checks drive count' do
         get :index
 
-        data = json(response)
+        data = json
         expect(data['data']['drives'].count).to eq(Drive.count)
         expect(response).to have_http_status(:ok)
       end
@@ -47,7 +47,7 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
              params: { name: 'a', description: 'b', created_by_id: user.id,
                        updated_by_id: user.id }
 
-        drive = json(response)
+        drive = json
         expect(drive['organization'][0]).to eq('must exist')
         expect(response).to have_http_status(400)
       end
@@ -83,7 +83,7 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
       it 'when correct id is passed' do
         get :show, params: { id: drive.id }
 
-        data = json(response)
+        data = json
         expect(data['data']['drive']['name']).to eq(drive.name)
         expect(response).to have_http_status(:ok)
       end
@@ -91,7 +91,7 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
 
     context 'when incorrect id is passed' do
       it 'returns the not found error as passing random id which is not present in database' do
-        patch :update, params: { id: Faker::Number }
+        get :show, params: { id: Faker::Number }
         expect(response.body).to eq('Record Not found')
         expect(response).to have_http_status(404)
       end
