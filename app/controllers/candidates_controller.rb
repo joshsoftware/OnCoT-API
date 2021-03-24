@@ -5,6 +5,7 @@ class CandidatesController < ApiController
   before_action :load_duration, only: :candidate_test_time_left
   before_action :load_drive_candidate, only: :candidate_test_time_left
   before_action :set_start_time, only: :candidate_test_time_left
+  before_action :find_candidate, only: :update
 
   def show
     candidate = Candidate.find(params[:id])
@@ -15,13 +16,40 @@ class CandidatesController < ApiController
   end
 
   def update
-    candidate = Candidate.find(params[:id])
-    if candidate.update(candidate_params)
-      render_success(data: { candidate: serialize_resource(candidate, CandidateSerializer) },
-                     message: I18n.t('update.success', model_name: 'Candidate'))
+    if (candidate = @drive_candidate.candidate)
+      if candidate.update(candidate_params)
+        render_success(data: candidate, message: I18n.t('success.message'))
+      else
+        render_error(message: I18n.t('error.message'))
+      end
     else
-      render_error(data: { candidate: serialize_resource(candidate, CandidateSerializer) },
-                   message: I18n.t('update.failed', model_name: 'Candidate'))
+      render_error(message: I18n.t('not_found.message'), status: 404)
+    end
+  end
+
+  def invite
+    return render_error(I18n.t('blank_input.message'), :unprocessable_entity) if params[:emails].blank?
+
+    emails = params[:emails]
+    candidate_emails = emails.split(',')
+    failed_invitaion ||= []
+    candidate_emails.each do |candidate_email|
+      user = Candidate.create(email: candidate_email)
+      drive_candidate = DrivesCandidate.create(drive_id: params[:drive_id], candidate_id: user.id)
+      next unless user.present? && drive_candidate.present?
+
+      drive_candidate.generate_token!
+      begin
+        CandidateMailer.with(user: user, drive_candidate: drive_candidate).invitation_email.deliver_now
+      rescue StandardError => e
+        failed_invitaion.push(candidate_email)
+      end
+    end
+
+    if failed_invitaion.empty?
+      render_success(message: I18n.t('ok.message'))
+    else
+      render json: { failed_invitaion: failed_invitaion }
     end
   end
 
@@ -59,5 +87,11 @@ class CandidatesController < ApiController
 
   def set_start_time
     @drive_candidate.start_time = DateTime.now.localtime
+  end
+
+  def find_candidate
+    token = params[:id].to_s
+    @drive_candidate = DrivesCandidate.find_by(token: token)
+    return render_error(message: I18n.t('token_not_found.message'), status: :not_found) if @drive_candidate.blank?
   end
 end

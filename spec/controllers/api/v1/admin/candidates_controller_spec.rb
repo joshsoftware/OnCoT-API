@@ -9,14 +9,13 @@ RSpec.describe CandidatesController, type: :controller do
     admin = create(:admin)
     @drive = create(:drive, created_by_id: admin.id, updated_by_id: admin.id, organization_id: admin.organization_id)
     @candidate = create(:candidate)
-    drive_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: @candidate.id)
+    @drive_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: @candidate.id)
   end
 
   describe 'PUT update' do
     it 'updates the particular candidate details' do
       params = {
-        id: @candidate.id,
-        drife_id: @drive.id,
+        id: @drive_candidate.token,
         first_name: Faker::Name.name
       }
       expect do
@@ -44,7 +43,7 @@ RSpec.describe CandidatesController, type: :controller do
       }
       get :candidate_test_time_left, params: params
 
-      parsed_json_data = json(response)
+      parsed_json_data = json
       expect(parsed_json_data['data']['time_left']).to be > 0
       expect(response).to have_http_status(:ok)
     end
