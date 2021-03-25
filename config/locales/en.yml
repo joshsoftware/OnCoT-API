@@ -62,3 +62,8 @@ en:
     yet_to_start: "Drive is yet to start."
     started: "Drive has already started."
     ended: "Drive has already ended."
+  submission:
+    not_created:
+      message: "submission not created"
+    limit_exceed:
+      message: "submission limit exceeded"
