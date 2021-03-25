@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ApiController < ActionController::API
-
   include DeviseTokenAuth::Concerns::SetUserByToken
 
   rescue_from ActiveRecord::RecordNotFound, with: :error_render_method
@@ -14,7 +13,7 @@ class ApiController < ActionController::API
     render json: { data: data, message: message }, status: status
   end
 
-  def render_error(message:nil, status: 400)
+  def render_error(message: nil, status: 400)
     status = Rack::Utils::SYMBOL_TO_STATUS_CODE[status] if status.is_a? Symbol
     render json: { message: message }, status: status
   end
