@@ -25,8 +25,7 @@ class SubmissionsController < ApiController
         token = JSON.parse(response.body)['token']
         sleep(1)
         response = JudgeZeroApi.new({}).get("/submissions/#{token}")
-        # body = JSON.parse(response.body)
-        body = json
+        body = JSON.parse(response.body)
 
         if body['status']['description'] == 'Accepted'
           flag = true
