@@ -8,7 +8,8 @@ module Api
         load_and_authorize_resource
 
         def create
-          test_case = TestCase.new(test_case_params)
+          test_case = TestCase.new(test_case_params.merge(created_by_id: current_user.id,
+                                                          updated_by_id: current_user.id))
           if test_case.save
             render_success(data: { test_case: serialize_resource(test_case, TestcaseSerializer) },
                            message: I18n.t('create.success', model_name: TestCase))
@@ -38,7 +39,8 @@ module Api
         def update
           test_case = TestCase.find(params[:id])
 
-          if test_case.update(test_case_params)
+          if test_case.update(test_case_params.merge(created_by_id: current_user.id,
+                                                     updated_by_id: current_user.id))
             render_success(data: { test_case: serialize_resource(test_case, TestcaseSerializer) },
                            message: I18n.t('update.success', model_name: TestCase))
           else
@@ -49,9 +51,7 @@ module Api
         private
 
         def test_case_params
-          params['created_by_id'] = current_user.id
-          params['updated_by_id'] = current_user.id
-          params.permit(:id, :input, :output, :marks, :problem_id, :created_by_id, :updated_by_id)
+          params.permit(:id, :input, :output, :marks, :problem_id)
         end
       end
     end
