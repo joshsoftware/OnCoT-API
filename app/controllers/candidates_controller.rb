@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class CandidatesController < ApiController
-
   before_action :load_drive, only: :candidate_test_time_left
   before_action :load_duration, only: :candidate_test_time_left
   before_action :load_drive_candidate, only: :candidate_test_time_left
@@ -13,6 +12,7 @@ class CandidatesController < ApiController
     emails = params[:emails]
     candidate_emails = emails.split(',')
     failed_invitaion ||= []
+
     candidate_emails.each do |candidate_email|
       user = Candidate.new(email: candidate_email)
       drive_candidate = DrivesCandidate.new(drive_id: params[:drive_id], candidate_id: user.id) if user.save
@@ -28,11 +28,12 @@ class CandidatesController < ApiController
     end
 
     if failed_invitaion.empty?
-      render_success(message: I18n.t('ok.message'))
+      render_success(data: 'Mails sent - failed invitations none.', message: I18n.t('ok.message'))
     else
       render json: { failed_invitaion: failed_invitaion }
     end
-  
+  end
+
   def show
     candidate = Candidate.find(params[:id])
     return unless candidate

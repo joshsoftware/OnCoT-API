@@ -31,5 +31,5 @@ Rails.application.routes.draw do
   resources :candidates, only: [:update]
   get '/drives/:id/problem' => 'problems#index'
 
-  post 'invite', to:'candidates#invite'
+  post 'invite', to: 'candidates#invite'
 end

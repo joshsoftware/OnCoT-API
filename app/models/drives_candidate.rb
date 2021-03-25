@@ -9,9 +9,9 @@ class DrivesCandidate < ApplicationRecord
     self.email_sent_at = Time.now.utc
     save!
   end
-  
+
   private
-  
+
   def generate_token
     SecureRandom.hex(20)
   end
