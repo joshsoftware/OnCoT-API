@@ -35,7 +35,6 @@ Metrics/BlockLength:
     - 'spec/controllers/api/v1/admin/drives_controller_spec.rb'
     - 'spec/controllers/api/v1/admin/drives_spec.rb'
 
-
 # Offense count: 1
 # Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
 Metrics/MethodLength:
