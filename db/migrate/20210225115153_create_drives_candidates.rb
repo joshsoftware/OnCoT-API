@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateDrivesCandidates < ActiveRecord::Migration[5.2]
   def change
     create_table :drives_candidates do |t|
@@ -13,4 +15,3 @@ class CreateDrivesCandidates < ActiveRecord::Migration[5.2]
     end
   end
 end
-

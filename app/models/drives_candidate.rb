@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DrivesCandidate < ApplicationRecord
   belongs_to :drive
   belongs_to :candidate
@@ -14,4 +16,3 @@ class DrivesCandidate < ApplicationRecord
     SecureRandom.hex(20)
   end
 end
-
