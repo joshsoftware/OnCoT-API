@@ -28,15 +28,21 @@ Metrics/BlockLength:
     - 'app/controllers/api/v1/admin/reviewers_controller_spec.rb'
     - 'spec/controllers/api/v1/admin/drives_controller_spec.rb'
     - 'spec/controllers/api/v1/admin/candidates_controller_spec.rb'
+    - 'spec/controllers/submission_spec.rb'
+    - 'spec/controllers/submission_spec.rb'
 
 # Offense count: 1
 # Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
 Metrics/MethodLength:
   Max: 11
+  Exclude:
+    - 'app/controllers/submissions_controller.rb'
 
 Metrics/AbcSize:
   Exclude:
     - 'app/controllers/candidates_controller.rb'
+    - 'spec/controllers/submission_spec.rb'
+    - 'app/controllers/submissions_controller.rb'
 
 # Offense count: 26
 Style/Documentation:
