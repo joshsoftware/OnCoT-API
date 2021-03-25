@@ -22,7 +22,7 @@ Metrics/BlockLength:
     - 'db/schema.rb'
     - 'app/admin/*'
     - 'spec/controllers/api/v1/admin/problems_spec.rb'
-    - 'spec/controllers/api/v1/admin/testcases_spec.rb'
+    - 'spec/controllers/api/v1/admin/test_cases_spec.rb'
     - 'config/environments/development.rb'
     - 'spec/request/problems_spec.rb'
     - 'config/routes.rb'

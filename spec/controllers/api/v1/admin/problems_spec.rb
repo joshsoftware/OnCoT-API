@@ -13,10 +13,12 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
 
   describe 'POST #CREATE' do
     context 'When user is logged in' do
+      before do
+        auth_tokens_for_user(user)
+      end
       it ' creates the problem' do
         @request.env['devise.mapping'] = Devise.mappings[:user]
 
-        auth_tokens_for_user(user)
         post :create,
              params: { title: 'a', description: 'b', created_by_id: user.id,
                        updated_by_id: user.id, organization_id: organization.id }
@@ -30,8 +32,6 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
 
       it ' creates problem even though not passing organization id,
         created_by_id, it takes from sessions' do
-        auth_tokens_for_user(user)
-
         post :create,
              params: { title: Faker::Lorem.sentence, description: Faker::Lorem.paragraph }
 
@@ -56,9 +56,10 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
 
   describe 'PUT/PATCH #UPDATE' do
     context 'When user is logged in' do
-      it 'Updates the problem' do
+      before do
         auth_tokens_for_user(user)
-
+      end
+      it 'Updates the problem' do
         expect do
           put :update,
               params: { id: problem.id, title: 'b', description: Faker::Lorem.paragraph }
@@ -69,8 +70,7 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
       end
 
       it 'returns the not found error as passing random id which is not present in database' do
-        auth_tokens_for_user(user)
-        patch :update, params: { id: Faker::Number }
+        patch :update, params: { id: Faker::Number.number }
 
         expect(response.body).to eq('Record not found')
         expect(response).to have_http_status(404)
@@ -89,8 +89,10 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
 
   describe 'GET #SHOW' do
     context 'when user is logged in' do
-      it 'shows a problem' do
+      before do
         auth_tokens_for_user(user)
+      end
+      it 'shows a problem' do
         get :show, params: { id: problem.id }
 
         data = json
@@ -100,7 +102,6 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
       end
 
       it 'returns the not found error as passing random id which is not present in database' do
-        auth_tokens_for_user(user)
         get :show, params: { id: Faker::Number }
         expect(response.body).to eq('Record not found')
         expect(response).to have_http_status(404)
@@ -110,6 +111,7 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
     context 'when user is not logged in' do
       it ' ask to login' do
         get :show, params: { id: problem.id }
+
         problem = json
         expect(problem['errors'].first).to eq('You need to sign in or sign up before continuing.')
         expect(response).to have_http_status(401)
@@ -119,8 +121,10 @@ RSpec.describe Api::V1::Admin::ProblemsController, type: :controller do
 
   describe 'GET index' do
     context 'when user is logged in' do
-      it 'shows all problems' do
+      before do
         auth_tokens_for_user(user)
+      end
+      it 'shows all problems' do
         get :index
 
         data = json

@@ -24,8 +24,8 @@ Rails.application.routes.draw do
       namespace :admin do
         resources :problems, except: [:destroy]
         resources :reviewers
-        resources :testcases, except: %i[destroy index]
-        get '/problem/:problem_id/testcases' => 'testcases#index'
+        resources :test_cases, except: %i[destroy index]
+        get '/problem/:problem_id/test_cases' => 'test_cases#index'
       end
     end
   end
