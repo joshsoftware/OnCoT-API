@@ -40,8 +40,6 @@ class CandidatesController < ApiController
     render_success(data: { time_left: time_left }, message: message)
   end
 
-  private
-
   def candidate_params
     params.permit(:first_name, :last_name, :email, :is_profile_complete, :created_at, :mobile_number,
                   :updated_at, :created_by_id, :updated_by_id)
