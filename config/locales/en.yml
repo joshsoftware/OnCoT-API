@@ -1,4 +1,5 @@
 en:
+<<<<<<< HEAD
   success:
     message: "Success"
   not_found:
@@ -35,4 +36,9 @@ en:
     message: "input is empty"
   ok:
     message: "ok"
-
+  token_not_found:
+    message: "token is not present"
+  drive_not_found:
+    message: "drive not found"
+  ok:
+    message: "ok"
