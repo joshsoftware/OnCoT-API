@@ -8,7 +8,7 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
   let(:user) { create(:user) }
   let(:drive) { create(:drive, created_by_id: user.id, updated_by_id: user.id, organization: organization) }
   describe 'GET#index' do
-    it 'checks drive count' do
+    it 'returns all drives' do
       get :index
 
       data = json
