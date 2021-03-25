@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'active_support/testing/time_helpers'
+require 'webmock/rspec'
 
 require 'simplecov'
 SimpleCov.start 'rails'
