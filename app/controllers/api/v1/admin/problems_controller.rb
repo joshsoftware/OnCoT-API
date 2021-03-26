@@ -8,7 +8,8 @@ module Api
         load_and_authorize_resource
 
         def create
-          problem = Problem.new(problem_params)
+          problem = Problem.new(problem_params.merge(created_by_id: current_user.id, updated_by_id: current_user.id,
+                                                     organization_id: current_user.organization_id))
 
           if problem.save
             render_success(data: { problem: serialize_resource(problem, ProblemSerializer) },
@@ -35,7 +36,8 @@ module Api
         def update
           problem = Problem.find(params[:id])
 
-          if problem.update(problem_params)
+          if problem.update(problem_params.merge(created_by_id: current_user.id, updated_by_id: current_user.id))
+
             render_success(data: { problem: serialize_resource(problem, ProblemSerializer) },
                            message: I18n.t('update.success', model_name: Problem))
           else
@@ -46,11 +48,7 @@ module Api
         private
 
         def problem_params
-          params['created_by_id'] = current_user.id
-          params['updated_by_id'] = current_user.id
-          params['organization_id'] = current_user.organization_id
-          params.permit(:id, :title, :description, :created_by_id, :updated_by_id, :organization_id,
-                        :drive_id)
+          params.permit(:id, :title, :description, :drive_id)
         end
       end
     end

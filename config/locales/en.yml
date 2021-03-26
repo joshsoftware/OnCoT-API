@@ -33,7 +33,7 @@ en:
   success:
     message: "Success"
   not_found:
-    message: "Record Not found"
+    message: "Record not found"
   error:
     message: "Error, Please try again"
   hello: "Hello world"
@@ -41,6 +41,7 @@ en:
   create:
     success: "%{model_name} created successfully."
     failed: "Unable to create %{model_name}."
+    error: "%{model_name} creation failed"
   index:
     success: "%{model_name} list displayed successfully."
   update:
@@ -52,9 +53,11 @@ en:
   destroy:
     success: "%{model_name} deleted successfully."
     failed: "Unable to destroy %{model_name}."
+    error: "Unable to destroy %{model_name}."
   show:
     success: "%{model_name} displayed successfully."
     failed: "Unable to show %{model_name}."
+    error: "Error in showing %{model_name}"
   test:
     time_over: "Test Time Over!"
     time_remaining: "Time Remaining"
