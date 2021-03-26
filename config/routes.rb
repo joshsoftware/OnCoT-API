@@ -24,7 +24,8 @@ Rails.application.routes.draw do
       namespace :admin do
         resources :reviewers
         resources :problems
-        resources :drives
+        resources :drives, except: [:create]
+        post '/drives/problem/:problem_id' => 'drives#create'
       end
     end
   end

@@ -18,6 +18,8 @@ module Api
                                                organization_id: current_user.organization_id))
 
           if drive.save
+            problem = Problem.find(params[:problem_id])
+            DrivesProblem.create(drive_id: drive.id, problem_id: problem.id)
             render_success(data: { drive: serialize_resource(drive, DriveSerializer) },
                            message: I18n.t('create.success', model_name: 'Drive'))
           else
@@ -45,7 +47,7 @@ module Api
         end
 
         private
-
+        
         def drive_params
           params.permit(:name, :description, :start_time, :end_time)
         end

@@ -6,7 +6,9 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
   let(:organization) { create(:organization) }
   let(:role) { create(:role) }
   let(:user) { create(:user) }
+  let(:problem) { create(:problem, created_by_id: user.id, updated_by_id: user.id) }
   let(:drive) { create(:drive, created_by_id: user.id, updated_by_id: user.id, organization: organization) }
+
   describe 'GET#index' do
     context 'when user is logged in' do
       before do
@@ -40,9 +42,8 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
       context 'with valid params' do
         it 'creates a drive' do
           expect do
-            post :create, params: {
-              name: Faker::Name.name, organization_id: organization.id, created_by_id: user.id, updated_by_id: user.id
-            }
+            post :create, params: { problem_id: problem.id, name: Faker::Name.name, organization_id: organization.id,
+                                    created_by_id: user.id, updated_by_id: user.id }
           end.to change { Drive.count }.to(1).from(0)
           expect(response).to have_http_status(:ok)
         end
@@ -51,9 +52,8 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
 
     context 'When user is not logged in' do
       it ' ask for login ' do
-        post :create, params: {
-          name: Faker::Name.name, organization_id: organization.id, created_by_id: user.id, updated_by_id: user.id
-        }
+        post :create, params: { problem_id: problem.id, name: Faker::Name.name, organization_id: organization.id,
+                                created_by_id: user.id, updated_by_id: user.id }
         data = json
 
         expect(data['errors'].first).to eq('You need to sign in or sign up before continuing.')
@@ -91,7 +91,8 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
     context 'When user is not logged in' do
       it ' ask for login ' do
         patch :update, params: {
-          id: Faker::Number, name: Faker::Name.name, organization_id: organization.id, created_by_id: user.id, updated_by_id: user.id
+          id: Faker::Number, name: Faker::Name.name, organization_id: organization.id, created_by_id: user.id,
+          updated_by_id: user.id
         }
         data = json
 
