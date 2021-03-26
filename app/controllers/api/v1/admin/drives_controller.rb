@@ -4,6 +4,9 @@ module Api
   module V1
     module Admin
       class DrivesController < ApiController
+        before_action :authenticate_user!
+        load_and_authorize_resource :drive
+
         def index
           drives = Drive.all
           render_success(data: { drives: serialize_resource(drives, DriveSerializer) },
@@ -11,7 +14,9 @@ module Api
         end
 
         def create
-          drive = Drive.new(drive_params)
+          drive = Drive.new(drive_params.merge(created_by_id: current_user.id, updated_by_id: current_user.id,
+                                               organization_id: current_user.organization_id))
+
           if drive.save
             render_success(data: { drive: serialize_resource(drive, DriveSerializer) },
                            message: I18n.t('create.success', model_name: 'Drive'))
@@ -22,7 +27,9 @@ module Api
 
         def update
           drive = Drive.find(params[:id])
-          if drive.update(drive_params)
+          if drive.update(drive_params.merge(created_by_id: current_user.id, updated_by_id: current_user.id,
+                                             organization_id: current_user.organization_id))
+
             render_success(data: { drive: serialize_resource(drive, DriveSerializer) },
                            message: I18n.t('update.success', model_name: 'Drive'))
           else
@@ -40,8 +47,7 @@ module Api
         private
 
         def drive_params
-          params.permit(:name, :description, :start_time, :end_time, :created_by_id, :updated_by_id, :organization_id,
-                        :duration)
+          params.permit(:name, :description, :start_time, :end_time)
         end
       end
     end
