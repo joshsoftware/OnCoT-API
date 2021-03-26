@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class DrivesController < ApiController
-  before_action :load_drive
-  before_action :set_time_data
+  before_action :load_drive, only: :drive_time_left
+  before_action :set_time_data,only: :drive_time_left
 
   def show
     token = params[:id].to_s

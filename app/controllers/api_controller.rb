@@ -14,7 +14,6 @@ class ApiController < ActionController::API
   end
 
   def render_error(message: nil, status: 400)
-    status = Rack::Utils::SYMBOL_TO_STATUS_CODE[status] if status.is_a? Symbol
     render json: { message: message }, status: status
   end
 

@@ -10,14 +10,14 @@ class DrivesCandidate < ApplicationRecord
     save!
   end
 
-  private
-
-  def generate_token
-    SecureRandom.hex(20)
-  end
-
   def token_valid?
     drive = DrivesCandidate.find_by(id: id)
     (drive.end_time) > Time.now.utc
+  end
+
+  private
+  
+  def generate_token
+    SecureRandom.hex(20)
   end
 end

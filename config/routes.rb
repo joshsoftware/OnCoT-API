@@ -11,9 +11,6 @@ Rails.application.routes.draw do
 
   resources :drives do
     get :drive_time_left, on: :member
-  end
-
-  resources :drives do
     resources :candidates do
       get :candidate_test_time_left
     end
