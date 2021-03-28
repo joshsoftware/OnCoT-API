@@ -1,11 +1,11 @@
 # frozen_string_literal: true
+
 class SubmissionsController < ApiController
   def create
     submission_count = params[:submission_count]
     if submission_count.positive?
       total = 0
       passed = 0
-      marks = 0
       if (submission = Submission.create(problem_id: params[:id], candidate_id: params[:candidate_id],
                                          answer: params[:source_code]))
         submission_count -= 1
