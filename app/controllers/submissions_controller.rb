@@ -12,23 +12,19 @@ class SubmissionsController < ApiController
       else
         render_error(message: I18n.t('submission.not_created.message'))
       end
-
       test_cases = TestCase.where(problem_id: params[:id])
       test_cases.each do |testcase|
         parameter = { stdin: testcase.input, expected_output: testcase.output, source_code: params[:source_code],
                       language_id: params[:language_id] }
-
         headers = { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
         response = JudgeZeroApi.new(parameter, headers).post('/submissions/?base64_encoded=false&wait=true')
         body = JSON.parse(response.body)
-
         if body['status']['description'] == 'Accepted'
           flag = true
           passed += 1
         else
           flag = false
         end
-
         TestCaseResult.create(is_passed: flag, submission_id: submission.id,
                               test_case_id: testcase.id)
         total += 1

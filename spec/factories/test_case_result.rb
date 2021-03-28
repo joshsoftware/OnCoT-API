@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :test_case_result, class: TestCaseResult do
-    is_passed { true }
+    association :test_case
+    association :submission
   end
 end
