@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'rails_helper'
 require 'spec_helper'
 require 'json'
@@ -7,40 +5,18 @@ require 'json'
 RSpec.describe SubmissionsController, type: :controller do
   describe 'POST #create' do
     context 'with submission_count greater than 0' do
-      before do
-        stub_request(:post, 'http://65.1.201.245/submissions/?base64_encoded=false&wait=false')
-          .with(
-            body: { stdin: 'hello', expected_output: 'hello', source_code: "print('hello')",
-                    language_id: 71 }.to_json
-          )
-          .to_return(status: 200, body: { token: 'submission_token12' }.to_json, headers: {})
+      before  do
+        @header = { 'Accept'=>'application/json' }
+        url = 'http://65.1.201.245/submissions/?base64_encoded=false&wait=true'
+        stub_request(:post, url)
+          .with( body: { stdin: 'hello', expected_output: 'hello', source_code: "print('hello')",
+                    language_id: 71 }.to_json, headers: @header)
+          .to_return(status: 200, body: {stdout: "world\n",status: { description: 'Accepted'} }.to_json)
 
-        stub_request(:get, 'http://65.1.201.245/submissions/submission_token12')
-          .to_return(status: 200, body: {
-            stdout: "world\n",
-            stderr: nil,
-            token: 'submission_token12',
-            status: {
-              description: 'Accepted'
-            }
-          }.to_json)
-
-        stub_request(:post, 'http://65.1.201.245/submissions/?base64_encoded=false&wait=false')
-          .with(
-            body: { stdin: 'world', expected_output: 'world', source_code: "print('hello')",
-                    language_id: 71 }.to_json
-          )
-          .to_return(status: 200, body: { token: 'submission_token123' }.to_json, headers: {})
-
-        stub_request(:get, 'http://65.1.201.245/submissions/submission_token123')
-          .to_return(status: 200, body: {
-            stdout: "world\n",
-            stderr: nil,
-            token: 'submission_token123',
-            status: {
-              description: 'Wrong Answer'
-            }
-          }.to_json)
+        stub_request(:post, url)
+          .with( body: { stdin: 'world', expected_output: 'world', source_code: "print('hello')",
+                    language_id: 71 }.to_json,headers:  @header )
+          .to_return(status: 200, body: { stdout: "hello\n", status: {description: 'Wrong Answer'} }.to_json)
 
         organization = create(:organization)
         user = create(:user)
@@ -68,7 +44,6 @@ RSpec.describe SubmissionsController, type: :controller do
         expect(result['data']['passed_testcases']).to eq(1)
         expect(result['data']['total_testcases']).to eq(2)
         expect(result['data']['submission_count']).to eq(2)
-        expect(result['data']['marks']).to eq(4)
         expect(result['message']).to eq(I18n.t('success.message'))
         expect(response).to have_http_status(200)
       end
