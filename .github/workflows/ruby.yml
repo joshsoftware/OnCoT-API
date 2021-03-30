@@ -7,7 +7,18 @@
 
 name: Ruby
 
-on: [ push,pull_request]
+on:
+  push:
+    branches:
+      - development
+      - main
+  pull_request:
+    types: [opened, synchronize]
+  workflow_dispatch:
+    inputs:
+      description:
+        description: describe the build
+        required: true
 
 jobs:
   rubocop-test:
