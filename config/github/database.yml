@@ -13,3 +13,4 @@ test:
   database: oncot_api_test
   username: test_user
   password: test_user_password
+  host: 127.0.0.1
