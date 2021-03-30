@@ -1,24 +1,23 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'spec_helper'
-require 'json'
 
 RSpec.describe SubmissionsController, type: :controller do
   describe 'POST #create' do
     context 'with submission_count greater than 0' do
       before do
-        @header = { 'Accept' => 'application/json' }
+        header = { 'Accept' => 'application/json' }
         url = 'http://65.1.201.245/submissions/?base64_encoded=false&wait=true'
         stub_request(:post, url)
           .with(body: { stdin: 'hello', expected_output: 'hello', source_code: "print('hello')",
-                        language_id: 71 }.to_json, headers: @header)
+                        language_id: 71 }.to_json, headers: header)
           .to_return(status: 200, body: { stdout: "world\n", status: { description: 'Accepted' } }.to_json)
 
         stub_request(:post, url)
           .with(body: { stdin: 'world', expected_output: 'world', source_code: "print('hello')",
-                        language_id: 71 }.to_json, headers:  @header)
+                        language_id: 71 }.to_json, headers:  header)
           .to_return(status: 200, body: { stdout: "hello\n", status: { description: 'Wrong Answer' } }.to_json)
+
         organization = create(:organization)
         user = create(:user)
         candidate = create(:candidate)
@@ -29,8 +28,7 @@ RSpec.describe SubmissionsController, type: :controller do
         create(:test_case, problem_id: problem.id, marks: 4, updated_by_id: user.id,
                            created_by_id: user.id, input: 'world', output: 'world')
 
-        request.headers.merge!('CONTENT_TYPE' => 'application/json',
-                               'ACCEPT' => 'application/json')
+        headers
         post :create, params: { source_code: "print('hello')", language_id: 71, candidate_id: candidate.id, id: problem.id,
                                 submission_count: 3 }
       end
@@ -52,9 +50,8 @@ RSpec.describe SubmissionsController, type: :controller do
 
     context 'with submission_count as 0' do
       it 'returns submission limit exceeded message' do
-        request.headers.merge!('CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json')
-        post :create, params: { source_code: "print('world')", language_id: 71, candidate_id: 1, id: 7,
-                                submission_count: 0 }
+        headers
+        post :create, params: { source_code: "print('world')", language_id: 71, candidate_id: 1, id: 7, submission_count: 0 }
 
         expect(response.body).to eq('submission limit exceeded')
       end

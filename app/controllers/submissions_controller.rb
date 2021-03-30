@@ -12,6 +12,7 @@ class SubmissionsController < ApiController
       else
         render_error(message: I18n.t('submission.not_created.message'))
       end
+
       test_cases = TestCase.where(problem_id: params[:id])
       test_cases.each do |testcase|
         parameter = { stdin: testcase.input, expected_output: testcase.output, source_code: params[:source_code],
@@ -25,8 +26,7 @@ class SubmissionsController < ApiController
         else
           flag = false
         end
-        TestCaseResult.create(is_passed: flag, submission_id: submission.id,
-                              test_case_id: testcase.id)
+        TestCaseResult.create(is_passed: flag, submission_id: submission.id, test_case_id: testcase.id)
         total += 1
       end
       render_success(data: { passed_testcases: passed, total_testcases: total,

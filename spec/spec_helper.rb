@@ -55,6 +55,7 @@ RSpec.configure do |config|
   # config.include Devise::Test::ControllerHelpers, type: :controller
   Dir["#{File.dirname(__FILE__)}/support/*.rb"].sort.each { |f| require f }
   config.include Requests::JsonHelpers, type: :controller
+  config.include Requests::HeaderHelpers
   config.include AuthorizationHelper, type: :controller
   config.include ActiveSupport::Testing::TimeHelpers
 
