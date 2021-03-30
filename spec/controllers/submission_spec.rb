@@ -14,7 +14,7 @@ RSpec.describe SubmissionsController, type: :controller do
 
         stub_request(:post, url)
           .with(body: { stdin: 'world', expected_output: 'world', source_code: "print('hello')",
-                        language_id: 71 }.to_json, headers:  headers)
+                        language_id: 71 }.to_json, headers: headers)
           .to_return(status: 200, body: { stdout: "hello\n", status: { description: 'Wrong Answer' } }.to_json)
 
         organization = create(:organization)
