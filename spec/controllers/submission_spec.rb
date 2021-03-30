@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe SubmissionsController, type: :controller do
@@ -6,14 +8,14 @@ RSpec.describe SubmissionsController, type: :controller do
       before  do
         url = 'http://65.1.201.245/submissions/?base64_encoded=false&wait=true'
         stub_request(:post, url)
-          .with( body: { stdin: 'hello', expected_output: 'hello', source_code: "print('hello')",
-                    language_id: 71 }.to_json, headers: headers)
-          .to_return(status: 200, body: {stdout: "world\n",status: { description: 'Accepted'} }.to_json)
+          .with(body: { stdin: 'hello', expected_output: 'hello', source_code: "print('hello')",
+                        language_id: 71 }.to_json, headers: headers)
+          .to_return(status: 200, body: { stdout: "world\n", status: { description: 'Accepted' } }.to_json)
 
         stub_request(:post, url)
-          .with( body: { stdin: 'world', expected_output: 'world', source_code: "print('hello')",
-                    language_id: 71 }.to_json,headers:  headers )
-          .to_return(status: 200, body: { stdout: "hello\n", status: {description: 'Wrong Answer'} }.to_json)
+          .with(body: { stdin: 'world', expected_output: 'world', source_code: "print('hello')",
+                        language_id: 71 }.to_json, headers:  headers)
+          .to_return(status: 200, body: { stdout: "hello\n", status: { description: 'Wrong Answer' } }.to_json)
 
         organization = create(:organization)
         user = create(:user)
@@ -48,7 +50,7 @@ RSpec.describe SubmissionsController, type: :controller do
     context 'with submission_count as 0' do
       it 'returns submission limit exceeded message' do
         headers
-        post :create, params: { source_code: "print('world')", language_id: 71, candidate_id: 1, id: 7,submission_count: 0 }
+        post :create, params: { source_code: "print('world')", language_id: 71, candidate_id: 1, id: 7, submission_count: 0 }
 
         expect(response.body).to eq('submission limit exceeded')
       end
