@@ -1,10 +1,3 @@
-en:
-  success:
-    message: "Success"
-  not_found:
-    message: "Not found"
-  error:
-    message: "Error, Please try again"
 # Files in the config/locales directory are used for internationalization
 # and are automatically loaded by Rails. If you want to use locales other
 # than English, add the necessary files in this directory.
@@ -36,3 +29,39 @@ en:
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
 
+en:
+  success:
+    message: "Success"
+  not_found:
+    message: "Record not found"
+  error:
+    message: "Error, Please try again"
+  hello: "Hello world"
+  message: "Success"
+  create:
+    success: "%{model_name} created successfully."
+    failed: "Unable to create %{model_name}."
+    error: "%{model_name} creation failed"
+  index:
+    success: "%{model_name} list displayed successfully."
+  update:
+    success: "%{model_name} updated successfully"
+    error: "Error in updating %{model_name}"
+    failed: "Unable to update %{model_name}"
+  user:
+    unauthorized: "Unauthorized user, login as admin"
+  destroy:
+    success: "%{model_name} deleted successfully."
+    failed: "Unable to destroy %{model_name}."
+    error: "Unable to destroy %{model_name}."
+  show:
+    success: "%{model_name} displayed successfully."
+    failed: "Unable to show %{model_name}."
+    error: "Error in showing %{model_name}"
+  test:
+    time_over: "Test Time Over!"
+    time_remaining: "Time Remaining"
+  drive:
+    yet_to_start: "Drive is yet to start."
+    started: "Drive has already started."
+    ended: "Drive has already ended."

@@ -3,7 +3,7 @@
 require 'http'
 
 class JudgeZeroApi
-  BASE_URI = 'http://localhost:3000'
+  BASE_URI = 'http://65.1.201.245'
 
   def initialize(params = {})
     @params = params
