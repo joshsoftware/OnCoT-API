@@ -36,7 +36,7 @@ RSpec.describe SubmissionsController, type: :controller do
         expect(Submission.count).to eq(1)
       end
 
-      it 'returns marks with passed testcases and decremented submission_count' do
+      it 'returns passed testcases out of total and decremented submission_count' do
         result = json
 
         expect(result['data']['passed_testcases']).to eq(1)
