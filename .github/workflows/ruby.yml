@@ -46,10 +46,6 @@ jobs:
           POSTGRES_USER: test_user
           POSTGRES_PASSWORD: test_user_password
     steps:
-      - name: Cancel Workflow Action
-        uses: styfle/cancel-workflow-action@0.6.0
-        with:
-          access_token: ${{ secrets.TOKEN }}
       - name: Checkout code
         uses: actions/checkout@v2
 
