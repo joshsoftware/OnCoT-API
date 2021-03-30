@@ -23,10 +23,8 @@ jobs:
         run: gem install rubocop
       - name: Check code
         run: rubocop
-  
   rspec-test:
     name: RSpec
-    needs: rubocop-test
     runs-on: ubuntu-18.04
     services:
       postgres:
@@ -44,3 +42,5 @@ jobs:
       run: bundle install
     - name: Run tests
       run: rspec
+      env:
+        RAILS_ENV: test
