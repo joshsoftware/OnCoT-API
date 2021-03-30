@@ -42,6 +42,9 @@ jobs:
         image: postgres:latest
         ports:
         - 5432:5432
+        env:
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_user_password
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby 3.0.0
@@ -51,7 +54,20 @@ jobs:
         bundler-cache: true
     - name: Install dependencies
       run: bundle install
+    - name: copy files
+      run: cp config/github/database.yml config/database.yml
+    - name: Setup database
+      run: |
+        bundle exec rake db:create
+        bundle exec rake db:migrate
+      env:
+        RAILS_ENV: test
+        POSTGRES_USER: test_user
+        POSTGRES_PASSWORD: test_user_password
+
     - name: Run tests
       run: bundle exec rspec .
       env:
         RAILS_ENV: test
+        POSTGRES_USER: test_user
+        POSTGRES_PASSWORD: test_user_password
