@@ -32,4 +32,5 @@ Rails.application.routes.draw do
 
   resources :candidates, only: [:update]
   get '/drives/:id/problem' => 'problems#index'
+  resources :submissions, only: [:create]
 end
