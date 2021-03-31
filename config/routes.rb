@@ -24,8 +24,9 @@ Rails.application.routes.draw do
       namespace :admin do
         resources :problems, except: [:destroy]
         resources :reviewers
-        resources :drives, except: [:create]
+        resources :drives, except: %i[create update]
         post '/drives/problem/:problem_id' => 'drives#create'
+        put '/drives/problem/:problem_id' => 'drives#update'
         resources :test_cases, except: %i[destroy index]
         get '/problem/:problem_id/test_cases' => 'test_cases#index'
       end
