@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_316_132_746) do
+ActiveRecord::Schema.define(version: 20_210_331_094_703) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -67,6 +67,8 @@ ActiveRecord::Schema.define(version: 20_210_316_132_746) do
     t.boolean 'is_qualified'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.datetime 'completed_at'
+    t.integer 'score'
     t.index ['candidate_id'], name: 'index_drives_candidates_on_candidate_id'
     t.index ['drive_id'], name: 'index_drives_candidates_on_drive_id'
   end

@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+
+class AddScoreToDrivesCandidate < ActiveRecord::Migration[6.1]
+  def change
+    add_column :drives_candidates, :score, :integer
+  end
+end
