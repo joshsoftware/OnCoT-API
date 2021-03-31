@@ -22,10 +22,12 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       namespace :admin do
+        resources :problems, except: [:destroy]
         resources :reviewers
-        resources :problems
         resources :drives, except: [:create]
         post '/drives/problem/:problem_id' => 'drives#create'
+        resources :test_cases, except: %i[destroy index]
+        get '/problem/:problem_id/test_cases' => 'test_cases#index'
       end
     end
   end
