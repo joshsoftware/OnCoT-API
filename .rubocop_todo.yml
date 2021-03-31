@@ -28,6 +28,7 @@ Metrics/BlockLength:
     - 'app/controllers/api/v1/admin/reviewers_controller_spec.rb'
     - 'spec/controllers/api/v1/admin/drives_controller_spec.rb'
     - 'spec/controllers/api/v1/admin/candidates_controller_spec.rb'
+    - 'spec/controllers/execution_spec.rb'
 
 # Offense count: 1
 # Configuration parameters: CountComments, CountAsOne, ExcludedMethods, IgnoredMethods.
