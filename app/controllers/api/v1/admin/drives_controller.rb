@@ -7,9 +7,8 @@ module Api
         before_action :authenticate_user!
         load_and_authorize_resource :drive
         before_action :fetch_drive_data, only: %i[show update]
-        before_action :fetch_problem_data, only: %i[update create]
-        before_action :fetch_drives_problem_data, only: %i[update]
-        before_action :merge_drive_params, only: %i[update create]
+        # before_action :fetch_problem_data, only: %i[set_drives_problem create]
+        # after_action :set_drives_problem, only: %i[create update]
 
         def index
           drives = Drive.all
@@ -18,19 +17,20 @@ module Api
         end
 
         def create
-          drive = Drive.new(@drive_params)
-          if drive.save
-            DrivesProblem.create(drive_id: drive.id, problem_id: @problem.id)
-            render_success(data: { drive: serialize_resource(drive, DriveSerializer) },
+          @drive = Drive.create(drive_params.merge(created_by_id: current_user.id, updated_by_id: current_user.id,
+                                                   organization_id: current_user.organization_id))
+
+          if @drive
+            render_success(data: { drive: serialize_resource(@drive, DriveSerializer) },
                            message: I18n.t('create.success', model_name: 'Drive'))
           else
-            render_error(message: drive.errors.messages, status: 400)
+            render_error(message: @drive.errors.messages, status: 400)
           end
         end
 
         def update
-          if @drive.update(@drive_params)
-            @drives_problem.update(problem_id: @problem.id)
+          if @drive.update(drive_params.merge(updated_by_id: current_user.id,
+                                              organization_id: current_user.organization_id))
             render_success(data: { drive: serialize_resource(@drive, DriveSerializer) },
                            message: I18n.t('update.success', model_name: 'Drive'))
           else
@@ -49,22 +49,17 @@ module Api
           @drive = Drive.find(params[:id])
         end
 
-        def fetch_problem_data
-          @problem = Problem.find(params[:problem_id])
-        end
+        # def fetch_problem_data
+        #   # byebug
+        #   @problem = Problem.find(params['drive_problems_attributes']['member'][0]['problem_id'])
+        # end
 
-        def fetch_drives_problem_data
-          @drives_problem = DrivesProblem.find_by(drive_id: @drive.id)
-          render_error(message: I18n.t('not_found.message'), status: 404) unless @drives_problem
-        end
-
-        def merge_drive_params
-          @drive_params = drive_params.merge(created_by_id: current_user.id, updated_by_id: current_user.id,
-                                             organization_id: current_user.organization_id)
-        end
+        # def set_drives_problem
+        #   @drives_problem = DrivesProblem.create(drive_id: @drive.id, problem_id: @problem.id)
+        # end
 
         def drive_params
-          params.permit(:name, :description, :start_time, :end_time)
+          params.permit(:name, :description, :start_time, :end_time, drives_problems_attributes: [])
         end
       end
     end

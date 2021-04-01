@@ -2,60 +2,139 @@
 
 require 'rails_helper'
 
-RSpec.describe DrivesController, type: :controller do
-  before do
-    @organization = create(:organization)
-    @user = create(:user)
+RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
+  let(:organization) { create(:organization) }
+  let(:role) { create(:role) }
+  let(:user) { create(:user) }
+  let(:problem) { create(:problem, created_by_id: user.id, updated_by_id: user.id) }
+  let(:drive) { create(:drive, created_by_id: user.id, updated_by_id: user.id, organization: organization) }
+  let(:drives_problem) { create(:drives_problem, drive_id: drive.id, problem_id: problem.id) }
+
+  describe 'GET#index' do
+    context 'when user is logged in' do
+      before do
+        auth_tokens_for_user(user)
+      end
+      it 'returns all drives' do
+        get :index, params: { drive_id: drive.id }
+
+        data = json
+        expect(data['data']['drives'].count).to eq(Drive.count)
+        expect(response).to have_http_status(:ok)
+      end
+    end
+    context 'When user is not logged in' do
+      it ' ask for login ' do
+        get :index, params: { drive_id: drive.id }
+
+        data = json
+
+        expect(data['errors'].first).to eq('You need to sign in or sign up before continuing.')
+        expect(response).to have_http_status(401)
+      end
+    end
   end
 
-  describe 'GET drive_time_left', type: :request do
-    context 'check http response' do
-      it 'check /drive/:id response' do
-        drive = create(:drive, updated_by_id: @user.id, created_by_id: @user.id,
-                               organization: @organization)
-        get "/drives/#{drive.id}/drive_time_left", params: { id: drive.id }
-        expect(response).to have_http_status(200)
+  describe 'action#create' do
+    context 'when user is logged in' do
+      before do
+        auth_tokens_for_user(user)
+      end
+      context 'with valid params' do
+        it 'creates a drive' do
+          drive_problems_attributes = { model: [{ problem_id: problem.id, allow_destroy: true }] }
+
+          expect do
+            post :create, params: { name: Faker::Name.name, organization_id: organization.id, created_by_id: user.id,
+                                    updated_by_id: user.id, drive_problems_attributes: drive_problems_attributes }
+          end.to change { Drive.count }.to(1).from(0)
+
+          expect(response).to have_http_status(:ok)
+        end
       end
     end
 
-    context 'drive is yet to start' do
-      it 'returns true if start time > current time' do
-        drive = create(:drive, updated_by_id: @user.id, created_by_id: @user.id,
-                               organization: @organization)
-        travel_to(DateTime.current.localtime - 1.hours)
-        expect(drive.yet_to_start?).to eq(true)
-      end
+    context 'When user is not logged in' do
+      it ' ask for login ' do
+        post :create, params: { problem_id: problem.id, name: Faker::Name.name, organization_id: organization.id,
+                                created_by_id: user.id, updated_by_id: user.id }
+        data = json
 
-      it 'return true if end time > current time' do
-        drive = create(:drive, updated_by_id: @user.id, created_by_id: @user.id,
-                               organization: @organization)
-        travel_to(DateTime.current.localtime - 1.hours)
-        expect(drive.ended?).to eq(false)
+        expect(data['errors'].first).to eq('You need to sign in or sign up before continuing.')
+        expect(response).to have_http_status(401)
       end
     end
+  end
 
-    context 'drive is completed' do
-      it 'return false if start time > current time' do
-        drive = create(:drive, updated_by_id: @user.id, created_by_id: @user.id,
-                               organization: @organization)
-        travel 4.hours
-        expect(drive.yet_to_start?).to eq(false)
+  describe 'action#update' do
+    context 'when user is logged in' do
+      before do
+        auth_tokens_for_user(user)
       end
+      context 'with valid params' do
+        it 'updates the particular drive details' do
+          params = { problem_id: problem.id, id: drive.id, name: Faker::Name.name, drives_problem: drives_problem,
+                     organization_id: organization.id, created_by_id: user.id, updated_by_id: user.id }
 
-      it 'return true if end time < current time' do
-        drive = create(:drive, updated_by_id: @user.id, created_by_id: @user.id,
-                               organization: @organization)
-        travel 4.hours
-        expect(drive.ended?).to eq(true)
+          expect do
+            put :update, params: params
+          end.to change { drive.reload.name }.from(drive.name).to(params[:name])
+
+          expect(response).to have_http_status(:success)
+        end
+      end
+      context 'with invalid params' do
+        it 'returns the not found error as passing random id which is not present in database' do
+          put :update, params: { id: Faker::Number, problem_id: problem.id }
+
+          expect(response.body).to eq('Record not found')
+          expect(response).to have_http_status(404)
+        end
       end
     end
+    context 'When user is not logged in' do
+      it ' ask for login ' do
+        patch :update, params: { problem_id: problem.id, id: Faker::Number, name: Faker::Name.name,
+                                 organization_id: organization.id, created_by_id: user.id, updated_by_id: user.id }
+        data = json
 
-    context 'ongoing drive' do
-      it 'return true if start time < current time < end time' do
-        drive = create(:drive, updated_by_id: @user.id, created_by_id: @user.id,
-                               organization: @organization)
-        travel 1.hours
-        expect(drive.ongoing?).to eq(true)
+        expect(data['errors'].first).to eq('You need to sign in or sign up before continuing.')
+        expect(response).to have_http_status(401)
+      end
+    end
+  end
+
+  describe 'GET#show' do
+    context 'when user is logged in' do
+      before do
+        auth_tokens_for_user(user)
+      end
+      context 'with valid params' do
+        it 'shows details of particular drive' do
+          get :show, params: { id: drive.id }
+
+          data = json
+          expect(data['data']['drive']['name']).to eq(drive.name)
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context 'with invalid params' do
+        it 'returns the not found error as passing random id which is not present in database' do
+          get :show, params: { id: Faker::Number }
+
+          expect(response.body).to eq('Record not found')
+          expect(response).to have_http_status(404)
+        end
+      end
+    end
+    context 'When user is not logged in' do
+      it ' ask for login ' do
+        get :show, params: { id: drive.id }
+
+        data = json
+        expect(data['errors'].first).to eq('You need to sign in or sign up before continuing.')
+        expect(response).to have_http_status(401)
       end
     end
   end

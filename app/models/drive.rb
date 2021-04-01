@@ -8,7 +8,9 @@ class Drive < ApplicationRecord
   has_many :candidates, through: :drives_candidates
   has_and_belongs_to_many :problems
   has_one :rule
+  has_many :drives_problems
 
+  accepts_nested_attributes_for :drives_problems, allow_destroy: true
   def yet_to_start?
     start_time.localtime > DateTime.current.localtime
   end

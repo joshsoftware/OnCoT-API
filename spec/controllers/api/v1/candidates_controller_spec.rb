@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'spec_helper'
 require 'json'
 
-RSpec.describe CandidatesController, type: :controller do
+RSpec.describe Api::V1::CandidatesController, type: :controller do
   before :each do
     admin = create(:admin)
     @drive = create(:drive, created_by_id: admin.id, updated_by_id: admin.id, organization_id: admin.organization_id)
@@ -44,7 +44,7 @@ RSpec.describe CandidatesController, type: :controller do
       get :candidate_test_time_left, params: params
 
       parsed_json_data = json(response)
-      expect(parsed_json_data['data']['time_left']).to be > 0
+      expect(parsed_json_data['data']['time_left']).to be.positive?
       expect(response).to have_http_status(:ok)
     end
 
@@ -56,7 +56,7 @@ RSpec.describe CandidatesController, type: :controller do
       get :candidate_test_time_left, params: params
 
       travel 4.hours
-      expect(@drive.end_time - DateTime.now.localtime).to be < 0
+      expect(@drive.end_time - DateTime.now.localtime).to be.negative?
       expect(response).to have_http_status(:ok)
     end
   end
