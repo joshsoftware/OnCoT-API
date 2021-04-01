@@ -9,7 +9,7 @@ module Requests
 
   module HeaderHelpers
     def headers
-      headers ||= request.headers.merge!('CONTENT_TYPE' => 'application/json')
+      @headers ||= request.headers.merge!('CONTENT_TYPE' => 'application/json')
     end
   end
 end
