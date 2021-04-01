@@ -42,11 +42,10 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
       end
       context 'with valid params' do
         it 'creates a drive' do
-          drive_problems_attributes = { model: [{ problem_id: problem.id, allow_destroy: true }] }
-
           expect do
             post :create, params: { name: Faker::Name.name, organization_id: organization.id, created_by_id: user.id,
-                                    updated_by_id: user.id, drive_problems_attributes: drive_problems_attributes }
+                                    updated_by_id: user.id, drives_problems_attributes: [{ "problem_id": problem.id,
+                                                                                           "_destroy": false }] }
           end.to change { Drive.count }.to(1).from(0)
 
           expect(response).to have_http_status(:ok)
@@ -74,7 +73,8 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
       context 'with valid params' do
         it 'updates the particular drive details' do
           params = { problem_id: problem.id, id: drive.id, name: Faker::Name.name, drives_problem: drives_problem,
-                     organization_id: organization.id, created_by_id: user.id, updated_by_id: user.id }
+                     organization_id: organization.id, created_by_id: user.id, updated_by_id: user.id,
+                     drives_problems_attributes: [{ "id": drives_problem.id, "problem_id": problem.id, "_destroy": false }] }
 
           expect do
             put :update, params: params
