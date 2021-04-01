@@ -11,7 +11,6 @@ class DrivesController < ApiController
                 else
                   I18n.t('drive.ended')
                 end
-
       data = @time_left_already_stated
     else
       data = @time_left_to_start, message = I18n.t('drive.yet_to_start')
