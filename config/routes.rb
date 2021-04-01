@@ -25,12 +25,12 @@ Rails.application.routes.draw do
       resources :candidates, only: [:update]
       get '/drives/:id/problem' => 'problems#index'
 
+      resources :submissions, only: [:create]
+
       namespace :admin do
         resources :problems, except: [:destroy]
         resources :reviewers
         resources :drives
-        # post '/drives/problem/:problem_id' => 'drives#create'
-        # put '/drives/problem/:problem_id' => 'drives#update'
         resource
         resources :test_cases, except: %i[destroy index]
         get '/problem/:problem_id/test_cases' => 'test_cases#index'
