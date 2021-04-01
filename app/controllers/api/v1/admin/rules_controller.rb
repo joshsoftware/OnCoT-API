@@ -4,6 +4,9 @@ module Api
   module V1
     module Admin
       class RulesController < ApiController
+        before_action :authenticate_user!
+        load_and_authorize_resource
+
         def create
           rule = Rule.new(rule_params)
           if rule.save
@@ -14,8 +17,9 @@ module Api
           end
         end
 
-        def show
-          rules = Rule.where(drive_id: params[:id])
+        def index
+          drive_id = Drive.find(params[:id])
+          rules = Rule.where(drive_id: drive_id)
 
           render_success(data: { rules: serialize_resource(rules, RuleSerializer) },
                          message: I18n.t('index.success', model_name: Rule))

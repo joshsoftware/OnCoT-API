@@ -3,8 +3,8 @@
 FactoryBot.define do
   factory :test_case, class: TestCase do
     association :problem
-    input { Faker::Number.number }
-    output { Faker::Number.number }
-    marks { Faker::Number.number }
+    input { Faker::Number.digit }
+    output { Faker::Number.digit }
+    marks { Faker::Number.digit }
   end
 end

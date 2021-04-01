@@ -53,7 +53,8 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
   # config.include Devise::Test::ControllerHelpers, type: :controller
   Dir["#{File.dirname(__FILE__)}/support/*.rb"].sort.each { |f| require f }
-  config.include Requests::JsonHelpers
+  config.include Requests::JsonHelpers, type: :controller
+  config.include AuthorizationHelper, type: :controller
   config.include ActiveSupport::Testing::TimeHelpers
 
   # The settings below are suggested to provide a good initial experience
