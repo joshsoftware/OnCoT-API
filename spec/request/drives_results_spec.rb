@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe DrivesResultsController, type: :controller do
-  describe 'GET show' do
+  describe 'GET #show' do
     before(:each) do
       organization = create(:organization)
       user = create(:user)
@@ -42,18 +42,17 @@ RSpec.describe DrivesResultsController, type: :controller do
       create(:test_case_result, test_case_id: test_case2.id, submission_id: submission4.id,
                                 is_passed: false)
     end
-    context 'with valid params' do
-      it 'returns drives arrays of candidate_id, scores, end_times' do
-        get :show, params: { problem_id: @problem.id, id: @drive.id }
 
-        result = json
-        expect(result['data']['candidate_id']).to eq([1, 2])
-        expect(result['data']['score']).to eq([9, 5])
-        expect(result['data']['end_time']).to eq([@drives_candidate1.reload.completed_at.iso8601.to_s,
-                                                  @drives_candidate2.reload.end_time.iso8601.to_s])
-        expect(result['message']).to eq(I18n.t('success.message'))
-        expect(response).to have_http_status(200)
-      end
+    it 'returns arrays of candidate_id, scores, end_times for a drive' do
+      get :show, params: { problem_id: @problem.id, id: @drive.id }
+
+      result = json
+      expect(result['data']['candidate_id']).to eq([1, 2])
+      expect(result['data']['score']).to eq([9, 5])
+      expect(result['data']['end_time']).to eq([@drives_candidate1.reload.completed_at.iso8601.to_s,
+                                                @drives_candidate2.reload.end_time.iso8601.to_s])
+      expect(result['message']).to eq(I18n.t('success.message'))
+      expect(response).to have_http_status(200)
     end
   end
 end
