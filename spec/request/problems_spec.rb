@@ -19,8 +19,10 @@ RSpec.describe ProblemsController, type: :controller do
 
       it 'returns the problem data' do
         get :index, params: { id: drives_problem.problem_id }
+        data = json
 
-        expect(response.body).to eq({ data: problem, message: 'Success' }.to_json)
+        expect(data['data']['title']).to eq(problem.title)
+        expect(data['message']).to eq('Success')
         expect(response).to have_http_status(200)
       end
     end
