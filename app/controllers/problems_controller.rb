@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
 class ProblemsController < ApiController
+  before_action :find_problem
   def index
-    if (drive_problem = DrivesProblem.find_by(drive_id: params[:id]))
-      problem = Problem.find(drive_problem.problem_id)
+    if (problem = @drive_problem.problem)
       render_success(data: problem, message: I18n.t('success.message'))
     else
       render_error(message: I18n.t('not_found.message'), status: 404)
     end
+  end
+
+  def find_problem
+    @drive_problem = DrivesProblem.find_by(drive_id: params[:id])
+    return render_error(message: I18n.t('not_found.message'), status: :not_found) if @drive_problem.blank?
   end
 end
