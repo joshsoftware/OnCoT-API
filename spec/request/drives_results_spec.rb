@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe DrivesResultsController, type: :controller do
   describe 'GET #show' do
-    before(:each) do
+    before do
       organization = create(:organization)
       user = create(:user)
       candidate1 = create(:candidate)
