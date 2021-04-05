@@ -12,7 +12,7 @@ class Ability
       if user_role == 'Admin'
         can :manage, :all
       else
-        can :read, [Problem, TestCase, Rule]
+        can :read, [Problem, TestCase, Drive, Rule]
       end
     else
       can :sign_in

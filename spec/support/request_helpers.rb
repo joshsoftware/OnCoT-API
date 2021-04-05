@@ -6,4 +6,10 @@ module Requests
       @json ||= JSON.parse(response.body)
     end
   end
+
+  module HeaderHelpers
+    def headers
+      @headers ||= request.headers.merge!('CONTENT_TYPE' => 'application/json')
+    end
+  end
 end
