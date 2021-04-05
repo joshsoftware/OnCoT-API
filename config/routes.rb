@@ -36,4 +36,6 @@ Rails.application.routes.draw do
   resources :problems do
     resources :drives_results, only: [:show]
   end
+
+  resources :drives_candidates, only: [:index, :show]
 end
