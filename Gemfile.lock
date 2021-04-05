@@ -326,7 +326,6 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   activeadmin
-  as_csv (~> 2.0)
   bootsnap (>= 1.1.0)
   byebug
   cancancan
