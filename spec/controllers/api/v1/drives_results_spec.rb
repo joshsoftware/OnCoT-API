@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe DrivesResultsController, type: :controller do
+RSpec.describe Api::V1::DrivesResultsController, type: :controller do
   describe 'GET #show' do
     before do
       organization = create(:organization)
@@ -47,7 +47,7 @@ RSpec.describe DrivesResultsController, type: :controller do
       get :show, params: { problem_id: @problem.id, id: @drive.id }
 
       result = json
-      expect(result['data']['candidate_id']).to eq([1, 2])
+      expect(result['data']['candidate_id']).to eq([5, 6])
       expect(result['data']['score']).to eq([9, 5])
       expect(result['data']['end_time']).to eq([@drives_candidate1.reload.completed_at.iso8601.to_s,
                                                 @drives_candidate2.reload.end_time.iso8601.to_s])

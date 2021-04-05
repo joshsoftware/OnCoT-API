@@ -27,6 +27,10 @@ Rails.application.routes.draw do
 
       resources :submissions, only: [:create]
 
+      resources :problems do
+        resources :drives_results, only: [:show]
+      end
+
       namespace :admin do
         resources :problems, except: [:destroy]
         resources :reviewers
@@ -36,12 +40,5 @@ Rails.application.routes.draw do
         get '/problem/:problem_id/test_cases' => 'test_cases#index'
       end
     end
-  end
-
-  resources :candidates, only: [:update]
-  get '/drives/:id/problem' => 'problems#index'
-  resources :submissions, only: [:create]
-  resources :problems do
-    resources :drives_results, only: [:show]
   end
 end
