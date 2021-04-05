@@ -6,6 +6,7 @@ module Api
       class RulesController < ApiController
         before_action :authenticate_user!
         load_and_authorize_resource
+        before_action :rule_finder, only: [:update]
 
         def create
           rule = Rule.new(rule_params)
@@ -18,25 +19,27 @@ module Api
         end
 
         def index
-          drive_id = Drive.find(params[:id])
-          rules = Rule.where(drive_id: drive_id)
+          drive = Drive.find(params[:id])
+          rules = Rule.joins(:drive).where(drive_id: drive.id)
 
           render_success(data: { rules: serialize_resource(rules, RuleSerializer) },
                          message: I18n.t('index.success', model_name: Rule))
         end
 
         def update
-          rule = Rule.find(params[:id])
-
-          if rule.update(rule_params)
-            render_success(data: { rule: serialize_resource(rule, RuleSerializer) },
+          if @rule.update(rule_params)
+            render_success(data: { rule: serialize_resource(@rule, RuleSerializer) },
                            message: I18n.t('update.success', model_name: Rule))
           else
-            render_error(message: I18n.t(rule.errors.messages, model_name: Rule), status: 400)
+            render_error(message: I18n.t(@rule.errors.messages, model_name: Rule), status: 400)
           end
         end
 
         private
+
+        def rule_finder
+          @rule = Rule.find(params[:id])
+        end
 
         def rule_params
           params.permit(:type_name, :description, :drive_id)
