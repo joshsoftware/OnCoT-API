@@ -30,8 +30,8 @@ Rails.application.routes.draw do
       namespace :admin do
         resources :problems, except: [:destroy]
         resources :reviewers
-        resources :drives
-        resource
+        resources :rules, except: %i[destroy show]
+        resources :drives, except: [:destroy]
         resources :test_cases, except: %i[destroy index]
         get '/problem/:problem_id/test_cases' => 'test_cases#index'
       end
