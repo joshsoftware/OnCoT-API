@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe CandidatesController, type: :controller do
+RSpec.describe Api::V1::CandidatesController, type: :controller do
   before :each do
     admin = create(:admin)
     @drive = create(:drive, created_by_id: admin.id, updated_by_id: admin.id, organization_id: admin.organization_id)

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ProblemsController, type: :controller do
+RSpec.describe Api::V1::ProblemsController, type: :controller do
   describe 'GET index' do
     context 'with correct id ' do
       let(:organization) { create(:organization) }
