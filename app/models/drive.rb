@@ -8,7 +8,7 @@ class Drive < ApplicationRecord
   has_many :drives_problems
   has_many :candidates, through: :drives_candidates
   has_many :problems, through: :drives_problems
-  has_one :rule
+  has_many :rules
 
   accepts_nested_attributes_for :drives_problems, allow_destroy: true
   def yet_to_start?
