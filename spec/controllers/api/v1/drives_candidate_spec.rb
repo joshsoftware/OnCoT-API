@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe DrivesCandidatesController, type: :controller do
+RSpec.describe Api::V1::DrivesCandidatesController, type: :controller do
   describe 'PATCH #update' do
     context 'with valid params' do
       before do

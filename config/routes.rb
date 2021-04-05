@@ -27,6 +27,8 @@ Rails.application.routes.draw do
 
       resources :submissions, only: [:create]
 
+      resources :drives_candidates, only: [:update]
+
       namespace :admin do
         resources :problems, except: [:destroy]
         resources :reviewers
@@ -37,12 +39,8 @@ Rails.application.routes.draw do
       end
     end
   end
-<<<<<<< HEAD
 
   resources :candidates, only: [:update]
   get '/drives/:id/problem' => 'problems#index'
-  resources :drives_candidates, only: [:update]
   resources :submissions, only: [:create]
-=======
->>>>>>> 804c0a87b20e0bee3fe394f01d08f3c037b9dadd
 end
