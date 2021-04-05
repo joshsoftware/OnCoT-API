@@ -6,5 +6,6 @@ class Problem < ApplicationRecord
   belongs_to :organization
   has_many :test_cases
   has_many :submissions
-  has_and_belongs_to_many :drives, class_name: 'Drive'
+  has_many :drives_problems
+  has_many :drives, through: :drives_problems
 end

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe SubmissionsController, type: :controller do
+RSpec.describe Api::V1::SubmissionsController, type: :controller do
   describe 'POST #create' do
     context 'with submission_count greater than 0' do
       before  do
