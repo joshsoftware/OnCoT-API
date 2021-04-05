@@ -79,10 +79,6 @@ GEM
     arbre (1.4.0)
       activesupport (>= 3.0.0, < 6.2)
       ruby2_keywords (>= 0.0.2, < 1.0)
-    as_csv (2.0.2)
-      actionpack (>= 3.0)
-      activemodel (>= 3.0)
-      responders
     ast (2.4.2)
     bcrypt (3.1.16)
     bootsnap (1.7.3)
