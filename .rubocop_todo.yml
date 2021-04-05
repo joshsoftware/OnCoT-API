@@ -58,4 +58,4 @@ Layout/LineLength:
 
 Style/NumericPredicate:
   Exclude:
-    - 'app/controllers/candidates_controller_spec.rb'
+    - 'spec/controllers/api/v1/candidates_controller_spec.rb'

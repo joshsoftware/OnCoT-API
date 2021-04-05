@@ -13,7 +13,7 @@ module Api
       end
 
       def find_problem
-        @drive_problem = DrivesProblem.find_by(drive_id: params[:id])
+        @drive_problem = DrivesProblem.find_by(problem_id: params[:id])
         return render_error(message: I18n.t('not_found.message'), status: :not_found) if @drive_problem.blank?
       end
     end
