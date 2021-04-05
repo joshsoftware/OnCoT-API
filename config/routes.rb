@@ -28,7 +28,7 @@ Rails.application.routes.draw do
       resources :submissions, only: [:create]
 
       resources :problems do
-        resources :drives_results, only: [:show]
+        resources :results, only: [:show]
       end
 
       namespace :admin do

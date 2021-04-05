@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Api::V1::DrivesResultsController, type: :controller do
+RSpec.describe Api::V1::ResultsController, type: :controller do
   describe 'GET #show' do
     before do
       organization = create(:organization)
