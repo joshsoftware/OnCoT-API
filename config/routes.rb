@@ -27,6 +27,8 @@ Rails.application.routes.draw do
 
       resources :submissions, only: [:create]
 
+      resources :drives_candidates, only: [:update]
+
       namespace :admin do
         resources :problems, except: [:destroy]
         resources :reviewers
