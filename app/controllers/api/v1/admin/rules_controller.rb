@@ -20,7 +20,7 @@ module Api
 
         def index
           drive = Drive.find(params[:id])
-          rules = Rule.joins(:drive).where(drive_id: drive.id)
+          rules = drive.rules
 
           render_success(data: { rules: serialize_resource(rules, RuleSerializer) },
                          message: I18n.t('index.success', model_name: Rule))
