@@ -3,10 +3,12 @@
 module Api
   module V1
     class CandidatesController < ApiController
-      before_action :load_drive, only: :candidate_test_time_left
+      before_action :load_drive, only: %i[candidate_test_time_left invite]
       before_action :load_duration, only: :candidate_test_time_left
       before_action :load_drive_candidate, only: :candidate_test_time_left
       before_action :set_start_time, only: :candidate_test_time_left
+      before_action :check_emails_present, only: :invite
+      after_action :check_failed_invitation, only: :invite
 
       def show
         candidate = Candidate.find(params[:id])
@@ -41,30 +43,18 @@ module Api
       end
 
       def invite
-        return render_error(I18n.t('blank_input.message'), :unprocessable_entity) if params[:emails].blank?
+        @candidate_emails = params[:emails].split(',')
+        @failed_invitaion ||= []
+        @candidate_emails.each do |candidate_email|
+          @user = Candidate.new(email: candidate_email)
+          @drive_candidate = DrivesCandidate.new(drive_id: @drive.id, candidate_id: @user.id) if @user.save
 
-        emails = params[:emails]
-        candidate_emails = emails.split(',')
-        failed_invitaion ||= []
-        candidate_emails.each do |candidate_email|
-          user = Candidate.new(email: candidate_email)
-          drive_candidate = DrivesCandidate.new(drive_id: params[:drive_id], candidate_id: user.id) if user.save
+          next unless @user.present? && @drive_candidate.save
 
-          next unless user.present? && drive_candidate.save
-
-          drive_candidate.generate_token!
-          begin
-            CandidateMailer.invitation_email(user, drive_candidate).deliver_later
-          rescue StandardError => e
-            failed_invitaion.push(candidate_email)
-          end
+          @drive_candidate.generate_token!
+          handle_exception(candidate_email)
         end
-
-        if failed_invitaion.empty?
-          render_success(message: I18n.t('ok.message'))
-        else
-          render json: { failed_invitaion: failed_invitaion }
-        end
+        render_success(message: I18n.t('ok.message'))
       end
 
       private
@@ -75,7 +65,7 @@ module Api
       end
 
       def load_drive
-        @drive = Drive.find_by(id: params[:drife_id])
+        @drive = Drive.find_by!(id: params[:drife_id])
       end
 
       def load_duration
@@ -88,6 +78,24 @@ module Api
 
       def set_start_time
         @drive_candidate.start_time = DateTime.now.localtime
+      end
+
+      def check_failed_invitation
+        render json: { failed_invitaion: @failed_invitaion } unless @failed_invitaion.empty?
+      end
+
+      def check_emails_present
+        return render_error(message: I18n.t('blank_input.message')) if params[:emails].blank?
+      end
+
+      def handle_exception(candidate_email)
+        CandidateMailer.invitation_email(@user, @drive_candidate).deliver_later
+      rescue Errno::ECONNRESET, Errno::ECONNABORTED, Errno::EPIPE,
+             Errno::ETIMEDOUT, Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError,
+             Net::SMTPFatalError, Net::SMTPUnknownError => e
+
+        @failed_invitaion.push(candidate_email)
+        render_error(error: e)
       end
     end
   end

@@ -7,7 +7,12 @@ class DrivesCandidate < ApplicationRecord
   def generate_token!
     self.token = generate_token
     self.email_sent_at = Time.now.utc
-    save!
+    begin
+      save!
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
+      drives_candidate = exists?
+      raise e if drives_candidate.nil?
+    end
   end
 
   private
