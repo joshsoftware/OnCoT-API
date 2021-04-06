@@ -8,7 +8,6 @@ module Api
       before_action :load_drive_candidate, only: :candidate_test_time_left
       before_action :set_start_time, only: :candidate_test_time_left
       before_action :check_emails_present, only: :invite
-      after_action :check_failed_invitation, only: :invite
 
       def show
         candidate = Candidate.find(params[:id])
@@ -44,15 +43,14 @@ module Api
 
       def invite
         @candidate_emails = params[:emails].split(',')
-        @failed_invitaion ||= []
         @candidate_emails.each do |candidate_email|
-          @user = Candidate.new(email: candidate_email)
-          @drive_candidate = DrivesCandidate.new(drive_id: @drive.id, candidate_id: @user.id) if @user.save
+          candidate = Candidate.find_or_initialize_by(email: candidate_email)
 
-          next unless @user.present? && @drive_candidate.save
+          drive_candidate = candidate.drives_candidates.build(drive_id: @drive.id)
+          drive_candidate.generate_token
+          next unless candidate.save
 
-          @drive_candidate.generate_token!
-          handle_exception(candidate_email)
+          CandidateMailer.invitation_email(candidate, drive_candidate).deliver_later
         end
         render_success(message: I18n.t('ok.message'))
       end
@@ -80,22 +78,8 @@ module Api
         @drive_candidate.start_time = DateTime.now.localtime
       end
 
-      def check_failed_invitation
-        render json: { failed_invitaion: @failed_invitaion } unless @failed_invitaion.empty?
-      end
-
       def check_emails_present
         return render_error(message: I18n.t('blank_input.message')) if params[:emails].blank?
-      end
-
-      def handle_exception(candidate_email)
-        CandidateMailer.invitation_email(@user, @drive_candidate).deliver_later
-      rescue Errno::ECONNRESET, Errno::ECONNABORTED, Errno::EPIPE,
-             Errno::ETIMEDOUT, Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError,
-             Net::SMTPFatalError, Net::SMTPUnknownError => e
-
-        @failed_invitaion.push(candidate_email)
-        render_error(error: e)
       end
     end
   end
