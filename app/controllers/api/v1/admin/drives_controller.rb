@@ -42,13 +42,8 @@ module Api
         end
 
         def candidate_list
-          candidates_list = @drive.candidates
-          if candidates_list
-            render_success(data: { candidates: candidates_list },
-                           message: I18n.t('candidate_list.success', model_name: 'Candidate List'))
-          else
-            render_error(message: I18n.t('candidate_list.error', model_name: 'Candidate List'), status: 400)
-          end
+          render_success(data: { candidates: serialize_resource( @drive.candidates, CandidateSerializer) },
+                         message: I18n.t('candidate_list.success', model_name: 'Candidate List'))
         end
 
         private
