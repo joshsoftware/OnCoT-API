@@ -50,7 +50,7 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
             post :create, params: { name: Faker::Name.name, organization_id: organization.id, created_by_id: user.id,
                                     updated_by_id: user.id, drives_problems_attributes: [{ "problem_id": problem.id,
                                                                                            "_destroy": false }] }
-          end.to change { Drive.count }.to(1).from(0)
+          end.to change { Drive.count }.to(2).from(1)
 
           expect(response).to have_http_status(:ok)
         end

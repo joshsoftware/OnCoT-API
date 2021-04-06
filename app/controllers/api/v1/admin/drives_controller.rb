@@ -42,7 +42,7 @@ module Api
         end
 
         def candidate_list
-          render_success(data: { candidates: serialize_resource( @drive.candidates, CandidateSerializer) },
+          render_success(data: { candidates: serialize_resource(@drive.candidates, CandidateSerializer) },
                          message: I18n.t('candidate_list.success', model_name: 'Candidate List'))
         end
 
