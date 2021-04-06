@@ -16,7 +16,7 @@ class DrivesCandidate < ApplicationRecord
   end
 
   private
-  
+
   def generate_token
     SecureRandom.hex(20)
   end

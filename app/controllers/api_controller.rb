@@ -14,7 +14,7 @@ class ApiController < ActionController::API
   end
 
   def render_error(message: nil, status: 400)
-    render json: { message: message }, status: status
+    render json: message, status: status
   end
 
   def error_render_method
