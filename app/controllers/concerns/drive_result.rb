@@ -19,7 +19,7 @@ module DriveResult
 
     private
 
-    def find_drive_candidate(drive_id)
+    def find_drive_candidates(drive_id)
       drive = Drive.find(drive_id)
       drive.drives_candidates
     end
