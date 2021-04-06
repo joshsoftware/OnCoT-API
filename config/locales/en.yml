@@ -70,3 +70,6 @@ en:
       message: "submission not created"
     limit_exceed:
       message: "submission limit exceeded"
+  candidate_list:
+    success: "%{model_name} displayed successfully."
+    error: "Error in showing %{model_name}"
