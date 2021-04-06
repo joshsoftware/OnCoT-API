@@ -41,7 +41,7 @@ RSpec.describe Api::V1::DrivesController, type: :controller do
 
         data = json
 
-        expect(data['message']).to eq('Drive has already started.')
+        expect(data['message']).to eq('Drive is yet to start.')
         expect(response).to have_http_status(200)
       end
     end
