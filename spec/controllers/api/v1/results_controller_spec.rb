@@ -21,10 +21,10 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
                                       created_by_id: user.id)
       test_case2 = create(:test_case, problem_id: @problem.id, marks: 5, updated_by_id: user.id,
                                       created_by_id: user.id)
-      submission1 = create(:submission, problem_id: @problem.id, candidate_id: candidate1.id)
-      submission2 = create(:submission, problem_id: @problem.id, candidate_id: candidate1.id)
-      submission3 = create(:submission, problem_id: @problem.id, candidate_id: candidate2.id)
-      submission4 = create(:submission, problem_id: @problem.id, candidate_id: candidate2.id)
+      submission1 = create(:submission, problem_id: @problem.id, drives_candidate_id: @drives_candidate1.id)
+      submission2 = create(:submission, problem_id: @problem.id, drives_candidate_id: @drives_candidate1.id)
+      submission3 = create(:submission, problem_id: @problem.id, drives_candidate_id: @drives_candidate2.id)
+      submission4 = create(:submission, problem_id: @problem.id, drives_candidate_id: @drives_candidate2.id)
       create(:test_case_result, test_case_id: test_case1.id, submission_id: submission1.id,
                                 is_passed: true)
       create(:test_case_result, test_case_id: test_case2.id, submission_id: submission1.id,
@@ -47,7 +47,7 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
       get :show, params: { problem_id: @problem.id, id: @drive.id }
 
       result = json
-      expect(result['data']['candidate_id']).to eq([5, 6])
+      expect(result['data']['candidate_id']).to eq([6, 7])
       expect(result['data']['score']).to eq([9, 5])
       expect(result['data']['end_time']).to eq([@drives_candidate1.reload.completed_at.iso8601.to_s,
                                                 @drives_candidate2.reload.end_time.iso8601.to_s])

@@ -18,7 +18,8 @@ module Api
       private
 
       def create_submission(submission_count)
-        if (submission = Submission.create(problem_id: params[:id], candidate_id: params[:candidate_id],
+        drives_candidate = DrivesCandidate.find_by(candidate_id: params[:candidate_id])
+        if (submission = Submission.create(problem_id: params[:id], drives_candidate_id: drives_candidate.id,
                                            answer: params[:source_code]))
           submission_count -= 1
         else
