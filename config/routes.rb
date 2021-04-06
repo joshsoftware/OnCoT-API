@@ -32,6 +32,12 @@ Rails.application.routes.draw do
       end
       resources :drives_candidates, only: [:update]
 
+      resources :executions do
+        post :submission_token, on: :collection
+        get :submission_status, on: :member
+      end
+    
+
       namespace :admin do
         resources :problems, except: [:destroy]
         resources :reviewers
