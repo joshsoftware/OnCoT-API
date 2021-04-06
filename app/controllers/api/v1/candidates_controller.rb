@@ -42,8 +42,8 @@ module Api
       end
 
       def invite
-        @candidate_emails = params[:emails].split(',')
-        @candidate_emails.each do |candidate_email|
+        candidate_emails = params[:emails].split(',')
+        candidate_emails.each do |candidate_email|
           candidate = Candidate.find_or_initialize_by(email: candidate_email)
 
           drive_candidate = candidate.drives_candidates.build(drive_id: @drive.id)
