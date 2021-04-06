@@ -16,12 +16,6 @@ RSpec.describe Api::V1::ProblemsController, type: :controller do
         create(:drives_problem, drive_id: drive.id, problem_id: @problem.id)
         get :index, params: { id: drive.id }
       end
-      let(:problem) do
-        create(:problem, updated_by_id: user.id, created_by_id: user.id,
-                         organization: organization)
-      end
-      let(:drives_problem) { create(:drives_problem, drive_id: drive.id, problem_id: problem.id) }
-
       it 'returns the problem data' do
         data = json
 
