@@ -2,8 +2,24 @@
 
 module DriveResult
   module ClassMethods
+    def fetch_results(problem_id, drive_id)
+      calculate_result(problem_id, drive_id)
+      scores = []
+      end_times = []
+      id = []
+      drives_candidates = find_drive_candidates(drive_id)
+      drives_candidates.each do |drives_candidate|
+        id << drives_candidate.candidate_id
+        scores << drives_candidate.score
+        end_times << get_end_time(drives_candidate)
+      end
+      [id, scores, end_times]
+    end
+
+    private
+
     def calculate_result(problem_id, drive_id)
-      drives_candidates = find_drive_candidate(drive_id)
+      drives_candidates = find_drive_candidates(drive_id)
       drives_candidates.each do |drives_candidate|
         next if drives_candidate.score&.present?
 
@@ -14,27 +30,11 @@ module DriveResult
         final_marks = submits.map(&:marks).max
         drives_candidate.update(score: final_marks)
       end
-      fetch_results(drive_id)
     end
-
-    private
 
     def find_drive_candidates(drive_id)
       drive = Drive.find(drive_id)
       drive.drives_candidates
-    end
-
-    def fetch_results(drive_id)
-      scores = []
-      end_times = []
-      id = []
-      drives_candidates = find_drive_candidate(drive_id)
-      drives_candidates.each do |drives_candidate|
-        id << drives_candidate.candidate_id
-        scores << drives_candidate.score
-        end_times << get_end_time(drives_candidate)
-      end
-      [id, scores, end_times]
     end
 
     def get_end_time(drives_candidate)

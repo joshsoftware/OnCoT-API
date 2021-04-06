@@ -5,7 +5,7 @@ module Api
     class ResultsController < ApiController
       include DriveResult::ClassMethods
       def show
-        result = calculate_result(params[:problem_id], params[:id])
+        result = fetch_results(params[:problem_id], params[:id])
         render_success(data: { candidate_id: result.first, score: result[1], end_time: result[2] },
                        message: I18n.t('success.message'))
       end
