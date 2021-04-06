@@ -7,16 +7,11 @@ module Api
       before_action :set_time_data, only: :drive_time_left
 
       def show
-        token = params[:id].to_s
-        drive_candidate = DrivesCandidate.find_by(token: token)
-        return render_error(message: I18n.t('token_not_found.message'), status: :not_found) unless drive_candidate
+        drives_candidate = DrivesCandidate.find_by(token: params[:id])
+        return render_error(message: I18n.t('token_not_found.message'), status: :not_found) unless drives_candidate
 
-        drive = Drive.find_by(id: drive_candidate.drive_id)
-        if drive.present? && drive_candidate.token_valid?
-          render_success(data: drive, message: I18n.t('ok.message'))
-        else
-          render_error(message: I18n.t('drive_not_found.message'), status: :not_found)
-        end
+        drive = Drive.find(drives_candidate.drive_id)
+        render_success(data: drive, message: I18n.t('ok.message'))
       end
 
       def drive_time_left
