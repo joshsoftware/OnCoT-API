@@ -10,7 +10,7 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
       result = json
       expect(result['data'][0]['candidate_id']).to eq(6)
       expect(result['data'][0]['score']).to eq(9)
-      expect(result['data'][0]['end_times']).to eq()
+      expect(result['data'][0]['end_times']).to eq
       expect(result['data'][1]['candidate_id']).to eq(7)
       expect(result['data'][1]['score']).to eq(5)
       expect(result['data'][1]['end_times']).to eq(7)
@@ -19,4 +19,3 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
     end
   end
 end
-

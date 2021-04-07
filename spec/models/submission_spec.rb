@@ -11,9 +11,9 @@ RSpec.describe Submission do
     @drive1 = create(:drive, updated_by_id: user.id, created_by_id: user.id,
                              organization: organization)
     drives_candidate1 = create(:drives_candidate, drive_id: @drive1.id, candidate_id: candidate1.id,
-                                                   completed_at: Time.now.iso8601)
+                                                  completed_at: Time.now.iso8601)
     drives_candidate2 = create(:drives_candidate, drive_id: @drive1.id, candidate_id: candidate2.id,
-                                                   end_time: Time.now.iso8601)
+                                                  end_time: Time.now.iso8601)
     problem1 = create(:problem, updated_by_id: user.id, created_by_id: user.id,
                                 organization: organization)
     create(:drives_problem, problem_id: problem1.id, drive_id: @drive1.id)
@@ -35,4 +35,3 @@ RSpec.describe Submission do
                               is_passed: true)
   end
 end
-
