@@ -27,16 +27,12 @@ Rails.application.routes.draw do
 
       resources :submissions, only: [:create]
 
-      resources :problems do
-        resources :results, only: [:show]
-      end
       resources :drives_candidates, only: [:update]
 
       resources :executions do
         post :submission_token, on: :collection
         get :submission_status, on: :member
       end
-    
 
       namespace :admin do
         resources :problems, except: [:destroy]
