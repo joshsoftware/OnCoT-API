@@ -22,7 +22,8 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :candidates, only: [:update]
+      resources :candidates, only: %i[update show]
+      post 'invite', to: 'candidates#invite'
       get '/drives/:id/problem' => 'problems#index'
 
       resources :submissions, only: [:create]
@@ -39,6 +40,9 @@ Rails.application.routes.draw do
         resources :drives, except: [:destroy]
         resources :test_cases, except: %i[destroy index]
         get '/problem/:problem_id/test_cases' => 'test_cases#index'
+        resources :drives do
+          get :candidate_list, on: :member
+        end
       end
     end
   end
