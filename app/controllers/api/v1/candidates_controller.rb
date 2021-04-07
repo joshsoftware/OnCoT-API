@@ -3,10 +3,11 @@
 module Api
   module V1
     class CandidatesController < ApiController
-      before_action :load_drive, only: :candidate_test_time_left
+      before_action :load_drive, only: %i[candidate_test_time_left invite]
       before_action :load_duration, only: :candidate_test_time_left
       before_action :load_drive_candidate, only: :candidate_test_time_left
       before_action :set_start_time, only: :candidate_test_time_left
+      before_action :check_emails_present, only: :invite
 
       def show
         candidate = Candidate.find(params[:id])
@@ -40,6 +41,20 @@ module Api
         render_success(data: { time_left: time_left }, message: message)
       end
 
+      def invite
+        candidate_emails = params[:emails].split(',')
+        candidate_emails.each do |candidate_email|
+          candidate = Candidate.find_or_initialize_by(email: candidate_email)
+
+          drive_candidate = candidate.drives_candidates.build(drive_id: @drive.id)
+          drive_candidate.generate_token
+          next unless candidate.save
+
+          CandidateMailer.invitation_email(candidate, drive_candidate).deliver_later
+        end
+        render_success(message: I18n.t('ok.message'))
+      end
+
       private
 
       def candidate_params
@@ -48,7 +63,7 @@ module Api
       end
 
       def load_drive
-        @drive = Drive.find_by(id: params[:drife_id])
+        @drive = Drive.find_by!(id: params[:drife_id])
       end
 
       def load_duration
@@ -61,6 +76,10 @@ module Api
 
       def set_start_time
         @drive_candidate.start_time = DateTime.now.localtime
+      end
+
+      def check_emails_present
+        return render_error(message: I18n.t('blank_input.message')) if params[:emails].blank?
       end
     end
   end
