@@ -11,7 +11,7 @@ module Api
         return render_error(message: I18n.t('token_not_found.message'), status: :not_found) unless drives_candidate
 
         drive = Drive.find(drives_candidate.drive_id)
-        render_success(data: drive, message: I18n.t('ok.message'))
+        render_success(data: { drive: serialize_resource(drive, DriveSerializer) }, message: I18n.t('ok.message'))
       end
 
       def drive_time_left
