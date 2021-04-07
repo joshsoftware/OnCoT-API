@@ -37,6 +37,9 @@ Rails.application.routes.draw do
         resources :drives, except: [:destroy]
         resources :test_cases, except: %i[destroy index]
         get '/problem/:problem_id/test_cases' => 'test_cases#index'
+        resources :drives do
+          get :candidate_list, on: :member
+        end
       end
     end
   end

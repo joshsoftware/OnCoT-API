@@ -6,7 +6,7 @@ module Api
       class DrivesController < ApiController
         before_action :authenticate_user!
         load_and_authorize_resource :drive
-        before_action :fetch_drive_data, only: %i[show update]
+        before_action :fetch_drive_data, only: %i[show update candidate_list]
 
         def index
           drives = Drive.all
@@ -39,6 +39,11 @@ module Api
         def show
           render_success(data: { drive: serialize_resource(@drive, DriveSerializer) },
                          message: I18n.t('show.success', model_name: 'Drive'))
+        end
+
+        def candidate_list
+          render_success(data: { candidates: serialize_resource(@drive.candidates, CandidateSerializer) },
+                         message: I18n.t('candidate_list.success', model_name: 'Candidate List'))
         end
 
         private
