@@ -9,7 +9,7 @@ FactoryBot.define do
 
     before(:create) do |user|
       user.organization = create(:organization)
-      user.role = create(:role, name: 'reviewer')
+      user.role = create(:role, name: 'Reviewer')
     end
   end
 end
