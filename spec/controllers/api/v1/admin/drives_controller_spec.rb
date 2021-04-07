@@ -154,6 +154,7 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
 
           data = json
           expect(data['data']['candidates'][0]['first_name']).to eq(candidate.first_name)
+          expect(data['data']['candidates'][0]['email']).to eq(candidate.email)
           expect(data['data']['candidates'].count).to eq(1)
           expect(response).to have_http_status(:ok)
         end
