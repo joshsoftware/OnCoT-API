@@ -1,1 +1,3 @@
-<%= "http://localhost:3000/overview/"+@token %>
+<%= simple_format('Hi') %>
+<%= simple_format('You have been invited to take '+@drive.name+' coding round by '+@drive.organization.name)%>
+<%= 'Test Link: '+ "http://localhost:3000/candidate/overview/"+@token %>

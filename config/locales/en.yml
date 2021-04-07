@@ -1,12 +1,13 @@
 en:
+  hello: 'Hello world'
+  message: 'Success'
+
   success:
     message: "Success"
   not_found:
     message: "Record not found"
   error:
     message: "Error, Please try again"
-  hello: "Hello world"
-  message: "Success"
   create:
     success: "%{model_name} created successfully."
     failed: "Unable to create %{model_name}."
