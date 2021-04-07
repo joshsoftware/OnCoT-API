@@ -22,7 +22,8 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :candidates, only: [:update]
+      resources :candidates, only: %i[update show]
+      post 'invite', to: 'candidates#invite'
       get '/drives/:id/problem' => 'problems#index'
 
       resources :submissions, only: [:create]

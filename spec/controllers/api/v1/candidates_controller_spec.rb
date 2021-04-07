@@ -11,26 +11,57 @@ RSpec.describe Api::V1::CandidatesController, type: :controller do
   end
 
   describe 'PUT update' do
-    it 'updates the particular candidate details' do
-      params = {
-        id: @candidate.id,
-        drife_id: @drive.id,
-        first_name: Faker::Name.name
-      }
-      expect do
-        put :update, params: params
-      end.to change { @candidate.reload.first_name }.from(@candidate.first_name).to(params[:first_name])
-      expect(response).to have_http_status(:success)
+    context 'with valid params' do
+      it 'updates the particular candidate details' do
+        params = {
+          id: @candidate.id,
+          drife_id: @drive.id,
+          first_name: Faker::Name.name
+        }
+        expect do
+          put :update, params: params
+        end.to change { @candidate.reload.first_name }.from(@candidate.first_name).to(params[:first_name])
+        expect(response).to have_http_status(:success)
+      end
     end
 
-    it 'raises error exception if particular candidate is not found' do
-      params = {
-        id: 0,
-        first_name: Faker::Name.name
-      }
-      put :update, params: params
+    context 'with invalid params' do
+      it 'raises error exception if particular candidate is not found' do
+        params = {
+          id: 0,
+          first_name: Faker::Name.name
+        }
+        put :update, params: params
 
-      expect(response).to have_http_status(:not_found)
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
+  describe 'POST #invite' do
+    context 'with valid params' do
+      it 'sends mail invitation to candidate' do
+        params = {
+          emails: Faker::Internet.email,
+          drife_id: @drive.id
+        }
+
+        post :invite, params: params
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    context 'with invalid params' do
+      it 'raises error exception if particular candidate is not found' do
+        params = {
+          emails: Faker::Internet.email,
+          drife_id: Faker::Number.number
+        }
+        post :invite, params: params
+
+        expect(response).to have_http_status(:not_found)
+      end
     end
   end
 

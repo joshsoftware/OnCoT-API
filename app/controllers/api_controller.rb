@@ -4,6 +4,7 @@ class ApiController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
 
   rescue_from ActiveRecord::RecordNotFound, with: :error_render_method
+  rescue_from ActiveRecord::RecordInvalid, with: :error_render_method
 
   rescue_from CanCan::AccessDenied do |_exception|
     render json: { message: I18n.t('user.unauthorized') }, status: 403
