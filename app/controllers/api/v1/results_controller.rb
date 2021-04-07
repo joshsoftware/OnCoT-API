@@ -3,12 +3,12 @@
 module Api
   module V1
     class ResultsController < ApiController
-      include DriveResult::ClassMethods
-      def show
-        result = fetch_results(params[:problem_id], params[:id])
-        render_success(data: { candidate_id: result.first, score: result[1], end_time: result[2] },
-                       message: I18n.t('success.message'))
+      def index
+        drive = Drive.find(params[:drife_id])
+        drives_candidates = drive.drives_candidates
+        render_success(data: serialize_resource(drives_candidates, DrivesCandidateSerializer) )
       end
     end
   end
 end
+
