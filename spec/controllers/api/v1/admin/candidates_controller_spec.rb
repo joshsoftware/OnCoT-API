@@ -51,7 +51,7 @@ RSpec.describe CandidatesController, type: :controller do
         expect(response).to have_http_status(:ok)
       end
     end
-    
+
     context 'test already completed' do
       it 'returns the negative time as current time > end time' do
         params = {

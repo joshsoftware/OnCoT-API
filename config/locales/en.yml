@@ -1,46 +1,23 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
+  blank_input:
+    message: "input is empty"
+
+  ok:
+    message: "ok"
+
+  hello: 'Hello world'
+  message: 'Success'
+
   success:
     message: "Success"
   not_found:
-    message: "Record Not found"
+    message: "Record not found"
   error:
     message: "Error, Please try again"
-  hello: "Hello world"
-  message: "Success"
   create:
     success: "%{model_name} created successfully."
     failed: "Unable to create %{model_name}."
+    error: "%{model_name} creation failed"
   index:
     success: "%{model_name} list displayed successfully."
   update:
@@ -52,9 +29,11 @@ en:
   destroy:
     success: "%{model_name} deleted successfully."
     failed: "Unable to destroy %{model_name}."
+    error: "Unable to destroy %{model_name}."
   show:
     success: "%{model_name} displayed successfully."
     failed: "Unable to show %{model_name}."
+    error: "Error in showing %{model_name}"
   test:
     time_over: "Test Time Over!"
     time_remaining: "Time Remaining"
@@ -62,3 +41,8 @@ en:
     yet_to_start: "Drive is yet to start."
     started: "Drive has already started."
     ended: "Drive has already ended."
+  submission:
+    not_created:
+      message: "submission not created"
+    limit_exceed:
+      message: "submission limit exceeded"

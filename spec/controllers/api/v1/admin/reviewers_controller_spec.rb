@@ -9,7 +9,7 @@ RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
       reviewer = create_list(:reviewer, 5)
       get :index
 
-      parsed_json_data = json(response)
+      parsed_json_data = json
       expect(parsed_json_data['data']['users'][0]['first_name']).to eq(reviewer[0].first_name)
       expect(parsed_json_data['data']['users'].count).to eq(5)
       expect(response).to have_http_status(:ok)
@@ -63,7 +63,7 @@ RSpec.describe Api::V1::Admin::ReviewersController, type: :controller do
       reviewer = create(:reviewer)
       get :show, params: { id: reviewer.id }
 
-      parsed_json_data = json(response)
+      parsed_json_data = json
       expect(parsed_json_data['data']['user']['first_name']).to eq(reviewer[:first_name])
       expect(response).to have_http_status(:ok)
     end
