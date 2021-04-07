@@ -42,4 +42,3 @@ RSpec.describe Api::V1::ExecutionsController, type: :controller do
     end
   end
 end
-
