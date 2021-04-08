@@ -12,9 +12,11 @@ class JudgeZeroApi
 
   def get(path)
     response = HTTP.get("#{BASE_URI}#{path}")
+    JSON.parse(response.body)
   end
 
   def post(path)
-    HTTP.post("#{BASE_URI}#{path}", headers: @headers, body: @params.to_json)
+    response = HTTP.post("#{BASE_URI}#{path}", headers: @headers, body: @params.to_json)
+    JSON.parse(response.body)
   end
 end
