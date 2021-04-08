@@ -21,10 +21,10 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
       get :index, params: { drife_id: @drive.id }
 
       result = json
-      expect(result['data'][0]['candidate_id']).to eq(22)
+      expect(result['data'][0]['candidate_id']).to eq(23)
       expect(result['data'][0]['score']).to eq(8)
       expect(result['data'][0]['end_times']).to eq(@drives_candidate1.completed_at.iso8601.to_s)
-      expect(result['data'][1]['candidate_id']).to eq(23)
+      expect(result['data'][1]['candidate_id']).to eq(24)
       expect(result['data'][1]['score']).to eq(10)
       expect(result['data'][1]['end_times']).to eq(@drives_candidate2.end_time.iso8601.to_s)
       expect(result['message']).to eq(I18n.t('success.message'))

@@ -164,7 +164,7 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
         it 'returns the not found error on passing random drive id which is not present in database' do
           get :candidate_list, params: { id: Faker::Number }
 
-          expect(response.body).to eq('Record not found')
+          expect(response.body).to eq(I18n.t('not_found.message'))
           expect(response).to have_http_status(404)
         end
       end
