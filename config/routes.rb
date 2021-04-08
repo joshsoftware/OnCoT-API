@@ -28,6 +28,9 @@ Rails.application.routes.draw do
 
       resources :submissions, only: [:create]
 
+      resources :drives do
+        resources :results, only: [:index]
+      end
       resources :drives_candidates, only: [:update]
 
       resources :executions do
