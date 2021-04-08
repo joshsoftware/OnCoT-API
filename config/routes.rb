@@ -31,6 +31,7 @@ Rails.application.routes.draw do
       resources :drives do
         resources :results, only: [:index]
       end
+      get 'drives/:token', to: 'drives#show'
       resources :drives_candidates, only: [:update]
 
       resources :executions do

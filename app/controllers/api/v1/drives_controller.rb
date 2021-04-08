@@ -7,7 +7,9 @@ module Api
       before_action :set_time_data, only: :drive_time_left
 
       def show
-        drive_candidate = DrivesCandidate.find_by(token: params[:token])
+        drive_candidate = DrivesCandidate.find_by(token: params[:id])
+        return render_error(message: I18n.t('drive_not_found.message'), status: :not_found) if drive_candidate.blank?
+
         drive = Drive.find_by(id: drive_candidate.drive_id)
         if drive.present?
           render json: { data: drive, candidate_id: drive_candidate.candidate_id, message: I18n.t('ok.message') }, status: 200
