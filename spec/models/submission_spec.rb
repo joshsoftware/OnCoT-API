@@ -22,7 +22,8 @@ RSpec.describe Submission do
                                 is_passed: true)
     end
     it ' updates score to database' do
-      @submission.run_callbacks(:create)
+      @submission.run_callbacks :create
+
       expect(@drives_candidate.reload.score).to eq(4)
     end
   end
