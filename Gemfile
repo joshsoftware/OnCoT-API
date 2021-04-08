@@ -64,6 +64,6 @@ gem 'devise'
 gem 'overcommit'
 gem 'sassc-rails'
 
+gem 'figaro'
 gem 'simplecov', require: false
 gem 'will_paginate'
-gem 'figaro'
