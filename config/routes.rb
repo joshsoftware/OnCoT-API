@@ -38,6 +38,8 @@ Rails.application.routes.draw do
         get :submission_status, on: :member
       end
 
+      resources :rules, only: %i[index]
+
       namespace :admin do
         resources :problems, except: [:destroy]
         resources :reviewers
