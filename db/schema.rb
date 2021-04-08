@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_405_140_625) do
+ActiveRecord::Schema.define(version: 20_210_406_044_004) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -25,9 +25,9 @@ ActiveRecord::Schema.define(version: 20_210_405_140_625) do
     t.bigint 'author_id'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.index %w[author_type author_id], name: 'index_active_admin_comments_on_author_type_and_author_id'
+    t.index %w[author_type author_id], name: 'index_active_admin_comments_on_author'
     t.index ['namespace'], name: 'index_active_admin_comments_on_namespace'
-    t.index %w[resource_type resource_id], name: 'index_active_admin_comments_on_resource_type_and_resource_id'
+    t.index %w[resource_type resource_id], name: 'index_active_admin_comments_on_resource'
   end
 
   create_table 'candidates', force: :cascade do |t|
@@ -122,11 +122,11 @@ ActiveRecord::Schema.define(version: 20_210_405_140_625) do
 
   create_table 'submissions', force: :cascade do |t|
     t.text 'answer'
-    t.bigint 'candidate_id', null: false
+    t.bigint 'drives_candidate_id', null: false
     t.bigint 'problem_id', null: false
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['candidate_id'], name: 'index_submissions_on_candidate_id'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['drives_candidate_id'], name: 'index_submissions_on_drives_candidate_id'
     t.index ['problem_id'], name: 'index_submissions_on_problem_id'
   end
 
@@ -134,8 +134,8 @@ ActiveRecord::Schema.define(version: 20_210_405_140_625) do
     t.boolean 'is_passed'
     t.bigint 'submission_id', null: false
     t.bigint 'test_case_id', null: false
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
     t.index ['submission_id'], name: 'index_test_case_results_on_submission_id'
     t.index ['test_case_id'], name: 'index_test_case_results_on_test_case_id'
   end
@@ -189,7 +189,7 @@ ActiveRecord::Schema.define(version: 20_210_405_140_625) do
   add_foreign_key 'problems', 'users', column: 'created_by_id'
   add_foreign_key 'problems', 'users', column: 'updated_by_id'
   add_foreign_key 'rules', 'drives', column: 'drive_id'
-  add_foreign_key 'submissions', 'candidates'
+  add_foreign_key 'submissions', 'drives_candidates'
   add_foreign_key 'submissions', 'problems'
   add_foreign_key 'test_case_results', 'submissions'
   add_foreign_key 'test_case_results', 'test_cases'
