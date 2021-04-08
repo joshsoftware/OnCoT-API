@@ -51,7 +51,7 @@ module Api
         private
 
         def test_case_params
-          params.permit(:id, :input, :output, :marks, :problem_id)
+          params.permit(:id, :input, :output, :marks, :problem_id, :is_active)
         end
       end
     end

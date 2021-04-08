@@ -49,3 +49,5 @@ en:
   candidate_list:
     success: "%{model_name} displayed successfully."
     error: "Error in showing %{model_name}"
+  test_case:
+    deactivated: "Testcase Deactivated Successfully"
