@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require 'json_helpers'
 module Api
   module V1
     class SubmissionsController < ApiController
-      include JsonHelpers
       def create
         submission_count = params[:submission_count]
         if submission_count.positive?
@@ -48,7 +46,7 @@ module Api
         parameter = { stdin: testcase.input, expected_output: testcase.output, source_code: params[:source_code],
                       language_id: params[:language_id] }
         response = JudgeZeroApi.new(parameter).post('/submissions/?base64_encoded=false&wait=true')
-        body = json(response)
+        body = JSON.parse(response.body)
         if body['status']['description'] == 'Accepted'
           flag = true
           passed += 1
