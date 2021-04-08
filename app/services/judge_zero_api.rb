@@ -5,9 +5,9 @@ require 'http'
 class JudgeZeroApi
   BASE_URI = 'http://65.1.201.245'
 
-  def initialize(params = {}, headers = {})
+  def initialize(params = {})
     @params = params
-    @headers = headers
+    @headers = { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
   end
 
   def get(path)

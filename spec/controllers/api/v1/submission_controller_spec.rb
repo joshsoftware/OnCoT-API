@@ -10,12 +10,7 @@ RSpec.describe Api::V1::SubmissionsController, type: :controller do
         stub_request(:post, url)
           .with(body: { stdin: 'hello', expected_output: 'hello', source_code: "print('hello')",
                         language_id: 71 }.to_json, headers: headers)
-          .to_return(status: 200, body: { stdout: "world\n", status: { description: 'Accepted' } }.to_json)
-
-        stub_request(:post, url)
-          .with(body: { stdin: 'world', expected_output: 'world', source_code: "print('hello')",
-                        language_id: 71 }.to_json, headers: headers)
-          .to_return(status: 200, body: { stdout: "hello\n", status: { description: 'Wrong Answer' } }.to_json)
+          .to_return(status: 200, body: { stdout: 'hello', status: { description: 'Accepted' } }.to_json)
 
         organization = create(:organization)
         user = create(:user)
@@ -27,8 +22,6 @@ RSpec.describe Api::V1::SubmissionsController, type: :controller do
                                    organization: organization)
         create(:test_case, problem_id: problem.id, marks: 4, updated_by_id: user.id,
                            created_by_id: user.id, input: 'hello', output: 'hello')
-        create(:test_case, problem_id: problem.id, marks: 4, updated_by_id: user.id,
-                           created_by_id: user.id, input: 'world', output: 'world')
 
         headers
         post :create, params: { source_code: "print('hello')", language_id: 71, candidate_id: candidate.id, id: problem.id,
@@ -43,7 +36,7 @@ RSpec.describe Api::V1::SubmissionsController, type: :controller do
         result = json
 
         expect(result['data']['passed_testcases']).to eq(1)
-        expect(result['data']['total_testcases']).to eq(2)
+        expect(result['data']['total_testcases']).to eq(1)
         expect(result['data']['submission_count']).to eq(2)
         expect(result['message']).to eq(I18n.t('success.message'))
         expect(response).to have_http_status(200)
