@@ -10,12 +10,12 @@ RSpec.describe Api::V1::SubmissionsController, type: :controller do
         stub_request(:post, url)
           .with(body: { stdin: 'hello', expected_output: 'hello', source_code: "print('hello')",
                         language_id: 71 }.to_json, headers: headers)
-          .to_return(status: 200, body: { stdout: "world\n", status: { description: 'Accepted' } }.to_json)
+          .to_return(status: 200, body: { stdout: 'hello', status: { description: 'Accepted' } }.to_json)
 
         stub_request(:post, url)
           .with(body: { stdin: 'world', expected_output: 'world', source_code: "print('hello')",
                         language_id: 71 }.to_json, headers: headers)
-          .to_return(status: 200, body: { stdout: "hello\n", status: { description: 'Wrong Answer' } }.to_json)
+          .to_return(status: 200, body: { stdout: 'hello', status: { description: 'Wrong Answer' } }.to_json)
 
         organization = create(:organization)
         user = create(:user)
