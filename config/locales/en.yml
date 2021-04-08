@@ -1,17 +1,11 @@
 en:
-  blank_input:
-    message: "input is empty"
-
-  ok:
-    message: "ok"
-
   hello: 'Hello world'
   message: 'Success'
 
   success:
     message: "Success"
   not_found:
-    message: "Record not found"
+    message: "Record Not Found"
   error:
     message: "Error, Please try again"
   create:
@@ -41,11 +35,19 @@ en:
     yet_to_start: "Drive is yet to start."
     started: "Drive has already started."
     ended: "Drive has already ended."
+  blank_input:
+    message: "Input is Empty"
+  ok:
+    message: "Ok"
+  token_not_found:
+    message: "Token is Not Present"
+  drive_not_found:
+    message: "Drive not found"
   submission:
     not_created:
-      message: "submission not created"
+      message: "Submission Not Created"
     limit_exceed:
-      message: "submission limit exceeded"
+      message: "Submission Limit Exceeded"
   candidate_list:
     success: "%{model_name} displayed successfully."
     error: "Error in showing %{model_name}"

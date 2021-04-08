@@ -176,8 +176,6 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
     listen (3.0.8)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
     loofah (2.9.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -337,6 +335,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   http
+  i18n
   letter_opener
   listen (>= 3.0.5, < 3.2)
   overcommit

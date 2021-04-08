@@ -78,7 +78,7 @@ RSpec.describe Api::V1::Admin::RulesController, type: :controller do
       context 'with invalid params' do
         it 'returns the not found error as passing random id which is not present in database' do
           patch :update, params: { id: Faker::Number.number(digits: 5) }
-          expect(response.body).to eq('Record not found')
+          expect(response.body).to eq(I18n.t('not_found.message'))
           expect(response).to have_http_status(404)
         end
       end
@@ -117,7 +117,7 @@ RSpec.describe Api::V1::Admin::RulesController, type: :controller do
         it 'returns the not found error as passing random id which is not present in database' do
           get :index, params: { id: Faker::Number.number }
 
-          expect(response.body).to eq('Record not found')
+          expect(response.body).to eq(I18n.t('not_found.message'))
           expect(response).to have_http_status(404)
         end
       end
