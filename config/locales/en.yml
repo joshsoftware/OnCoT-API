@@ -5,7 +5,7 @@ en:
   success:
     message: "Success"
   not_found:
-    message: "Record not found"
+    message: "Record Not Found"
   error:
     message: "Error, Please try again"
   create:
@@ -36,15 +36,15 @@ en:
     started: "Drive has already started."
     ended: "Drive has already ended."
   blank_input:
-    message: "input is empty"
+    message: "Input is Empty"
   ok:
-    message: "ok"
+    message: "Ok"
   token_not_found:
-    message: "token is not present"
+    message: "Token is Not Present"
   drive_not_found:
-    message: "drive not found"
+    message: "Drive not found"
   submission:
     not_created:
-      message: "submission not created"
+      message: "Dubmission Not Created"
     limit_exceed:
-      message: "submission limit exceeded"
+      message: "Submission Limit Exceeded"
