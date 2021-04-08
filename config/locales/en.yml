@@ -45,7 +45,7 @@ en:
     message: "Drive not found"
   submission:
     not_created:
-      message: "Dubmission Not Created"
+      message: "Submission Not Created"
     limit_exceed:
       message: "Submission Limit Exceeded"
   candidate_list:
