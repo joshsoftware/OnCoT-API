@@ -66,3 +66,4 @@ gem 'sassc-rails'
 
 gem 'simplecov', require: false
 gem 'will_paginate'
+gem 'figaro'
