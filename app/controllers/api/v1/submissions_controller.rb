@@ -45,9 +45,7 @@ module Api
       def get_status(testcase, passed)
         parameter = { stdin: testcase.input, expected_output: testcase.output, source_code: params[:source_code],
                       language_id: params[:language_id] }
-        headers = { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
-        response = JudgeZeroApi.new(parameter, headers).post('/submissions/?base64_encoded=false&wait=true')
-        body = JSON.parse(response.body)
+        body = JudgeZeroApi.new(parameter).post('/submissions/?base64_encoded=false&wait=true')
         if body['status']['description'] == 'Accepted'
           flag = true
           passed += 1

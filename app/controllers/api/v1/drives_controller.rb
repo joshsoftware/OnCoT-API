@@ -3,8 +3,16 @@
 module Api
   module V1
     class DrivesController < ApiController
-      before_action :load_drive
-      before_action :set_time_data
+      before_action :load_drive, only: :drive_time_left
+      before_action :set_time_data, only: :drive_time_left
+
+      def show
+        drives_candidate = DrivesCandidate.find_by(token: params[:id])
+        return render_error(message: I18n.t('token_not_found.message'), status: :not_found) unless drives_candidate
+
+        drive = Drive.find(drives_candidate.drive_id)
+        render_success(data: { drive: serialize_resource(drive, DriveSerializer) }, message: I18n.t('ok.message'))
+      end
 
       def drive_time_left
         if @time_left_to_start.negative?
