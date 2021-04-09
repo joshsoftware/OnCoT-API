@@ -20,14 +20,12 @@ module Api
 
       def drive_time_left
         if @time_left_to_start.negative?
-          message = if @time_left_already_stated.positive?
-                      I18n.t('drive.started')
-                    else
-                      I18n.t('drive.ended')
-                    end
+          message = @time_left_already_stated.positive? ? I18n.t('drive.started') : I18n.t('drive.ended')
+
           data = @time_left_already_stated
         else
           data = @time_left_to_start
+          message = I18n.t('drive.yet_to_start')
         end
         render_success(data: data, message: message)
       end
