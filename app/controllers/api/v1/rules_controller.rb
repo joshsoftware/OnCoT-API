@@ -4,7 +4,7 @@ module Api
   module V1
     class RulesController < ApiController
       def index
-        drive = Drive.find(params[:id])
+        drive = Drive.find(params[:drive_id])
         rules = drive.rules
 
         render_success(data: { rules: serialize_resource(rules, RuleSerializer) },
