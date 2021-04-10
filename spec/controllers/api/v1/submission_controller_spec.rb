@@ -20,9 +20,9 @@ RSpec.describe Api::V1::SubmissionsController, type: :controller do
         organization = create(:organization)
         user = create(:user)
         candidate = create(:candidate)
-        drive = create(:drive, updated_by_id: user.id, organization: organization,
-                               created_by_id: user.id)
-        create(:drives_candidate, candidate_id: candidate.id, drive_id: drive.id)
+        @drive = create(:drive, updated_by_id: user.id, organization: organization,
+                                created_by_id: user.id)
+        create(:drives_candidate, candidate_id: candidate.id, drive_id: @drive.id)
         problem = create(:problem, updated_by_id: user.id, created_by_id: user.id,
                                    organization: organization)
         create(:test_case, problem_id: problem.id, marks: 4, updated_by_id: user.id,
@@ -32,7 +32,7 @@ RSpec.describe Api::V1::SubmissionsController, type: :controller do
 
         headers
         post :create, params: { source_code: "print('hello')", language_id: 71, candidate_id: candidate.id, id: problem.id,
-                                submission_count: 3 }
+                                submission_count: 3, drive_id: @drive.id }
       end
 
       it 'creates submission in database' do

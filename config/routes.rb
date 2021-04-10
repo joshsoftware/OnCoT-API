@@ -38,6 +38,10 @@ Rails.application.routes.draw do
         get :submission_status, on: :member
       end
 
+      resources :drives do
+        resources :candidate_results, only: [:show]
+      end
+
       namespace :admin do
         resources :problems, except: [:destroy]
         resources :reviewers

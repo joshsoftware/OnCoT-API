@@ -25,6 +25,7 @@ RSpec.describe Submission do
       @submission.run_callbacks :create
 
       expect(@drives_candidate.reload.score).to eq(4)
+      expect(@drives_candidate.reload.answer_id).to eq(@submission.id)
     end
   end
 end
