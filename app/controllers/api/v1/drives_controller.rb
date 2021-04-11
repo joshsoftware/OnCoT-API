@@ -37,9 +37,9 @@ module Api
       end
 
       def set_time_data
-        drive_start_time = @drive.start_time.localtime
-        drive_end_time = @drive.end_time.localtime
-        current_time = DateTime.now.localtime
+        drive_start_time = @drive.start_time
+        drive_end_time = @drive.end_time
+        current_time = DateTime.now
         @time_left_to_start = drive_start_time - current_time
         @time_left_already_stated = drive_end_time - current_time
       end
