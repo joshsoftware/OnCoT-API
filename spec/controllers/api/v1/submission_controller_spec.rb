@@ -50,7 +50,7 @@ RSpec.describe Api::V1::SubmissionsController, type: :controller do
       end
     end
 
-    context 'with submissions created equal to submission_count' do
+    context 'when candiadte submissions equal to submission_count are present' do
       before do
         organization = create(:organization)
         user = create(:user)
