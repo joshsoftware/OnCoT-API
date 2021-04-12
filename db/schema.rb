@@ -69,7 +69,6 @@ ActiveRecord::Schema.define(version: 20_210_410_120_741) do
     t.datetime 'updated_at', null: false
     t.datetime 'completed_at'
     t.integer 'score'
-    t.integer 'answer_id'
     t.index ['candidate_id'], name: 'index_drives_candidates_on_candidate_id'
     t.index ['drive_id'], name: 'index_drives_candidates_on_drive_id'
   end

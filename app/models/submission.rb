@@ -15,9 +15,6 @@ class Submission < ApplicationRecord
 
     submits = submits.select('submissions.id as submission_id, sum(test_cases.marks) as marks').group('submissions.id')
     final_marks = submits.map(&:marks).max
-    submits.each do |submit|
-      drives_candidate.update(answer_id: submit.submission_id) if submit.marks == final_marks
-    end
     drives_candidate.update(score: final_marks)
   end
 end
