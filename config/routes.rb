@@ -37,7 +37,7 @@ Rails.application.routes.draw do
         post :submission_token, on: :collection
         get :submission_status, on: :member
       end
-      
+
       namespace :admin do
         resources :problems, except: [:destroy]
         resources :reviewers
