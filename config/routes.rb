@@ -37,11 +37,6 @@ Rails.application.routes.draw do
         post :submission_token, on: :collection
         get :submission_status, on: :member
       end
-
-      resources :drives do
-        resources :candidate_results, only: [:show]
-      end
-
       namespace :admin do
         resources :problems, except: [:destroy]
         resources :reviewers
