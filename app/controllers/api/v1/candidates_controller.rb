@@ -31,7 +31,8 @@ module Api
       def candidate_test_time_left
         @drive_candidate.save if @drive_candidate && @drive_candidate.start_time.nil?
 
-        time_left = (@duration.to_f * 60) - (DateTime.now.localtime - @drive_candidate.start_time.localtime).to_f
+        time_left = (@duration.to_f * 60) - (DateTime.now.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))
+                                             - @drive_candidate.start_time.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))).to_f
 
         message = if time_left.negative?
                     I18n.t('test.time_over')
@@ -75,7 +76,7 @@ module Api
       end
 
       def set_start_time
-        @drive_candidate.start_time = DateTime.now.localtime
+        @drive_candidate.start_time = DateTime.now.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))
       end
 
       def check_emails_present

@@ -37,9 +37,9 @@ module Api
       end
 
       def set_time_data
-        drive_start_time = @drive.start_time
-        drive_end_time = @drive.end_time
-        current_time = DateTime.now
+        drive_start_time = @drive.start_time.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))
+        drive_end_time = @drive.end_time.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))
+        current_time = DateTime.now.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))
         @time_left_to_start = drive_start_time - current_time
         @time_left_already_stated = drive_end_time - current_time
       end
