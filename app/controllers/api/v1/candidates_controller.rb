@@ -4,7 +4,6 @@ module Api
   module V1
     class CandidatesController < ApiController
       before_action :load_drive, only: %i[candidate_test_time_left invite]
-      before_action :load_duration, only: :candidate_test_time_left
       before_action :load_drive_candidate, only: :candidate_test_time_left
       before_action :set_start_time, only: :candidate_test_time_left
       before_action :check_emails_present, only: :invite
@@ -31,9 +30,9 @@ module Api
       def candidate_test_time_left
         @drive_candidate.save if @drive_candidate && @drive_candidate.start_time.nil?
 
-        time_left = (@duration.to_f * 60) - (DateTime.now.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))
-                                             - @drive_candidate.start_time.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))).to_f
-
+        time_left = @drive.end_time.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')) -
+                    DateTime.now.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))
+        time_left -= 330.minutes
         message = if time_left.negative?
                     I18n.t('test.time_over')
                   else
@@ -65,10 +64,6 @@ module Api
 
       def load_drive
         @drive = Drive.find_by!(id: params[:drife_id])
-      end
-
-      def load_duration
-        @duration = @drive&.duration
       end
 
       def load_drive_candidate
