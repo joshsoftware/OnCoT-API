@@ -31,8 +31,9 @@ module Api
       def candidate_test_time_left
         @drive_candidate.save if @drive_candidate && @drive_candidate.start_time.nil?
 
-        time_left = (@duration.to_f * 60) - (DateTime.now.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))
-                                             - @drive_candidate.start_time.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))).to_f
+        time_left = @drive.end_time.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')) -
+                    DateTime.now.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))
+        time_left -= 330.minutes
 
         message = if time_left.negative?
                     I18n.t('test.time_over')
