@@ -21,11 +21,9 @@ module Api
       def drive_time_left
         if @time_left_to_start.negative?
           message = @time_left_already_stated.positive? ? I18n.t('drive.started') : I18n.t('drive.ended')
-
-          data = @time_left_already_stated
+          data = nil
         else
           data = @time_left_to_start
-          data -= 330.minutes
           message = I18n.t('drive.yet_to_start')
         end
         render_success(data: data, message: message)
@@ -38,9 +36,9 @@ module Api
       end
 
       def set_time_data
-        drive_start_time = @drive.start_time.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))
-        drive_end_time = @drive.end_time.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))
-        current_time = DateTime.now.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))
+        drive_start_time = @drive.start_time.localtime
+        drive_end_time = @drive.end_time.localtime
+        current_time = DateTime.now.localtime
         @time_left_to_start = drive_start_time - current_time
         @time_left_already_stated = drive_end_time - current_time
       end

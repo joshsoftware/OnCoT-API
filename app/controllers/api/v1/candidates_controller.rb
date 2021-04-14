@@ -19,7 +19,10 @@ module Api
 
       def update
         candidate = Candidate.find(params[:id])
+
         if candidate.update(candidate_params)
+          update_drives_candidate(params[:id], params[:drife_id])
+
           render_success(data: { candidate: serialize_resource(candidate, CandidateSerializer) },
                          message: I18n.t('update.success', model_name: 'Candidate'))
         else
@@ -31,9 +34,7 @@ module Api
       def candidate_test_time_left
         @drive_candidate.save if @drive_candidate && @drive_candidate.start_time.nil?
 
-        time_left = @drive.end_time.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata')) -
-                    DateTime.now.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))
-        time_left -= 330.minutes
+        time_left = @drive.end_time.localtime - DateTime.now.localtime
 
         message = if time_left.negative?
                     I18n.t('test.time_over')
@@ -82,6 +83,12 @@ module Api
 
       def check_emails_present
         return render_error(message: I18n.t('blank_input.message')) if params[:emails].blank?
+      end
+
+      def update_drives_candidate(id, drive_id)
+        drives_candidate = DrivesCandidate.find_by(candidate_id: id, drive_id: drive_id)
+
+        return if drives_candidate.update(start_time: DateTime.now.localtime, end_time: DateTime.now.localtime + 1.hours)
       end
     end
   end
