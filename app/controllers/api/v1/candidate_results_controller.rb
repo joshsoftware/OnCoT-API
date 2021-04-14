@@ -7,8 +7,6 @@ module Api
       def show
         passed = []
         failed = []
-        # passed  = @test_case_results.where(is_passed == true)
-        # failed = @test_case_results.where(is_passed == false)
         @test_case_results.each do |test_case_result|
           if test_case_result.is_passed == true
             passed << test_case_result.test_case
@@ -19,17 +17,19 @@ module Api
         render_success(data: { code: @submission.answer, passed: passed, failed: failed })
       end
 
+      private
+
       def find_data
         drives_candidate = DrivesCandidate.find_by(candidate_id: params[:id], drive_id: params[:drife_id])
-        submits = Submission.joins(test_case_results: [:test_case]).where(drives_candidate_id: drives_candidate.id,
-                                                                          problem_id: params[:problem_id],
-                                                                          test_case_results: { is_passed: true })
-        submits = submits.select('submissions.id as submission_id, sum(test_cases.marks) as marks').group('submissions.id')
-        arr = submits.map(&:marks)
-        max_mark = arr.max
-        idd = submits[arr.find_index(max_mark)].submission_id
-        @submission = Submission.find(idd)
+        submission_id = find_max_submission_id(drives_candidate.id)
+        @submission = Submission.find(submission_id)
         @test_case_results = TestCaseResult.where(submission_id: @submission.id)
+      end
+
+      def find_max_submission_id(id)
+        submissions = Submission.get_submissions(id, params[:problem_id])
+        marks = submissions.map(&:marks)
+        submissions[marks.find_index(marks.max)].submission_id
       end
     end
   end

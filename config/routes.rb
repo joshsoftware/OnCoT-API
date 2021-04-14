@@ -25,7 +25,6 @@ Rails.application.routes.draw do
       resources :candidates, only: %i[update show]
       post 'invite', to: 'candidates#invite'
       get '/drives/:id/problem' => 'problems#index'
-      get '/drives/:drife_id/problems/:problem_id/candidate_results/:id' => 'candidate_results#show'
 
       resources :submissions, only: [:create]
 
@@ -39,11 +38,11 @@ Rails.application.routes.draw do
         get :submission_status, on: :member
       end
 
-      # resources :drives do
-      #   resources :problems do
-      #     get :candidate_results, only: [:show]
-      #   end
-      # end
+      resources :drives do
+        resources :problems do
+          resources :candidate_results, only: [:show]
+        end
+      end
 
       namespace :admin do
         resources :problems, except: [:destroy]
