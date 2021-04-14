@@ -32,7 +32,7 @@ RSpec.describe Api::V1::SubmissionsController, type: :controller do
 
         headers
         post :create, params: { source_code: "print('hello')", language_id: 71, candidate_id: candidate.id, id: problem.id,
-                                submission_count: 3 }
+                                submission_count: 3, drive_id: drive.id }
       end
 
       it 'creates submission in database' do

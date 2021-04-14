@@ -33,7 +33,7 @@ RSpec.describe Api::V1::DrivesController, type: :controller do
 
         data = json
 
-        expect(data['data']['drive']['name']).to eq(drive1.name)
+        expect(data['data']['name']).to eq(drive1.name)
         expect(response).to have_http_status(200)
       end
     end
@@ -41,7 +41,7 @@ RSpec.describe Api::V1::DrivesController, type: :controller do
       it 'fails request' do
         get :show, params: { id: Faker::Number.number }
 
-        expect(response.body).to eq(I18n.t('token_not_found.message'))
+        expect(response.body).to eq(I18n.t('drive_not_found.message'))
         expect(response).to have_http_status(404)
       end
     end
