@@ -78,7 +78,7 @@ module Api
       end
 
       def set_start_time
-        @drive_candidate.start_time = DateTime.now.in_time_zone(TZInfo::Timezone.get('Asia/Kolkata'))
+        @drive_candidate.start_time = DateTime.now.localtime
       end
 
       def check_emails_present

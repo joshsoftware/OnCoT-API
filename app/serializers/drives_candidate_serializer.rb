@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# frozen_string_literal: true
-
 class DrivesCandidateSerializer < ActiveModel::Serializer
   attributes :candidate_id, :first_name, :last_name, :email, :score, :end_times
 
