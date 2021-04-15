@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-
+require 'csv'
 RSpec.describe Api::V1::ResultsController, type: :controller do
   describe 'GET #index' do
     before do
@@ -32,6 +32,26 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
       expect(result['data'][1]['end_times']).to eq(@drives_candidate2.end_time.iso8601.to_s)
       expect(result['message']).to eq(I18n.t('success.message'))
       expect(response).to have_http_status(200)
+    end
+  end
+
+  describe 'GET#csv_result' do
+    before do
+      organization = create(:organization)
+      user = create(:user)
+      @candidate = create(:candidate, first_name: 'abc', last_name: 'xyz', email: 'ab@gmail.com')
+      @drive = create(:drive, updated_by_id: user.id, created_by_id: user.id,
+                              organization: organization)
+      @drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: @candidate.id, score: 8)
+    end
+
+    it 'returns candidate result data in csv' do
+      get :csv_result, params: { drife_id: @drive.id }, format: :csv
+
+      expected_row = [['email', 'ab@gmail.com'], %w[first_name abc], %w[last_name xyz], %w[score 8]]
+      table = CSV.parse(File.read('result_file.csv'), headers: true)
+      csv_row = table.by_row[0]
+      expect(expected_row).to match_array(csv_row)
     end
   end
 end

@@ -29,7 +29,9 @@ Rails.application.routes.draw do
       resources :submissions, only: [:create]
 
       resources :drives do
-        resources :results, only: [:index]
+        resources :results, only: [:index] do
+          get :csv_result, on: :collection
+        end
       end
       resources :drives_candidates, only: [:update]
 

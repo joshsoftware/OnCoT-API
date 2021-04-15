@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'csv'
 module Api
   module V1
     class ResultsController < ApiController
@@ -7,6 +8,16 @@ module Api
       def index
         render_success(data: serialize_resource(@drives_candidates, DrivesCandidateSerializer),
                        message: I18n.t('success.message', model_name: DrivesCandidate))
+      end
+
+      def csv_result
+        CSV.open('result_file.csv', 'w') do |csv|
+          csv << %w[first_name last_name email score]
+          @drives_candidates.each do |drives_candidate|
+            candidate = drives_candidate.candidate
+            csv << [candidate.first_name, candidate.last_name, candidate.email, drives_candidate.score]
+          end
+        end
       end
 
       private
