@@ -4,7 +4,6 @@ module Api
   module V1
     class CandidatesController < ApiController
       before_action :load_drive, only: %i[candidate_test_time_left invite]
-      before_action :load_duration, only: :candidate_test_time_left
       before_action :load_drive_candidate, only: :candidate_test_time_left
       before_action :set_start_time, only: :candidate_test_time_left
       before_action :check_emails_present, only: :invite
@@ -65,10 +64,6 @@ module Api
 
       def load_drive
         @drive = Drive.find_by!(id: params[:drife_id])
-      end
-
-      def load_duration
-        @duration = @drive&.duration
       end
 
       def load_drive_candidate
