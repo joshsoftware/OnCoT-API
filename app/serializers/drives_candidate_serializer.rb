@@ -4,15 +4,15 @@ class DrivesCandidateSerializer < ActiveModel::Serializer
   attributes :candidate_id, :first_name, :last_name, :email, :score, :end_times
 
   def first_name
-    Candidate.find(object.candidate_id).first_name
+    object.candidate.first_name
   end
 
   def last_name
-    Candidate.find(object.candidate_id).last_name
+    object.candidate.last_name
   end
 
   def email
-    Candidate.find(object.candidate_id).email
+    object.candidate.email
   end
 
   def end_times
