@@ -39,10 +39,10 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
     before do
       organization = create(:organization)
       user = create(:user)
-      @candidate = create(:candidate, first_name: 'abc', last_name: 'xyz', email: 'ab@gmail.com')
+      candidate = create(:candidate, first_name: 'abc', last_name: 'xyz', email: 'ab@gmail.com')
       @drive = create(:drive, updated_by_id: user.id, created_by_id: user.id,
                               organization: organization)
-      @drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: @candidate.id, score: 8)
+      create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate.id, score: 8)
     end
 
     it 'returns candidate result data in csv' do
