@@ -21,8 +21,6 @@ module Api
         candidate = Candidate.find(params[:id])
 
         if candidate.update(candidate_params)
-          update_drives_candidate(params[:id], params[:drife_id])
-
           render_success(data: { candidate: serialize_resource(candidate, CandidateSerializer) },
                          message: I18n.t('update.success', model_name: 'Candidate'))
         else
