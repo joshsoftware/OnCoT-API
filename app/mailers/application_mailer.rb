@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationMailer < ActionMailer::Base
-  default from: 'somnath.surwase@joshsoftware.com'
+  default from: ENV['GMAIL_USER_NAME']
   layout 'mailer'
 end
