@@ -124,6 +124,8 @@ Rails.application.configure do
     domain: 'gmail.com',
     user_name: ENV['GMAIL_USER_NAME'],
     password: ENV['GMAIL_PASSWORD'],
-    authentication: 'plain'
+    authentication: 'plain',
+    enable_starttls_auto: true,
+    openssl_verify_mode: 'none'
   }
 end
