@@ -125,8 +125,6 @@ Rails.application.configure do
     domain: 'oncot-apis.herokuapp.com',
     user_name: ENV['GMAIL_USER_NAME'],
     password: ENV['GMAIL_PASSWORD'],
-    authentication: 'plain',
-    enable_starttls_auto: true,
-    openssl_verify_mode: 'none'
+    authentication: 'plain'
   }
 end
