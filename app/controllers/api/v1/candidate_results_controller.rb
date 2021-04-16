@@ -5,15 +5,8 @@ module Api
     class CandidateResultsController < ApiController
       before_action :find_data
       def show
-        passed = []
-        failed = []
-        @test_case_results.each do |test_case_result|
-          if test_case_result.is_passed == true
-            passed << test_case_result.test_case
-          else
-            failed << test_case_result.test_case
-          end
-        end
+        passed = @test_case_results.select { |test_case_result| test_case_result.is_passed = true }.map(&:test_case)
+        failed = @test_case_results.select { |test_case_result| test_case_result.is_passed = false }.map(&:test_case)
         render_success(data: { code: @submission.answer, passed: passed, failed: failed })
       end
 
