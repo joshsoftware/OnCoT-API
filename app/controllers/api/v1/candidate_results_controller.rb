@@ -19,7 +19,7 @@ module Api
       end
 
       def find_max_submission_id(id)
-        submissions = Submission.get_submissions(id, params[:problem_id])
+        submissions = Submission.submissions_with_passed_testcases(id, params[:problem_id])
         marks = submissions.map(&:marks)
         submissions[marks.find_index(marks.max)].submission_id
       end
