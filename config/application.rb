@@ -31,7 +31,8 @@ module OncotApi
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    # config.time_zone = "Central Time (US & Canada)"
+    config.time_zone = 'Mumbai'
+    config.active_record.default_timezone = :local
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Only loads a smaller set of middleware suitable for API only apps.
@@ -43,12 +44,6 @@ module OncotApi
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
     config.before_configuration do
-      env_file = File.join(Rails.root, 'config', 'local_env.yml')
-      if File.exist?(env_file)
-        YAML.safe_load(File.open(env_file)).each do |key, value|
-          ENV[key.to_s] = value
-        end
-      end
     end
   end
 end

@@ -48,7 +48,7 @@ module Api
         private
 
         def problem_params
-          params.permit(:id, :title, :description, :drive_id)
+          params.permit(:id, :title, :description, :drive_id, :submission_count)
         end
       end
     end

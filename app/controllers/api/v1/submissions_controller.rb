@@ -3,13 +3,12 @@
 module Api
   module V1
     class SubmissionsController < ApiController
+      before_action :find_data
       def create
-        submission_count = params[:submission_count]
-        if submission_count.positive?
-          submission = create_submission(submission_count)
-          result = find_result(submission.first)
-          render_success(data: { passed_testcases: result[0], total_testcases: result[1],
-                                 submission_count: submission[1] }, message: I18n.t('success.message'))
+        if @drives_candidate.submissions.count < @submission_count
+          submission_id = create_submission
+          result = find_result(submission_id)
+          render_success(data: { passed_testcases: result[0], total_testcases: result[1] }, message: I18n.t('success.message'))
         else
           render_error(message: I18n.t('submission.limit_exceed.message'))
         end
@@ -17,15 +16,18 @@ module Api
 
       private
 
-      def create_submission(submission_count)
-        drives_candidate = DrivesCandidate.find_by(candidate_id: params[:candidate_id])
-        if (submission = Submission.create(problem_id: params[:id], drives_candidate_id: drives_candidate.id,
+      def find_data
+        @submission_count = Problem.find(params[:id]).submission_count
+        @drives_candidate = DrivesCandidate.find_by(candidate_id: params[:candidate_id], drive_id: params[:drive_id])
+      end
+
+      def create_submission
+        if (submission = Submission.create(problem_id: params[:id], drives_candidate_id: @drives_candidate.id,
                                            answer: params[:source_code]))
-          submission_count -= 1
+          submission.id
         else
           render_error(message: I18n.t('submission.not_created.message'))
         end
-        [submission.id, submission_count]
       end
 
       def find_result(submission_id)
