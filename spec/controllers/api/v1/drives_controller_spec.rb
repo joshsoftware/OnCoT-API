@@ -33,7 +33,7 @@ RSpec.describe Api::V1::DrivesController, type: :controller do
 
         data = json
 
-        expect(data['data']['name']).to eq(drive1.name)
+        expect(data['data']['drive']['name']).to eq(drive1.name)
         expect(response).to have_http_status(200)
       end
     end
