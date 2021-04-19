@@ -341,6 +341,7 @@ DEPENDENCIES
   i18n
   letter_opener
   listen (>= 3.0.5, < 3.2)
+  mail
   overcommit
   pg (>= 0.18, < 2.0)
   puma (~> 3.11)

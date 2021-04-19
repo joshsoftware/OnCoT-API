@@ -31,6 +31,7 @@ Rails.application.routes.draw do
       resources :drives do
         resources :results, only: [:index]
       end
+      get 'drives/:token', to: 'drives#show'
       resources :drives_candidates, only: [:update]
 
       resources :executions do
@@ -43,6 +44,8 @@ Rails.application.routes.draw do
           resources :candidate_results, only: [:show]
         end
       end
+      # resources :rules, only: %i[index]
+      get '/drives/:drive_id/rules', to: 'rules#index'
 
       namespace :admin do
         resources :problems, except: [:destroy]
