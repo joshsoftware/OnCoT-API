@@ -10,7 +10,7 @@ RSpec.describe Api::V1::Admin::TestCasesController, type: :controller do
     create(:problem, created_by_id: user.id,
                      updated_by_id: user.id, organization: organization)
   end
-  let(:test_case) do
+  let!(:test_case) do
     create(:test_case, problem_id: problem.id, created_by_id: user.id,
                        updated_by_id: user.id)
   end
@@ -150,7 +150,7 @@ RSpec.describe Api::V1::Admin::TestCasesController, type: :controller do
         get :index, params: { problem_id: problem.id }
 
         test_cases = json
-        expect(test_cases['data']['test_cases'].count).to eq(TestCase.count)
+        expect(test_cases['data']['test_cases'].count).to eq(1)
         expect(response).to have_http_status(:ok)
       end
     end
