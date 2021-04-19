@@ -39,6 +39,11 @@ Rails.application.routes.draw do
         get :submission_status, on: :member
       end
 
+      resources :drives do
+        resources :problems do
+          resources :candidate_results, only: [:show]
+        end
+      end
       # resources :rules, only: %i[index]
       get '/drives/:drive_id/rules', to: 'rules#index'
 
