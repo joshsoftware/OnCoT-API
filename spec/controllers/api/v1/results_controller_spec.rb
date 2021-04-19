@@ -29,7 +29,6 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
       expect(result['data'][0]['end_times']).to eq(@drives_candidate1.completed_at.iso8601.to_s)
       expect(result['data'][1]['candidate_id']).to eq(@drives_candidate2.id)
       expect(result['data'][1]['score']).to eq(10)
-      expect(result['data'][1]['end_times']).to eq(@drives_candidate2.end_time.iso8601.to_s)
       expect(result['message']).to eq(I18n.t('success.message'))
       expect(response).to have_http_status(200)
     end
