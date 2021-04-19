@@ -33,12 +33,16 @@ Rails.application.routes.draw do
           get :csv_result, on: :collection
         end
       end
+      get 'drives/:token', to: 'drives#show'
       resources :drives_candidates, only: [:update]
 
       resources :executions do
         post :submission_token, on: :collection
         get :submission_status, on: :member
       end
+
+      # resources :rules, only: %i[index]
+      get '/drives/:drive_id/rules', to: 'rules#index'
 
       namespace :admin do
         resources :problems, except: [:destroy]

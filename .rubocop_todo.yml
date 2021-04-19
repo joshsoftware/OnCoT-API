@@ -22,6 +22,7 @@ Metrics/BlockLength:
     - 'db/schema.rb'
     - 'app/admin/*'
     - 'config/environments/development.rb'
+    - 'config/environments/production.rb'
     - 'config/routes.rb'
     - 'app/controllers/drives_controller_spec.rb'
     - 'app/controllers/api/v1/admin/reviewers_controller_spec.rb'

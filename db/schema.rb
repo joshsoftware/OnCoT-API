@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(version: 20_210_410_120_741) do
     t.bigint 'updated_by_id'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.boolean 'is_active'
     t.index ['created_by_id'], name: 'index_test_cases_on_created_by_id'
     t.index ['problem_id'], name: 'index_test_cases_on_problem_id'
     t.index ['updated_by_id'], name: 'index_test_cases_on_updated_by_id'
