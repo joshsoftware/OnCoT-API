@@ -12,7 +12,7 @@ module Api
 
       def csv_result
         CSV.open('result_file.csv', 'w') do |csv|
-          csv << %w[First_name Last_name Email Score]
+          csv << ['First Name', 'Last Name', 'Email', 'Score']
           @drives_candidates.each do |drives_candidate|
             candidate = drives_candidate.candidate
             csv << [candidate.first_name, candidate.last_name, candidate.email, drives_candidate.score]
