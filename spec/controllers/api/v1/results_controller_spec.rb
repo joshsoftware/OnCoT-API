@@ -35,7 +35,7 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
     end
   end
 
-  describe 'GET#csv_result' do
+  describe 'GET #csv_result' do
     before do
       organization = create(:organization)
       user = create(:user)
@@ -48,7 +48,7 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
     it 'returns candidate result data in csv' do
       get :csv_result, params: { drife_id: @drive.id }, format: :csv
 
-      expected_row = [['email', 'kiran@gmail.com'], %w[first_name Kiran], %w[last_name Patil], %w[score 8]]
+      expected_row = [['Email', 'kiran@gmail.com'], %w[First_name Kiran], %w[Last_name Patil], %w[Score 8]]
       table = CSV.parse(File.read('result_file.csv'), headers: true)
       csv_row = table.by_row[0]
       expect(expected_row).to match_array(csv_row)
