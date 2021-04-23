@@ -29,9 +29,7 @@ Rails.application.routes.draw do
       resources :submissions, only: [:create]
 
       resources :drives do
-        resources :results, only: [:index] do
-          get :csv_result, on: :collection
-        end
+        resources :results, only: [:index]
       end
       get 'drives/:token', to: 'drives#show'
       resources :drives_candidates, only: [:update]
@@ -44,8 +42,12 @@ Rails.application.routes.draw do
       resources :drives do
         resources :problems do
           resources :candidate_results, only: [:show]
+          resources :results do
+            get :csv_result, on: :collection
+          end
         end
       end
+
       # resources :rules, only: %i[index]
       get '/drives/:drive_id/rules', to: 'rules#index'
 
