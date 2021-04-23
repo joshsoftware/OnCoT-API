@@ -25,18 +25,6 @@ module Api
         @drives_candidates = drive.drives_candidates
       end
 
-      def find_max_marks_submission_id(id)
-        submissions = Submission.submissions_with_passed_testcases(id, params[:problem_id])
-        marks = submissions.map(&:marks)
-        submissions[marks.find_index(marks.max)].submission_id
-      end
-
-      def find_passed_testcases(id)
-        passed_test_cases = TestCase.joins(:test_case_result).where(test_case_result: { is_passed: true, submission_id: id })
-        passed_test_cases_details = passed_test_cases.select('id', 'output', 'input').to_a
-        [passed_test_cases_details, passed_test_cases.count]
-      end
-
       def write_csv_file
         CSV.open('result_file.csv', 'w') do |csv|
           csv << ['First Name', 'Last Name', 'Email', 'Score', 'Passed Testcases', 'Passed Testcase Count']
@@ -48,6 +36,18 @@ module Api
                     passed[1]]
           end
         end
+      end
+
+      def find_max_marks_submission_id(id)
+        submissions = Submission.submissions_with_passed_testcases(id, params[:problem_id])
+        marks = submissions.map(&:marks)
+        submissions[marks.find_index(marks.max)].submission_id
+      end
+
+      def find_passed_testcases(id)
+        passed_test_cases = TestCase.joins(:test_case_result).where(test_case_result: { is_passed: true, submission_id: id })
+        passed_test_cases_details = passed_test_cases.select('id', 'output', 'input').to_a
+        [passed_test_cases_details, passed_test_cases.count]
       end
     end
   end
