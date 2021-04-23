@@ -42,10 +42,10 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
       candidate = create(:candidate, first_name: 'Kiran', last_name: 'Patil', email: 'kiran@gmail.com')
       @drive = create(:drive, updated_by_id: user.id, created_by_id: user.id,
                               organization: organization)
-      drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate.id, score: 8)
+      drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate.id)
       @problem = create(:problem, updated_by_id: user.id, created_by_id: user.id,
                                   organization: organization, submission_count: 3)
-      test_case = create(:test_case, problem_id: @problem.id,  updated_by_id: user.id, marks: 8, input: 'hello', output: 'hello',
+      test_case = create(:test_case, problem_id: @problem.id,  updated_by_id: user.id, input: 'hello', output: 'hello',
                                      created_by_id: user.id, is_active: true)
 
       submission1 = create(:submission, problem_id: @problem.id, drives_candidate_id: drives_candidate.id)
@@ -59,11 +59,11 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
     it 'returns candidate result data in csv' do
       get :csv_result, params: { drife_id: @drive.id, problem_id: @problem.id }, format: :csv
 
-      expected_row = [['First Name', 'Kiran'], ['Last Name', 'Patil'],['Email', 'kiran@gmail.com'], ['Passed Testcase Count', '1'], 
-                      ['Score', 8], ['Testcases Passed', '[#<TestCase id: 14, input: "hello", output: "hello">]']]
+      actual_row = [['First Name', 'Kiran'], ['Last Name', 'Patil'], ['Email', 'kiran@gmail.com'], ['Passed Testcase Count', '1'],
+                    ['Score', nil], ['Passed Testcases', '[#<TestCase id: 14, input: "hello", output: "hello">]']]
       table = CSV.parse(File.read('result_file.csv'), headers: true)
-      csv_row = table.by_row[0]
-      expect(expected_row).to match_array(csv_row)
+      expected_row = table.by_row[0]
+      expect(expected_row).to match_array(actual_row)
     end
   end
 end
