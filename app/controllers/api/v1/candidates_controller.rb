@@ -20,6 +20,8 @@ module Api
         candidate = Candidate.find(params[:id])
 
         if candidate.update(candidate_params)
+          update_drives_candidate(candidate.id, params[:drive_id])
+
           render_success(data: { candidate: serialize_resource(candidate, CandidateSerializer) },
                          message: I18n.t('update.success', model_name: 'Candidate'))
         else
@@ -79,9 +81,10 @@ module Api
       end
 
       def update_drives_candidate(id, drive_id)
-        drives_candidate = DrivesCandidate.find_by(candidate_id: id, drive_id: drive_id)
+        drive = Drive.find(drive_id)
+        drives_candidate = DrivesCandidate.find_by(candidate_id: id, drive_id: drive.id)
 
-        return if drives_candidate.update(start_time: DateTime.now.localtime, end_time: DateTime.now.localtime + 1.hours)
+        return if drives_candidate.update(start_time: DateTime.now, end_time: DateTime.now + 1.hours)
       end
     end
   end

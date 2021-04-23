@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_408_062_126) do
+ActiveRecord::Schema.define(version: 20_210_422_181_512) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -82,6 +82,12 @@ ActiveRecord::Schema.define(version: 20_210_408_062_126) do
     t.index ['problem_id'], name: 'index_drives_problems_on_problem_id'
   end
 
+  create_table 'images', force: :cascade do |t|
+    t.string 'url'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+  end
+
   create_table 'organizations', force: :cascade do |t|
     t.string 'name'
     t.text 'description'
@@ -118,6 +124,16 @@ ActiveRecord::Schema.define(version: 20_210_408_062_126) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['drive_id'], name: 'index_rules_on_drive_id'
+  end
+
+  create_table 'snapshots', force: :cascade do |t|
+    t.string 'url', null: false
+    t.bigint 'drive_id', null: false
+    t.bigint 'candidate_id', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['candidate_id'], name: 'index_snapshots_on_candidate_id'
+    t.index ['drive_id'], name: 'index_snapshots_on_drive_id'
   end
 
   create_table 'submissions', force: :cascade do |t|

@@ -5,7 +5,7 @@ class CandidateMailer < ApplicationMailer
     @token = drive_candidate.token.to_s
     @drive = drive_candidate.drive
 
-    mail(to: user.email, from: Figaro.env.MAIL_USERNAME, subject: "Invitation for #{@drive.organization.name}
+    mail(to: user.email, subject: "Invitation for #{@drive.organization.name}
       #{@drive.name} coding round by OnCot",
          message: 'Link has been sent')
   end

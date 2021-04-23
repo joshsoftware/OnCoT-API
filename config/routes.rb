@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       resources :drives do
         get :drive_time_left, on: :member
       end
+      resources :snapshots, only: %i[index show create]
 
       resources :drives do
         resources :candidates do

@@ -15,7 +15,7 @@ RSpec.describe Api::V1::CandidatesController, type: :controller do
       it 'updates the particular candidate details' do
         params = {
           id: @candidate.id,
-          drife_id: @drive.id,
+          drive_id: @drive.id,
           first_name: Faker::Name.name
         }
         expect do
