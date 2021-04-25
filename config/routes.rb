@@ -42,9 +42,9 @@ Rails.application.routes.draw do
       resources :drives do
         resources :problems do
           resources :candidate_results, only: [:show]
-          resources :results do
-            get :csv_result, on: :collection
-          end
+        end
+        resources :results do
+          get :csv_result, on: :collection
         end
       end
 

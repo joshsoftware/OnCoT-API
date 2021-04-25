@@ -30,10 +30,12 @@ module Api
           csv << ['First Name', 'Last Name', 'Email', 'Score', 'Passed Testcases', 'Passed Testcase Count']
           @drives_candidates.each do |drives_candidate|
             candidate = drives_candidate.candidate
-            id = find_max_marks_submission_id(drives_candidate.id)
-            passed = find_passed_testcases(id)
-            csv << [candidate.first_name, candidate.last_name, candidate.email, drives_candidate.score, passed.first,
-                    passed[1]]
+            submission = drives_candidate.submissions.order('total_marks desc').first
+            if submission
+              passed = find_passed_testcases(submission.id)
+              csv << [candidate.first_name, candidate.last_name, candidate.email, drives_candidate.score, passed.first,
+                      passed[1]]
+            end
           end
         end
       end
@@ -41,11 +43,12 @@ module Api
       def find_max_marks_submission_id(id)
         submissions = Submission.submissions_with_passed_testcases(id, params[:problem_id])
         marks = submissions.map(&:marks)
+
         submissions[marks.find_index(marks.max)].submission_id
       end
 
-      def find_passed_testcases(id)
-        passed_test_cases = TestCase.joins(:test_case_result).where(test_case_result: { is_passed: true, submission_id: id })
+      def find_passed_testcases(submission_id)
+        passed_test_cases = TestCase.joins(:test_case_result).where(test_case_result: { is_passed: true, submission_id: submission_id })
         passed_test_cases_details = passed_test_cases.select('id', 'output', 'input').to_a
         [passed_test_cases_details, passed_test_cases.count]
       end

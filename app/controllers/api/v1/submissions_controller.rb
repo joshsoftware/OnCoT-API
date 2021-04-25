@@ -4,11 +4,17 @@ module Api
   module V1
     class SubmissionsController < ApiController
       before_action :find_data
+
       def create
-        if @drives_candidate.submissions.count < @submission_count
-          submission = create_submission(@drives_candidate.submissions.count)
-          result = find_result(submission.first)
-          render_success(data: { passed_testcases: result[0], total_testcases: result[1], submisiion_count: submission[1] },
+        total_submission = @drives_candidate.submissions.count
+        if total_submission < @submission_count
+          submission = create_submission
+          total_marks = create_test_case_result(submission.id)
+          testcases = TestCaseResult.where(submission_id: submission.id).collect(&:is_passed)
+          submission.update_attribute(:total_marks, total_marks)
+
+          render_success(data: { passed_testcases: testcases.count(true), total_testcases: testcases.count,
+                                 submission_count: total_submission + 1 },
                          message: I18n.t('success.message'))
         else
           render_error(message: I18n.t('submission.limit_exceed.message'))
@@ -22,38 +28,32 @@ module Api
         @drives_candidate = DrivesCandidate.find_by(candidate_id: params[:candidate_id], drive_id: params[:drive_id])
       end
 
-      def create_submission(submission_count)
+      def create_submission
         if (submission = Submission.create(problem_id: params[:id], drives_candidate_id: @drives_candidate.id,
-                                           answer: params[:source_code]))
-          [submission.id, @submission_count - submission_count - 1]
+                                           answer: params[:source_code], lang_code: params[:language_id]))
+          submission
         else
           render_error(message: I18n.t('submission.not_created.message'))
         end
       end
 
-      def find_result(submission_id)
-        total = 0
-        passed = 0
+      def create_test_case_result(submission_id)
+        total_marks = 0
         test_cases = TestCase.where(problem_id: params[:id])
         test_cases.each do |testcase|
-          status = get_status(testcase, passed)
-          passed = status[1]
-          TestCaseResult.create(is_passed: status.first, submission_id: submission_id,
+          status = get_status(testcase)
+          TestCaseResult.create(is_passed: status, submission_id: submission_id,
                                 test_case_id: testcase.id)
-          total += 1
+          total_marks += testcase.marks if status
         end
-        [passed, total]
+        total_marks
       end
 
-      def get_status(testcase, passed)
+      def get_status(testcase)
         parameter = { stdin: testcase.input, expected_output: testcase.output, source_code: params[:source_code],
                       language_id: params[:language_id] }
         body = JudgeZeroApi.new(parameter).post('/submissions/?base64_encoded=false&wait=true')
-        if body['status']['description'] == 'Accepted'
-          flag = true
-          passed += 1
-        end
-        [flag, passed]
+        body['status']['description'] == 'Accepted'
       end
     end
   end

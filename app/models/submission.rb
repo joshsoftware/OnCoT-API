@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Submission < ApplicationRecord
-  after_create :calculate_result
+  after_update :calculate_result
   belongs_to :drives_candidate
   belongs_to :problem
   has_many :test_case_results
@@ -17,8 +17,7 @@ class Submission < ApplicationRecord
   private
 
   def calculate_result
-    submits = Submission.submissions_with_passed_testcases(drives_candidate_id, problem_id)
-    final_marks = submits.map(&:marks).max
-    drives_candidate.update(score: final_marks)
+    submission = drives_candidate.submissions.order('total_marks desc').first
+    drives_candidate.update(score: submission.total_marks)
   end
 end
