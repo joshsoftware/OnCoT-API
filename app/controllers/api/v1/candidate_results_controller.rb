@@ -3,25 +3,20 @@
 module Api
   module V1
     class CandidateResultsController < ApiController
-      before_action :find_data
+      before_action :load_submission
+
       def show
-        passed = TestCase.joins(:test_case_result).where(test_case_result: { is_passed: true, submission_id: @submission_id })
-        failed = TestCase.joins(:test_case_result).where(test_case_result: { is_passed: false, submission_id: @submission_id })
-        code = Submission.find(@submission_id).answer
+        passed = TestCase.joins(:test_case_result).where(test_case_result: { is_passed: true, submission_id: @submission.id })
+        failed = TestCase.joins(:test_case_result).where(test_case_result: { is_passed: false, submission_id: @submission.id })
+        code = @submission.answer
         render_success(data: { code: code, passed: passed, failed: failed })
       end
 
       private
 
-      def find_data
+      def load_submission
         drives_candidate = DrivesCandidate.find_by(candidate_id: params[:id], drive_id: params[:drife_id])
-        @submission_id = find_max_submission_id(drives_candidate.id)
-      end
-
-      def find_max_submission_id(id)
-        submissions = Submission.submissions_with_passed_testcases(id, params[:problem_id])
-        marks = submissions.map(&:marks)
-        submissions[marks.find_index(marks.max)].submission_id
+        @submission = drives_candidate.submissions.order('total_marks desc').first  
       end
     end
   end

@@ -40,12 +40,12 @@ module Api
         end
       end
 
-      def find_max_marks_submission_id(id)
-        submissions = Submission.submissions_with_passed_testcases(id, params[:problem_id])
-        marks = submissions.map(&:marks)
+      # def find_max_marks_submission_id(id)
+      #   submissions = Submission.submissions_with_passed_testcases(id, params[:problem_id])
+      #   marks = submissions.map(&:marks)
 
-        submissions[marks.find_index(marks.max)].submission_id
-      end
+      #   submissions[marks.find_index(marks.max)].submission_id
+      # end
 
       def find_passed_testcases(submission_id)
         passed_test_cases = TestCase.joins(:test_case_result).where(test_case_result: { is_passed: true,
