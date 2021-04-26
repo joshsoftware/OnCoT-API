@@ -3,12 +3,11 @@
 module Api
   module V1
     class SubmissionsController < ApiController
-
       def create
         if submission_allowed?
           submission = create_submission
           SubmissionJob.perform_later(submission.id)
-          render_success(data: { status: 'processing', submission_id: submission.id},
+          render_success(data: { status: 'processing', submission_id: submission.id },
                          message: I18n.t('success.message'))
         else
           render_error(message: I18n.t('submission.limit_exceed.message'))
@@ -22,11 +21,11 @@ module Api
           if submission.status == 'accepted'
             testcases = TestCaseResult.where(submission_id: submission.id).collect(&:is_passed)
             render_success(data: { passed_testcases: testcases.count(true), total_testcases: testcases.count,
-                                 submission_count: submission_count_left,
-                                 status: 'accepted'},
-                         message: I18n.t('success.message'))
+                                   submission_count: submission_count_left,
+                                   status: 'accepted' },
+                           message: I18n.t('success.message'))
           else
-            render_success(data: { status: 'processing'}, message: I18n.t('success.message'))
+            render_success(data: { status: 'processing' }, message: I18n.t('success.message'))
           end
         else
           render_error(message: I18n.t('not_found.message'))
@@ -55,7 +54,6 @@ module Api
         drives_candidate = submission.drives_candidate
         total_count - drives_candidate.submissions.count
       end
-
     end
   end
 end

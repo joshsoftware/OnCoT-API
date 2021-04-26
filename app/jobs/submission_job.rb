@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class SubmissionJob < ApplicationJob
-
   def perform(submission_id)
     @submission = Submission.find submission_id
     total_marks = create_test_case_result

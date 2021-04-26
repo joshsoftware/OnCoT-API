@@ -16,7 +16,7 @@ module Api
 
       def load_submission
         drives_candidate = DrivesCandidate.find_by(candidate_id: params[:id], drive_id: params[:drife_id])
-        @submission = drives_candidate.submissions.order('total_marks desc').first  
+        @submission = drives_candidate.submissions.order('total_marks desc').first
       end
     end
   end
