@@ -34,7 +34,8 @@ class DrivesCandidateSerializer < ActiveModel::Serializer
   end
 
   def end_times
-    return object.completed_at && object.completed_at.iso8601 if object.completed_at.present?
-    object.end_time && object.end_time.iso8601
+    return object.completed_at&.iso8601 if object.completed_at.present?
+
+    object.end_time&.iso8601
   end
 end

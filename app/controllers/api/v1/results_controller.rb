@@ -31,11 +31,11 @@ module Api
           @drives_candidates.each do |drives_candidate|
             candidate = drives_candidate.candidate
             submission = drives_candidate.submissions.order('total_marks desc').first
-            if submission
-              passed = find_passed_testcases(submission.id)
-              csv << [candidate.first_name, candidate.last_name, candidate.email, drives_candidate.score, passed.first,
-                      passed[1]]
-            end
+            next unless submission
+
+            passed = find_passed_testcases(submission.id)
+            csv << [candidate.first_name, candidate.last_name, candidate.email, drives_candidate.score, passed.first,
+                    passed[1]]
           end
         end
       end
@@ -48,7 +48,8 @@ module Api
       end
 
       def find_passed_testcases(submission_id)
-        passed_test_cases = TestCase.joins(:test_case_result).where(test_case_result: { is_passed: true, submission_id: submission_id })
+        passed_test_cases = TestCase.joins(:test_case_result).where(test_case_result: { is_passed: true,
+                                                                                        submission_id: submission_id })
         passed_test_cases_details = passed_test_cases.select('id', 'output', 'input').to_a
         [passed_test_cases_details, passed_test_cases.count]
       end

@@ -14,7 +14,7 @@ module Api
           submission.update_attribute(:total_marks, total_marks)
 
           render_success(data: { passed_testcases: testcases.count(true), total_testcases: testcases.count,
-                                 submission_count: total_submission + 1 },
+                                 submission_count: @submission_count - total_submission },
                          message: I18n.t('success.message'))
         else
           render_error(message: I18n.t('submission.limit_exceed.message'))
