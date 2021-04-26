@@ -1,5 +1,20 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: test_cases
+#
+#  id            :bigint           not null, primary key
+#  input         :string
+#  output        :string
+#  marks         :integer
+#  problem_id    :bigint           not null
+#  created_by_id :bigint
+#  updated_by_id :bigint
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  is_active     :boolean
+#
 class TestCase < ApplicationRecord
   default_scope { where(is_active: true) }
   belongs_to :problem

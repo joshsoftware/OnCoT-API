@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# == Route Map
+#
+
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
 
@@ -46,7 +49,11 @@ Rails.application.routes.draw do
         resources :problems do
           resources :candidate_results, only: [:show]
         end
+        resources :results do
+          get :csv_result, on: :collection
+        end
       end
+
       # resources :rules, only: %i[index]
       get '/drives/:drive_id/rules', to: 'rules#index'
 
