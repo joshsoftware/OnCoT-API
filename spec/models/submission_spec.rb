@@ -1,5 +1,18 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: submissions
+#
+#  id                  :bigint           not null, primary key
+#  answer              :text
+#  drives_candidate_id :bigint           not null
+#  problem_id          :bigint           not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  total_marks         :float            default(0.0)
+#  lang_code           :integer
+#
 require 'rails_helper'
 
 RSpec.describe Submission do
