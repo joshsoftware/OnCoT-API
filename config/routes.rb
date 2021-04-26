@@ -33,6 +33,9 @@ Rails.application.routes.draw do
       end
       get 'drives/:token', to: 'drives#show'
       resources :drives_candidates, only: [:update]
+      resources :drives_candidates do
+        get :appeared_for_test
+      end
 
       resources :executions do
         post :submission_token, on: :collection

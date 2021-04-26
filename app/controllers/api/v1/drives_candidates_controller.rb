@@ -14,6 +14,18 @@ module Api
           render_error(message: I18n.t('not_found.message'))
         end
       end
+
+      def appeared_for_test
+        if (@drives_candidate = DrivesCandidate.find_by(id: params[:drives_candidate_id]))
+          if @drives_candidate.completed_at
+            render_error(message: I18n.t('error.message'))
+          else
+            render_success(message: I18n.t('success.message'))
+          end
+        else
+          render_error(message: I18n.t('not_found.message')) unless @drives_candidate
+        end
+      end
     end
   end
 end
