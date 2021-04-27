@@ -82,12 +82,6 @@ ActiveRecord::Schema.define(version: 20_210_426_203_031) do
     t.index ['problem_id'], name: 'index_drives_problems_on_problem_id'
   end
 
-  create_table 'images', force: :cascade do |t|
-    t.string 'url'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
-  end
-
   create_table 'organizations', force: :cascade do |t|
     t.string 'name'
     t.text 'description'
@@ -125,16 +119,6 @@ ActiveRecord::Schema.define(version: 20_210_426_203_031) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['drive_id'], name: 'index_rules_on_drive_id'
-  end
-
-  create_table 'snapshots', force: :cascade do |t|
-    t.string 'url'
-    t.bigint 'drive_id'
-    t.bigint 'candidate_id'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
-    t.index ['candidate_id'], name: 'index_snapshots_on_candidate_id'
-    t.index ['drive_id'], name: 'index_snapshots_on_drive_id'
   end
 
   create_table 'submissions', force: :cascade do |t|
