@@ -18,7 +18,7 @@ set :application_name, 'oncot_api'
 set :domain, '65.1.201.245'
 set :deploy_to, '/home/ubuntu/oncot/api'
 set :repository, 'git@github.com:joshsoftware/OnCoT-API.git'
-set :branch, 'development'
+set :branch, 'alpha-testing'
 set :rvm_use_path, '/home/ubuntu/.rvm/bin/rvm'
 
 
@@ -81,9 +81,8 @@ task :deploy do
       in_path(fetch(:current_path)) do
         command %{mkdir -p tmp/}
         command %{touch tmp/restart.txt}
+        command %{pumactl restart}
       end
-
-      invoke :'puma_start'
     end
   end
 
