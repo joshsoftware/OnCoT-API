@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 20_210_427_184_100) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.integer 'submission_count'
+    t.integer 'time_in_minutes', default: 60
     t.index ['created_by_id'], name: 'index_problems_on_created_by_id'
     t.index ['organization_id'], name: 'index_problems_on_organization_id'
     t.index ['updated_by_id'], name: 'index_problems_on_updated_by_id'
