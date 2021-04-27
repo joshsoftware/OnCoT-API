@@ -9,13 +9,13 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 if Rails.env.development?
   role = Role.create!(name: 'Admin')
-  organization = Organization.create!(name: 'Josh Software', email: 'josh@joshsoftware.com', 
-                                    contact_number: '123456789')
+  organization = Organization.create!(name: 'Josh Software', email: 'josh@joshsoftware.com',
+                                      contact_number: '123456789')
   user = User.create!(first_name: 'Admin', email: 'admin@example.com', password: 'password',
                       password_confirmation: 'password', role_id: role.id, organization_id: organization.id)
   drive = Drive.create!(name: 'Josh Drive', start_time: '2021-04-26 12:00:00', end_time: '2021-04-28 12:00:00',
-                        organization_id: organization.id, duration: 60, created_by_id: user.id, 
+                        organization_id: organization.id, duration: 60, created_by_id: user.id,
                         updated_by_id: user.id)
   problem = Problem.create!(title: 'Add numbers', created_by_id: user.id, updated_by_id: user.id,
-                      organization_id: organization.id)
+                            organization_id: organization.id)
 end
