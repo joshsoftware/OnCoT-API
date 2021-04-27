@@ -29,7 +29,7 @@ Rails.application.routes.draw do
       post 'invite', to: 'candidates#invite'
       get '/drives/:id/problem' => 'problems#index'
 
-      resources :submissions, only: [:create]
+      resources :submissions, only: %i[create show]
 
       resources :drives do
         resources :results, only: [:index]

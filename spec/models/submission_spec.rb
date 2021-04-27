@@ -12,6 +12,7 @@
 #  updated_at          :datetime         not null
 #  total_marks         :float            default(0.0)
 #  lang_code           :integer
+#  status              :string           default("processing")
 #
 require 'rails_helper'
 
