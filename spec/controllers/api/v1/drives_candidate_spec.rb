@@ -10,6 +10,8 @@ RSpec.describe Api::V1::DrivesCandidatesController, type: :controller do
     @drive = create(:drive, updated_by_id: user.id, organization: organization,
                             created_by_id: user.id)
     @drives_candidate = create(:drives_candidate, candidate_id: @candidate.id, drive_id: @drive.id)
+    @drives_candidate1 = create(:drives_candidate, candidate_id: @candidate.id, drive_id: @drive.id, 
+                                  completed_at: DateTime.now.localtime)
   end
   describe 'PATCH #update' do
     context 'with valid params' do
@@ -44,20 +46,19 @@ RSpec.describe Api::V1::DrivesCandidatesController, type: :controller do
 
       it 'returns error message' do
         params = {
-          drives_candidate_id: @drives_candidate.id
+          drives_candidate_id: @drives_candidate1.id
         }
-        @drives_candidate.completed_at = DateTime.now.localtime - 1.hour
+        
         get :appeared_for_test, params: params
 
-        result = json
-        expect(result['message']).to eq(I18n.t('error.message'))
+        expect(response.body).to eq(I18n.t('error.message'))
       end
     end
 
     context 'with invalid params' do
       it 'returns not found message' do
         params = {
-          drives_candidate_id: Faker::Number
+          drives_candidate_id: Faker::Number.number
         }
         get :appeared_for_test, params: params
 

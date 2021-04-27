@@ -23,7 +23,7 @@ module Api
             render_success(message: I18n.t('success.message'))
           end
         else
-          render_error(message: I18n.t('not_found.message')) unless @drives_candidate
+          render_error(message: I18n.t('not_found.message'))
         end
       end
     end
