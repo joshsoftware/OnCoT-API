@@ -7,7 +7,10 @@ RSpec.describe Api::V1::CandidatesController, type: :controller do
     admin = create(:admin)
     @drive = create(:drive, created_by_id: admin.id, updated_by_id: admin.id, organization_id: admin.organization_id)
     @candidate = create(:candidate)
-    @drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: @candidate.id)
+    @drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: @candidate.id,
+                                                  start_time: DateTime.now.localtime, end_time: DateTime.now.localtime + 1.hours)
+    problem = create(:problem, created_by_id: admin.id, updated_by_id: admin.id)
+    DrivesProblem.create(drive_id: @drive.id, problem_id: problem.id)
   end
 
   describe 'PUT update' do

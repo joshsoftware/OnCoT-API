@@ -6,5 +6,6 @@ FactoryBot.define do
     title { 'problem' }
     description { 'Add 2 numbers' }
     submission_count { 4 }
+    time_in_minutes { 3600 }
   end
 end
