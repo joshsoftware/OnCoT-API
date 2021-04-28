@@ -1,3 +1,7 @@
 <%= simple_format('Hi') %>
-<%= simple_format('You have been invited to take '+@drive.name+' coding round by '+@drive.organization.name)%>
-<%= 'Test Link: '+ "#{ENV['APP_URL']}candidate/overview/"+@token %>
+<p>
+  <%= simple_format('You have been invited to take '+@drive.name+' coding round by '+@drive.organization.name)%>
+</p>
+<p>
+  Test Link: <%=link_to "click here", "#{ENV['APP_URL']}candidate/overview/" + @token %>
+</p>
