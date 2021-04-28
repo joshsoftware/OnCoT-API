@@ -84,8 +84,12 @@ module Api
         drives_candidate = DrivesCandidate.find_by(candidate_id: id, drive_id: drive_id)
         drive_problem = DrivesProblem.find_by(drive_id: drive_id)
 
-        return if drives_candidate.update(start_time: DateTime.now.localtime,
-                                          end_time: DateTime.now.localtime + drive_problem.problem.time_in_minutes.minutes)
+        if drive_candidate.start_time.nil?
+          start_time = DateTime.now.localtime
+          end_time = start_time + drive_problem.problem.time_in_minutes.minutes
+          drives_candidate.update(start_time: start_time,
+                                  end_time: end_time)
+        end
       end
     end
   end
