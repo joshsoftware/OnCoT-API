@@ -3,7 +3,7 @@
 require 'http'
 
 class JudgeZeroApi
-  BASE_URI = 'http://roupi.xyz'
+  BASE_URI = ENV['JUDGE_ZERO_BASE_URI']
 
   def initialize(params = {})
     @params = params

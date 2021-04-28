@@ -1,0 +1,3 @@
+MAIL_USERNAME: "hr@joshsoftware.com"
+APP_URL: http://localhost:3000/
+JUDGE_ZERO_BASE_URI: 'http://roupi.xyz'

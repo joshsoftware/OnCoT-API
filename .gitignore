@@ -28,7 +28,6 @@
 /vendor/bundle
 
 # Ignore application configuration
-/config/application.yml
 
 #Ignore CSV file generated
 /result_file.csv
