@@ -70,3 +70,5 @@ gem 'figaro'
 gem 'mail'
 gem 'simplecov', require: false
 gem 'will_paginate'
+gem 'rollbar'
+
