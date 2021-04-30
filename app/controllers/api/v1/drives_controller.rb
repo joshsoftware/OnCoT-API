@@ -36,11 +36,11 @@ module Api
       end
 
       def test_already_taken?
-        @drive_candidate.end_time && @drive_candidate.end_time < DateTime.now.localtime
+        @drive_candidate.end_time && @drive_candidate.end_time < DateTime.current
       end
 
       def set_time_left_to_start
-        @time_left_to_start = @drive.start_time.localtime - DateTime.now.localtime
+        @time_left_to_start = @drive.start_time - DateTime.current
       end
     end
   end
