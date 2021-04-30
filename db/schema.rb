@@ -115,10 +115,9 @@ ActiveRecord::Schema.define(version: 20_210_427_184_100) do
   create_table 'rules', force: :cascade do |t|
     t.string 'type_name'
     t.text 'description'
-    t.bigint 'drive_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.index ['drive_id'], name: 'index_rules_on_drive_id'
+    t.integer 'drive_id'
   end
 
   create_table 'submissions', force: :cascade do |t|
@@ -194,7 +193,6 @@ ActiveRecord::Schema.define(version: 20_210_427_184_100) do
   add_foreign_key 'problems', 'organizations'
   add_foreign_key 'problems', 'users', column: 'created_by_id'
   add_foreign_key 'problems', 'users', column: 'updated_by_id'
-  add_foreign_key 'rules', 'drives', column: 'drive_id'
   add_foreign_key 'submissions', 'drives_candidates'
   add_foreign_key 'submissions', 'problems'
   add_foreign_key 'test_case_results', 'submissions'

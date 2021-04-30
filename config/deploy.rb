@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'mina/rails'
 require 'mina/git'
 # require 'mina/rbenv'  # for rbenv support. (https://rbenv.org)
@@ -21,16 +23,14 @@ set :repository, 'git@github.com:joshsoftware/OnCoT-API.git'
 set :branch, 'alpha-testing'
 set :rvm_use_path, '/home/ubuntu/.rvm/bin/rvm'
 
-
 # Optional settings:
-set :user, 'ubuntu'          # Username in the server to SSH to.
+set :user, 'ubuntu' # Username in the server to SSH to.
 #   set :port, '30000'           # SSH port number.
 #   set :forward_agent, true     # SSH forward_agent.
 
 set :shared_dirs, fetch(:shared_dirs, []).push('log', 'tmp/pids', 'tmp/sockets', 'public/uploads')
 
 set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/application.yml', 'config/puma.rb')
-
 
 # Shared dirs and files will be symlinked into the app-folder by the 'deploy:link_shared_paths' step.
 # Some plugins already add folders to shared_dirs like `mina/rails` add `public/assets`, `vendor/bundle` and many more
@@ -46,24 +46,23 @@ task :remote_environment do
   # invoke :'rbenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
-  command %{ source ~/.rvm/scripts/rvm }
-  command %{ rvm use 3.0.0 }
+  command %( source ~/.rvm/scripts/rvm )
+  command %( rvm use 3.0.0 )
 end
 
 # Put any custom commands you need to run at setup
 # All paths in `shared_dirs` and `shared_paths` will be created on their own.
 task :setup do
   # command %{rbenv install 2.3.0 --skip-existing}
-  command %[touch "#{fetch(:shared_path)}/config/database.yml"]
-  command %[touch "#{fetch(:shared_path)}/config/application.yml"]
-  command %[touch "#{fetch(:shared_path)}/config/puma.rb"]
-  command %[touch "#{fetch(:shared_path)}/tmp/sockets/puma.state"]
-  command %[touch "#{fetch(:shared_path)}/tmp/sockets/puma.sock"]
-  command %[touch "#{fetch(:shared_path)}/tmp/pids/puma.pid"]
-
+  command %(touch "#{fetch(:shared_path)}/config/database.yml")
+  command %(touch "#{fetch(:shared_path)}/config/application.yml")
+  command %(touch "#{fetch(:shared_path)}/config/puma.rb")
+  command %(touch "#{fetch(:shared_path)}/tmp/sockets/puma.state")
+  command %(touch "#{fetch(:shared_path)}/tmp/sockets/puma.sock")
+  command %(touch "#{fetch(:shared_path)}/tmp/pids/puma.pid")
 end
 
-desc "Deploys the current version to the server."
+desc 'Deploys the current version to the server.'
 task :deploy do
   # uncomment this line to make sure you pushed your local branch to the remote origin
   # invoke :'git:ensure_pushed'
@@ -79,9 +78,9 @@ task :deploy do
 
     on :launch do
       in_path(fetch(:current_path)) do
-        command %{mkdir -p tmp/}
-        command %{touch tmp/restart.txt}
-        command %{pumactl restart}
+        command %(mkdir -p tmp/)
+        command %(touch tmp/restart.txt)
+        command %(pumactl restart)
       end
     end
   end
@@ -90,20 +89,19 @@ task :deploy do
   # run(:local){ say 'done' }
 end
 
-
 task puma_start: :remote_environment do
-  command %[
+  command %(
     if [ -e '#{fetch(:puma_pid)}' ]; then
       echo 'Puma is already running'
     else
       echo 'Start Puma'
       cd #{fetch(:current_path)} && bundle exec puma -q -d -e #{fetch(:rails_env)} -C #{fetch(:current_path)}/config/puma.rb -p #{fetch(:start_port)} -S #{fetch(:puma_state)} -b "unix://#{fetch(:deploy_to)}#{fetch(:puma_socket)}" --pidfile #{fetch(:puma_pid)}
     fi
-  ]
+  )
 end
 
 task puma_restart: :remote_environment do
-  command %[
+  command %(
     if [ -e '#{fetch(:puma_pid)}' ]; then
       echo 'Restart Puma'
       cd #{fetch(:current_path)} && bundle exec pumactl -S #{fetch(:puma_state)} restart
@@ -111,11 +109,11 @@ task puma_restart: :remote_environment do
       echo 'Start Puma'
       cd #{fetch(:current_path)} && bundle exec puma -q -d -e #{fetch(:rails_env)} -C #{fetch(:current_path)}/config/puma.rb -p #{fetch(:start_port)} -S #{fetch(:puma_state)} -b "unix://#{fetch(:puma_socket)}" --pidfile #{fetch(:puma_pid)}
     fi
-  ]
+  )
 end
 
 task puma_stop: :remote_environment do
-  command %[
+  command %(
     if [ -e '#{fetch(:puma_pid)}' ]; then
       cd #{fetch(:current_path)} && bundle exec pumactl -S #{fetch(:puma_state)} stop
       rm #{fetch(:puma_socket)}
@@ -124,14 +122,12 @@ task puma_stop: :remote_environment do
     else
       echo 'Puma is not running. Phew!!!'
     fi
-  ]
+  )
 end
 
 # For help in making your deploy script, see the Mina documentation:
 #
 #  - https://github.com/mina-deploy/mina/tree/master/docs
-
-
 
 # oncot.joshsoftware.com
 # oncot-api.joshsoftware.com

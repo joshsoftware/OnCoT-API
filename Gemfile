@@ -68,8 +68,7 @@ gem 'sassc-rails'
 
 gem 'figaro'
 gem 'mail'
+gem 'newrelic_rpm'
+gem 'rollbar'
 gem 'simplecov', require: false
 gem 'will_paginate'
-gem 'rollbar'
-gem 'newrelic_rpm'
-

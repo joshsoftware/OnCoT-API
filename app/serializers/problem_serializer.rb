@@ -13,6 +13,7 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  submission_count :integer
+#  time_in_minutes  :integer          default(60)
 #
 class ProblemSerializer < ActiveModel::Serializer
   attributes :id, :title, :description, :created_at, :updated_at, :created_by_id, :updated_by_id,

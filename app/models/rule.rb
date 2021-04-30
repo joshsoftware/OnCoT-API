@@ -7,10 +7,9 @@
 #  id          :bigint           not null, primary key
 #  type_name   :string
 #  description :text
-#  drive_id    :bigint           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  default     :boolean          default(FALSE)
 #
 class Rule < ApplicationRecord
-  belongs_to :drive
 end

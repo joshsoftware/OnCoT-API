@@ -13,6 +13,7 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  submission_count :integer
+#  time_in_minutes  :integer          default(60)
 #
 class Problem < ApplicationRecord
   belongs_to :updated_by, class_name: 'User', foreign_key: 'updated_by_id'

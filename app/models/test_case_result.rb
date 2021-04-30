@@ -10,6 +10,7 @@
 #  test_case_id  :bigint           not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  output        :string
 #
 class TestCaseResult < ApplicationRecord
   belongs_to :submission
