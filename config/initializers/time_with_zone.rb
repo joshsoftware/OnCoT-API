@@ -3,7 +3,7 @@
 module ActiveSupport
   class TimeWithZone
     def as_json(_options = {})
-      strftime('%d-%b-%Y %H:%M:%S')
+      strftime('%d-%b-%Y %H:%M:%S %Z')
     end
   end
 end
