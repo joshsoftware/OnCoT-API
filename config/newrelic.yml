@@ -1,0 +1,9 @@
+common: &default_settings
+  license_key: "<%= Figaro.env.NEWRELIC_LICENSE %>"
+  app_name: 'Oncot'
+production:
+  <<: *default_settings
+  log_level: info
+development:
+  <<: *default_settings
+  log_level: debug
