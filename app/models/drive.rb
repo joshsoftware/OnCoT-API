@@ -26,9 +26,19 @@ class Drive < ApplicationRecord
   has_many :problems, through: :drives_problems
   has_many :rules
 
+  after_create :assign_rules
+
   accepts_nested_attributes_for :drives_problems, allow_destroy: true
   def yet_to_start?
     start_time.localtime > DateTime.current.localtime
+  end
+
+  def assign_rules
+    Rule.where(drive: Drive.first).each do |rule|
+      r = rule.dup
+      r.drive_id = self.id
+      r.save
+    end
   end
 
   def ended?

@@ -60,8 +60,8 @@ module Api
       private
 
       def candidate_params
-        params.permit(:first_name, :last_name, :email, :is_profile_complete, :created_at, :mobile_number,
-                      :updated_at, :created_by_id, :updated_by_id)
+        params.permit(:first_name, :last_name, :email, :is_profile_complete, :mobile_number,
+                      :created_by_id, :updated_by_id)
       end
 
       def load_drive
