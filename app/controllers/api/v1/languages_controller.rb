@@ -14,7 +14,8 @@ module Api
                     { id: 49, name: 'C (GCC 8.3.0)', code: c_sampl_code },
                     { id: 54, name: 'C++ (GCC 9.2.0)', code: c_plus_sample_code },
                     { id: 62, name: 'Java (OpenJDK 13.0.1)', code: java_sample_code },
-                    { id: 71, name: 'Python (3.8.1)', code: '# Write your code here' }]
+                    { id: 71, name: 'Python (3.8.1)', code: '# Write your code here' },
+                    { id: 63, name: 'JavaScript (Node.js 12.14.0)', code: '// Write your code here' }]
         render json: response
       end
 
