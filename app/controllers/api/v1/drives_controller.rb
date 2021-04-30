@@ -19,7 +19,7 @@ module Api
       def drive_time_left
         set_time_left_to_start
         if @time_left_to_start.negative?
-          data = -1 if test_already_taken?
+          data = test_already_taken? ? -1 : 0
           message = I18n.t('drive.started')
         else
           data = @time_left_to_start
