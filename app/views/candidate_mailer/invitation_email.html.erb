@@ -2,11 +2,21 @@
 <p>
   <%= simple_format('You have been invited to take '+@drive.name+' coding round by '+@drive.organization.name)%>
 </p>
+</br>
+
 <p>
-  Test Link: <%=link_to "click here", "#{ENV['APP_URL']}candidate/overview/" + @token %>
+Please use Chrome or Firefox for taking the test
+</p>
+<p>
+You can select any language from the dropdown provided on editor
 </p>
 
+<p>
+  <b>Test Link:</b> <%=link_to "click here", "#{ENV['APP_URL']}candidate/overview/" + @token %>
+</p>
 
+</br>
+</br>
 <p>
 In case of any queries, contact
 </p>
