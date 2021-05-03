@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_426_203_031) do
+ActiveRecord::Schema.define(version: 20_210_427_184_100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 20_210_426_203_031) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.integer 'submission_count'
+    t.integer 'time_in_minutes', default: 60
     t.index ['created_by_id'], name: 'index_problems_on_created_by_id'
     t.index ['organization_id'], name: 'index_problems_on_organization_id'
     t.index ['updated_by_id'], name: 'index_problems_on_updated_by_id'
@@ -139,6 +140,7 @@ ActiveRecord::Schema.define(version: 20_210_426_203_031) do
     t.bigint 'test_case_id', null: false
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
+    t.string 'output'
     t.index ['submission_id'], name: 'index_test_case_results_on_submission_id'
     t.index ['test_case_id'], name: 'index_test_case_results_on_test_case_id'
   end

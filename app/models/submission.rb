@@ -15,7 +15,6 @@
 #  status              :string           default("processing")
 #
 class Submission < ApplicationRecord
-  after_update :calculate_result
   belongs_to :drives_candidate
   belongs_to :problem
   has_many :test_case_results
@@ -27,11 +26,4 @@ class Submission < ApplicationRecord
   #                                                                                                 sum(test_cases.marks) as marks')
   #                                         .group('submissions.id')
   # }
-
-  private
-
-  def calculate_result
-    submission = drives_candidate.submissions.order('total_marks desc').first
-    drives_candidate.update(score: submission.total_marks)
-  end
 end

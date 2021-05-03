@@ -12,7 +12,7 @@ module Api
 
       def csv_result
         if write_csv_file
-          render_success(message: I18n.t('success.message'))
+          send_file Rails.root.join('result_file.csv')
         else
           render_error(message: I18n.t('not_found.message'))
         end
@@ -21,21 +21,25 @@ module Api
       private
 
       def find_drive_candidates
-        drive = Drive.find(params[:drife_id])
-        @drives_candidates = drive.drives_candidates
+        @drive = Drive.find(params[:drife_id])
+        @drives_candidates = @drive.drives_candidates
       end
 
       def write_csv_file
         CSV.open('result_file.csv', 'w') do |csv|
-          csv << ['First Name', 'Last Name', 'Email', 'Score', 'Passed Testcases', 'Passed Testcase Count']
+          problem = @drive.problems.first
+          test_case_headers = problem.test_cases.count.times.collect do |index|
+            ["Test case #{index + 1} expected output", "Test case #{index + 1} actual output"]
+          end.flatten
+          csv << ['First Name', 'Last Name', 'Email', 'Score'] + test_case_headers
           @drives_candidates.each do |drives_candidate|
             candidate = drives_candidate.candidate
             submission = drives_candidate.submissions.order('total_marks desc').first
             next unless submission
 
-            passed = find_passed_testcases(submission.id)
-            csv << [candidate.first_name, candidate.last_name, candidate.email, drives_candidate.score, passed.first,
-                    passed[1]]
+            test_cases = test_case_results(submission.id)
+            csv << [candidate.first_name, candidate.last_name, candidate.email,
+                    drives_candidate.score] + test_cases
           end
         end
       end
@@ -47,11 +51,12 @@ module Api
       #   submissions[marks.find_index(marks.max)].submission_id
       # end
 
-      def find_passed_testcases(submission_id)
-        passed_test_cases = TestCase.joins(:test_case_result).where(test_case_result: { is_passed: true,
-                                                                                        submission_id: submission_id })
-        passed_test_cases_details = passed_test_cases.select('id', 'output', 'input').to_a
-        [passed_test_cases_details, passed_test_cases.count]
+      def test_case_results(submission_id)
+        test_case_results = TestCaseResult.joins(:test_case)
+                                          .where(submission_id: submission_id)
+        test_case_results.collect do |test_case_result|
+          [test_case_result.test_case.output, test_case_result.output]
+        end.flatten
       end
     end
   end

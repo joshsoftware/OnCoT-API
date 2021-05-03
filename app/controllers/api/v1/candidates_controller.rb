@@ -20,6 +20,8 @@ module Api
         candidate = Candidate.find(params[:id])
 
         if candidate.update(candidate_params)
+          update_drives_candidate(candidate.id, params[:drife_id])
+
           render_success(data: { candidate: serialize_resource(candidate, CandidateSerializer) },
                          message: I18n.t('update.success', model_name: 'Candidate'))
         else
@@ -31,7 +33,7 @@ module Api
       def candidate_test_time_left
         @drive_candidate.save if @drive_candidate && @drive_candidate.start_time.nil?
 
-        time_left = @drive.end_time.localtime - DateTime.now.localtime
+        time_left = @drive_candidate.end_time.localtime - DateTime.now.localtime
 
         message = if time_left.negative?
                     I18n.t('test.time_over')
@@ -58,8 +60,8 @@ module Api
       private
 
       def candidate_params
-        params.permit(:first_name, :last_name, :email, :is_profile_complete, :created_at, :mobile_number,
-                      :updated_at, :created_by_id, :updated_by_id)
+        params.permit(:first_name, :last_name, :email, :is_profile_complete, :mobile_number,
+                      :created_by_id, :updated_by_id)
       end
 
       def load_drive
@@ -80,8 +82,14 @@ module Api
 
       def update_drives_candidate(id, drive_id)
         drives_candidate = DrivesCandidate.find_by(candidate_id: id, drive_id: drive_id)
+        drive_problem = DrivesProblem.find_by(drive_id: drive_id)
 
-        return if drives_candidate.update(start_time: DateTime.now.localtime, end_time: DateTime.now.localtime + 1.hours)
+        if drives_candidate.start_time.nil?
+          start_time = DateTime.now.localtime
+          end_time = start_time + drive_problem.problem.time_in_minutes.minutes
+          drives_candidate.update(start_time: start_time,
+                                  end_time: end_time)
+        end
       end
     end
   end

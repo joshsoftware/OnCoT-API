@@ -1,3 +1,32 @@
 <%= simple_format('Hi') %>
-<%= simple_format('You have been invited to take '+@drive.name+' coding round by '+@drive.organization.name)%>
-<%= 'Test Link: '+ "http://localhost:3000/candidate/overview/"+@token %>
+<p>
+  <%= simple_format('You have been invited to take '+@drive.name+' coding round by '+@drive.organization.name)%>
+</p>
+</br>
+
+<p>
+Please use Chrome or Firefox for taking the test
+</p>
+<p>
+You can select any language from the dropdown provided on editor
+</p>
+
+<p>
+  <b>Test Link:</b> <%=link_to "click here", "#{ENV['APP_URL']}candidate/overview/" + @token %>
+</p>
+
+</br>
+</br>
+<p>
+In case of any queries, contact
+</p>
+<p>
+Neha Vyas- +91 8552026633,
+</p>
+<p>
+Sneha Mantri -   +91 77740 56300
+</p>
+
+<p>
+  If you face any issue while online code submission then submit your code <%=link_to "here", "https://forms.gle/hth8Qiif45PukRms7" %>
+</p>

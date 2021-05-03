@@ -16,7 +16,7 @@
 #
 class ProblemSerializer < ActiveModel::Serializer
   attributes :id, :title, :description, :created_at, :updated_at, :created_by_id, :updated_by_id,
-             :organization_id, :submission_count
+             :organization_id, :submission_count, :time_in_minutes
 
   has_many :drives_problems
 end
