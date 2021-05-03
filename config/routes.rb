@@ -51,6 +51,10 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :drives_candidates do
+        get :show_code
+      end
+
       # resources :rules, only: %i[index]
       get '/drives/:drive_id/rules', to: 'rules#index'
 
