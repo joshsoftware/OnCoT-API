@@ -18,14 +18,24 @@ module Api
 
       def drive_time_left
         set_time_left_to_start
-        if @time_left_to_start.negative?
-          data = test_already_taken? ? -1 : 0
-          message = I18n.t('drive.started')
+        set_time_left_to_end
+
+        if @time_left_to_end.positive?
+          is_live = true
+          if @time_left_to_start.negative?
+            data = test_already_taken? ? -1 : 0
+            message = I18n.t('drive.started')
+          else
+            data = @time_left_to_start
+            message = I18n.t('drive.yet_to_start')
+          end
         else
-          data = @time_left_to_start
-          message = I18n.t('drive.yet_to_start')
+          data = -1
+          is_live = false
+          message = I18n.t('drive.ended')
         end
-        render_success(data: data, message: message)
+
+        render_success(data: {data: data, is_live: is_live}, message: message)
       end
 
       private
@@ -41,6 +51,10 @@ module Api
 
       def set_time_left_to_start
         @time_left_to_start = @drive.start_time - DateTime.current
+      end
+
+      def set_time_left_to_end
+        @time_left_to_end = @drive.end_time - DateTime.current
       end
     end
   end
