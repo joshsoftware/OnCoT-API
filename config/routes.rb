@@ -67,6 +67,7 @@ Rails.application.routes.draw do
         get '/problem/:problem_id/test_cases' => 'test_cases#index'
         resources :drives do
           get :candidate_list, on: :member
+          post :send_admin_email
         end
       end
     end

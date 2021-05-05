@@ -179,4 +179,34 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
       end
     end
   end
+
+  describe 'POST # send_admin_email' do
+    before do
+      auth_tokens_for_user(user)
+    end
+    context 'with valid params' do
+      it 'sends shortlisted candidates list to signed in user' do
+        params = {
+          drife_id: drive.id,
+          score: Faker::Number.number
+        }
+
+        post :send_admin_email, params: params
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    context 'with invalid params' do
+      it 'return not found message' do
+        params = {
+          drife_id: Faker::Number.number,
+          score: Faker::Number.number
+        }
+        post :send_admin_email, params: params
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
 end

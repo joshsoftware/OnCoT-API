@@ -46,6 +46,26 @@ module Api
                          message: I18n.t('candidate_list.success', model_name: 'Candidate List'))
         end
 
+        def send_admin_email
+          drive = Drive.find(params[:drife_id])
+          drives_candidates = DrivesCandidate.where(drive_id: drive.id)
+          score = params[:score]
+          user = current_user
+          candidates = []
+          submissions = []
+          drives_candidates.each do |drives_candidate|
+            if drives_candidate.score && drives_candidate.score >= score.to_i
+              candidate = Candidate.find_by(id: drives_candidate.candidate_id)
+              submission = Submission.find_by(drives_candidate_id: drives_candidate.id)
+              next unless candidate && submission
+
+              candidates << candidate
+              submissions << submission
+            end
+          end
+          AdminMailer.shortlisted_candidates_email(user, drive, candidates, submissions).deliver_later
+        end
+
         private
 
         def fetch_drive_data
