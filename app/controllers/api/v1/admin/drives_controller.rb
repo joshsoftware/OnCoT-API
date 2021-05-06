@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'csv'
 module Api
   module V1
     module Admin
@@ -7,7 +8,7 @@ module Api
         before_action :authenticate_user!
         load_and_authorize_resource :drive
         before_action :fetch_drive_data, only: %i[show update candidate_list]
-
+        before_action :data_for_admin_email, only: [:send_admin_email]
         def index
           drives = Drive.all
           render_success(data: { drives: serialize_resource(drives, DriveSerializer) },
@@ -47,23 +48,11 @@ module Api
         end
 
         def send_admin_email
-          drive = Drive.find(params[:drife_id])
-          drives_candidates = DrivesCandidate.where(drive_id: drive.id)
-          score = params[:score]
-          user = current_user
-          candidates = []
-          submissions = []
-          drives_candidates.each do |drives_candidate|
-            if drives_candidate.score && drives_candidate.score >= score.to_i
-              candidate = Candidate.find_by(id: drives_candidate.candidate_id)
-              submission = Submission.find_by(drives_candidate_id: drives_candidate.id)
-              next unless candidate && submission
-
-              candidates << candidate
-              submissions << submission
-            end
+          if create_csv_file
+            AdminMailer.shortlisted_candidates_email(current_user, @drive, 'candidates_list.csv').deliver_later
+          else
+            render_error(message: I18n.t('not_found.message'))
           end
-          AdminMailer.shortlisted_candidates_email(user, drive, candidates, submissions).deliver_later
         end
 
         private
@@ -74,6 +63,26 @@ module Api
 
         def drive_params
           params.permit(:name, :description, :start_time, :end_time, drives_problems_attributes: %i[id problem_id _destroy])
+        end
+
+        def data_for_admin_email
+          @drive = Drive.find(params[:drife_id])
+          @score = params[:score]
+        end
+
+        def create_csv_file
+          CSV.open('candidates_list.csv', 'w') do |csv|
+            csv << ['First Name', 'Last Name', 'Email', 'code']
+            drives_candidates = DrivesCandidate.where(['drive_id= ? and score >= ?', @drive.id, @score])
+            drives_candidates.each do |drives_candidate|
+              candidate = drives_candidate.candidate
+              submission = drives_candidate.submissions.order('total_marks desc').first
+              next unless candidate && submission
+
+              csv << [candidate.first_name, candidate.last_name, candidate.email,
+                      submission.answer]
+            end
+          end
         end
       end
     end

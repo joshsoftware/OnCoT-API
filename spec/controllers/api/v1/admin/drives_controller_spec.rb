@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'csv'
 
 RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
   let(:organization) { create(:organization) }
@@ -182,31 +183,34 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
 
   describe 'POST # send_admin_email' do
     before do
+      organization = create(:organization)
+      user = create(:user)
+
+      candidate = create(:candidate, first_name: 'Neha', last_name: 'Sharma', email: 'neha@gmail.com')
+      @drive = create(:drive, updated_by_id: user.id, created_by_id: user.id,
+                              organization: organization)
+      drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate.id, score: 20)
+      problem = create(:problem, updated_by_id: user.id, created_by_id: user.id,
+                                 organization: organization, submission_count: 3)
+      submission1 = create(:submission, problem_id: problem.id, drives_candidate_id: drives_candidate.id,
+                                        answer: 'puts "first submission"', total_marks: 10)
+      submission2 = create(:submission, problem_id: problem.id, drives_candidate_id: drives_candidate.id,
+                                        answer: 'puts "second submission"', total_marks: 20)
       auth_tokens_for_user(user)
     end
-    context 'with valid params' do
-      it 'sends shortlisted candidates list to signed in user' do
-        params = {
-          drife_id: drive.id,
-          score: Faker::Number.number
-        }
+    it 'returns shortlisted candidates list in csv file' do
+      params = {
+        drife_id: @drive.id,
+        score: 10
+      }
 
-        post :send_admin_email, params: params
+      post :send_admin_email, params: params
 
-        expect(response).to have_http_status(:success)
-      end
-    end
-
-    context 'with invalid params' do
-      it 'return not found message' do
-        params = {
-          drife_id: Faker::Number.number,
-          score: Faker::Number.number
-        }
-        post :send_admin_email, params: params
-
-        expect(response).to have_http_status(:not_found)
-      end
+      actual_row = [['First Name', 'Neha'], ['Last Name', 'Sharma'], ['Email', 'neha@gmail.com'],
+                    ['code', 'puts "second submission"']]
+      table = CSV.parse(File.read('candidates_list.csv'), headers: true)
+      expected_row = table.by_row[0]
+      expect(expected_row).to match_array(actual_row)
     end
   end
 end
