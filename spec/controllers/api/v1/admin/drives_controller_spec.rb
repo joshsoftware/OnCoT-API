@@ -205,12 +205,13 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
       }
 
       post :send_admin_email, params: params
-
+      filename = "driveID_ #{@drive.id}_score_#{params[:score]}.csv"
       actual_row = [['First Name', 'Neha'], ['Last Name', 'Sharma'], ['Email', 'neha@gmail.com'],
                     ['code', 'puts "second submission"']]
-      table = CSV.parse(File.read('candidates_list.csv'), headers: true)
+      table = CSV.parse(File.read(filename), headers: true)
       expected_row = table.by_row[0]
       expect(expected_row).to match_array(actual_row)
+      File.delete(filename)
     end
   end
 end

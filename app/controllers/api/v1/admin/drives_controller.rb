@@ -49,7 +49,8 @@ module Api
 
         def send_admin_email
           if create_csv_file
-            AdminMailer.shortlisted_candidates_email(current_user, @drive, 'candidates_list.csv').deliver_later
+            AdminMailer.shortlisted_candidates_email(current_user, @drive,
+                                                     "driveID_ #{@drive.id}_score_#{@score}.csv").deliver_later
           else
             render_error(message: I18n.t('not_found.message'))
           end
@@ -71,7 +72,7 @@ module Api
         end
 
         def create_csv_file
-          CSV.open('candidates_list.csv', 'w') do |csv|
+          CSV.open("driveID_ #{@drive.id}_score_#{@score}.csv", 'w') do |csv|
             csv << ['First Name', 'Last Name', 'Email', 'code']
             drives_candidates = DrivesCandidate.where(['drive_id= ? and score >= ?', @drive.id, @score])
             drives_candidates.each do |drives_candidate|
