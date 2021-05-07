@@ -35,7 +35,7 @@ if Rails.env.development?
     "Any attempt to open calculator, use short-cut keys like CLT, ALT, TAB etc.
     In the test window will stop the test & it will not allow you to restart",
     "The testing interface has overall timer running on it. The test will stop
-      if your overall time lapses. Submit your solution before the overall timer elapses. 
+      if your overall time lapses. Submit your solution before the overall timer elapses.
       If you don't submit the code before the overall timer elapses, then you will be
       awarded 0 in the problem.",
     "Compiling the code at least once is mandatory for your code to be compiled and evaluated.
