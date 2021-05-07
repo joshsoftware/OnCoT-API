@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'csv'
 module Api
   module V1
     module Admin
@@ -7,7 +8,7 @@ module Api
         before_action :authenticate_user!
         load_and_authorize_resource :drive
         before_action :fetch_drive_data, only: %i[show update candidate_list]
-
+        before_action :data_for_admin_email, only: [:send_admin_email]
         def index
           drives = Drive.all
           render_success(data: { drives: serialize_resource(drives, DriveSerializer) },
@@ -46,6 +47,15 @@ module Api
                          message: I18n.t('candidate_list.success', model_name: 'Candidate List'))
         end
 
+        def send_admin_email
+          if create_csv_file
+            AdminMailer.shortlisted_candidates_email(current_user, @drive,
+                                                     "driveID_ #{@drive.id}_score_#{@score}.csv").deliver_later
+          else
+            render_error(message: I18n.t('not_found.message'))
+          end
+        end
+
         private
 
         def fetch_drive_data
@@ -54,6 +64,26 @@ module Api
 
         def drive_params
           params.permit(:name, :description, :start_time, :end_time, drives_problems_attributes: %i[id problem_id _destroy])
+        end
+
+        def data_for_admin_email
+          @drive = Drive.find(params[:drife_id])
+          @score = params[:score]
+        end
+
+        def create_csv_file
+          CSV.open("driveID_ #{@drive.id}_score_#{@score}.csv", 'w') do |csv|
+            csv << ['First Name', 'Last Name', 'Email', 'code']
+            drives_candidates = DrivesCandidate.where(['drive_id= ? and score >= ?', @drive.id, @score])
+            drives_candidates.each do |drives_candidate|
+              candidate = drives_candidate.candidate
+              submission = drives_candidate.submissions.order('total_marks desc').first
+              next unless candidate && submission
+
+              csv << [candidate.first_name, candidate.last_name, candidate.email,
+                      submission.answer]
+            end
+          end
         end
       end
     end
