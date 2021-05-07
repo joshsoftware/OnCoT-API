@@ -10,7 +10,7 @@ module Api
         before_action :fetch_drive_data, only: %i[show update candidate_list]
         before_action :data_for_admin_email, only: [:send_admin_email]
         def index
-          drives = Drive.all
+          drives = Drive.paginate(page: params[:page], per_page: 10)
           render_success(data: { drives: serialize_resource(drives, DriveSerializer) },
                          message: I18n.t('index.success', model_name: 'Drive'))
         end
