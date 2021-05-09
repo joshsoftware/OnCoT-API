@@ -192,10 +192,10 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
       drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate.id, score: 20)
       problem = create(:problem, updated_by_id: user.id, created_by_id: user.id,
                                  organization: organization, submission_count: 3)
-      submission1 = create(:submission, problem_id: problem.id, drives_candidate_id: drives_candidate.id,
-                                        answer: 'puts "first submission"', total_marks: 10)
-      submission2 = create(:submission, problem_id: problem.id, drives_candidate_id: drives_candidate.id,
-                                        answer: 'puts "second submission"', total_marks: 20)
+      create(:submission, problem_id: problem.id, drives_candidate_id: drives_candidate.id,
+                          answer: 'puts "first submission"', total_marks: 10)
+      create(:submission, problem_id: problem.id, drives_candidate_id: drives_candidate.id,
+                          answer: 'puts "second submission"', total_marks: 20)
       auth_tokens_for_user(user)
     end
     it 'returns shortlisted candidates list in csv file' do
