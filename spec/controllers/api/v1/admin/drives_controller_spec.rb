@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'csv'
 
 RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
   let(:organization) { create(:organization) }
@@ -177,6 +178,40 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
         expect(data['errors'].first).to eq('You need to sign in or sign up before continuing.')
         expect(response).to have_http_status(401)
       end
+    end
+  end
+
+  describe 'POST # send_admin_email' do
+    before do
+      organization = create(:organization)
+      user = create(:user)
+
+      candidate = create(:candidate, first_name: 'Neha', last_name: 'Sharma', email: 'neha@gmail.com')
+      @drive = create(:drive, updated_by_id: user.id, created_by_id: user.id,
+                              organization: organization)
+      drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate.id, score: 20)
+      problem = create(:problem, updated_by_id: user.id, created_by_id: user.id,
+                                 organization: organization, submission_count: 3)
+      submission1 = create(:submission, problem_id: problem.id, drives_candidate_id: drives_candidate.id,
+                                        answer: 'puts "first submission"', total_marks: 10)
+      submission2 = create(:submission, problem_id: problem.id, drives_candidate_id: drives_candidate.id,
+                                        answer: 'puts "second submission"', total_marks: 20)
+      auth_tokens_for_user(user)
+    end
+    it 'returns shortlisted candidates list in csv file' do
+      params = {
+        drife_id: @drive.id,
+        score: 10
+      }
+
+      post :send_admin_email, params: params
+      filename = "driveID_ #{@drive.id}_score_#{params[:score]}.csv"
+      actual_row = [['First Name', 'Neha'], ['Last Name', 'Sharma'], ['Email', 'neha@gmail.com'],
+                    ['code', 'puts "second submission"']]
+      table = CSV.parse(File.read(filename), headers: true)
+      expected_row = table.by_row[0]
+      expect(expected_row).to match_array(actual_row)
+      File.delete(filename)
     end
   end
 end

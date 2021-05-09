@@ -14,6 +14,17 @@ module Api
           render_error(message: I18n.t('not_found.message'))
         end
       end
+
+      def show_code
+        @drive_candidate = DrivesCandidate.find(params[:drives_candidate_id])
+        @submission = @drive_candidate.submissions.order('total_marks desc').first
+        if @submission
+          render_success(data: { answer: @submission.answer, total_marks: @submission.total_marks },
+                         message: I18n.t('success.message'))
+        else
+          render_error(message: I18n.t('not_found.message'))
+        end
+      end
     end
   end
 end
