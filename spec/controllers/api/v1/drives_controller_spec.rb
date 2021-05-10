@@ -8,18 +8,18 @@ RSpec.describe Api::V1::DrivesController, type: :controller do
   let(:user) { create(:user, role_id: role.id) }
   let(:drive1) do
     create(:drive, updated_by_id: user.id, created_by_id: user.id,
-                   organization: organization, start_time: DateTime.now.localtime + 1.hours,
-                   end_time: DateTime.now.localtime + 3.hours, duration: 10_800)
+                   organization: organization, start_time: DateTime.current + 1.hours,
+                   end_time: DateTime.current + 3.hours, duration: 10_800)
   end
   let(:drive2) do
     create(:drive, updated_by_id: user.id, created_by_id: user.id,
-                   organization: organization, start_time: DateTime.now.localtime - 1.hours,
-                   end_time: DateTime.now.localtime + 1.hours, duration: 10_800)
+                   organization: organization, start_time: DateTime.current - 1.hours,
+                   end_time: DateTime.current + 1.hours, duration: 10_800)
   end
   let(:drive3) do
     create(:drive, updated_by_id: user.id, created_by_id: user.id,
-                   organization: organization, start_time: DateTime.now.localtime - 3.hours,
-                   end_time: DateTime.now.localtime - 1.hours, duration: 10_800)
+                   organization: organization, start_time: DateTime.current - 3.hours,
+                   end_time: DateTime.current - 1.hours, duration: 10_800)
   end
   let(:candidate) { create(:candidate) }
   let(:drives_candidate1) { create(:drives_candidate, drive_id: drive1.id, candidate_id: candidate.id) }
@@ -50,27 +50,30 @@ RSpec.describe Api::V1::DrivesController, type: :controller do
   describe 'GET #drive_time_left' do
     context 'with valid params' do
       it 'returns time left to start drive' do
-        get :drive_time_left, params: { id: drive1.id }
+        get :drive_time_left, params: { id: drives_candidate1.token }
 
         data = json
 
         expect(data['message']).to eq(I18n.t('drive.yet_to_start'))
+        expect(data['data']['is_live']).to eq(true)
         expect(response).to have_http_status(200)
       end
       it 'returns drive is already started' do
-        get :drive_time_left, params: { id: drive2.id }
+        get :drive_time_left, params: { id: drives_candidate2.token }
 
         data = json
 
         expect(data['message']).to eq(I18n.t('drive.started'))
+        expect(data['data']['is_live']).to eq(true)
         expect(response).to have_http_status(200)
       end
       it 'returns drive has completed' do
-        get :drive_time_left, params: { id: drive3.id }
+        get :drive_time_left, params: { id: drives_candidate3.token }
 
         data = json
 
         expect(data['message']).to eq(I18n.t('drive.ended'))
+        expect(data['data']['is_live']).to eq(false)
         expect(response).to have_http_status(200)
       end
     end
@@ -78,7 +81,7 @@ RSpec.describe Api::V1::DrivesController, type: :controller do
       it 'fails request' do
         get :drive_time_left, params: { id: Faker::Number.number }
 
-        expect(response.body).to eq(I18n.t('not_found.message'))
+        expect(response.body).to eq(I18n.t('drive_not_found.message'))
         expect(response).to have_http_status(404)
       end
     end
