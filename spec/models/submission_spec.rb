@@ -35,10 +35,11 @@ RSpec.describe Submission do
       create(:test_case_result, test_case_id: test_case.id, submission_id: @submission.id,
                                 is_passed: true)
     end
-    it ' updates score to database' do
-      @submission.run_callbacks :create
+    # THIS METHOD HAS BEEN MOVED TO JOB from MODEL
+    # it ' updates score to database' do
+    #   @submission.run_callbacks :create
 
-      expect(@drives_candidate.reload.score).to eq(4)
-    end
+    #   expect(@drives_candidate.reload.score).to eq(4)
+    # end
   end
 end
