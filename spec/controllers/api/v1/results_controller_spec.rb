@@ -45,6 +45,7 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
       drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate.id)
       @problem = create(:problem, updated_by_id: user.id, created_by_id: user.id,
                                   organization: organization, submission_count: 3)
+      create(:drives_problem, drive_id: @drive.id, problem_id: @problem.id)
       test_case = create(:test_case, problem_id: @problem.id,  updated_by_id: user.id, input: 'hello', output: 'hello',
                                      created_by_id: user.id, is_active: true)
 
@@ -59,8 +60,8 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
     it 'returns candidate result data in csv' do
       get :csv_result, params: { drife_id: @drive.id, problem_id: @problem.id }, format: :csv
 
-      actual_row = [['First Name', 'Kiran'], ['Last Name', 'Patil'], ['Email', 'kiran@gmail.com'], ['Passed Testcase Count', '1'],
-                    ['Score', nil], ['Passed Testcases', '[#<TestCase id: 14, input: "hello", output: "hello">]']]
+      actual_row = [['First Name', 'Kiran'], ['Last Name', 'Patil'], ['Email', 'kiran@gmail.com'],
+                    ['Score', nil], ['Test case 1 actual output', nil], ['Test case 1 expected output', 'hello']]
       table = CSV.parse(File.read('result_file.csv'), headers: true)
       expected_row = table.by_row[0]
       expect(expected_row).to match_array(actual_row)

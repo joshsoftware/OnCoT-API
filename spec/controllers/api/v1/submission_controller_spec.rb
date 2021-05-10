@@ -22,7 +22,7 @@ RSpec.describe Api::V1::SubmissionsController, type: :controller do
         candidate = create(:candidate)
         drive = create(:drive, updated_by_id: user.id, organization: organization,
                                created_by_id: user.id)
-        create(:drives_candidate, candidate_id: candidate.id, drive_id: drive.id)
+        create(:drives_candidate, candidate_id: candidate.id, drive_id: drive.id, end_time: DateTime.current + 1.hours)
         problem = create(:problem, updated_by_id: user.id, created_by_id: user.id,
                                    organization: organization, submission_count: 3)
         create(:test_case, problem_id: problem.id, marks: 4, updated_by_id: user.id,
@@ -43,9 +43,7 @@ RSpec.describe Api::V1::SubmissionsController, type: :controller do
       it 'returns passed testcases out of total and decremented submission_count' do
         result = json
 
-        expect(result['data']['passed_testcases']).to eq(1)
-        expect(result['data']['total_testcases']).to eq(2)
-        expect(result['data']['submisiion_count']).to eq(2)
+        expect(result['data']['status']).to eq('processing')
         expect(result['message']).to eq(I18n.t('success.message'))
         expect(response).to have_http_status(200)
       end
