@@ -27,6 +27,12 @@ module Api
                          message: I18n.t('index.success', model_name: Problem))
         end
 
+        def problems_list
+          problems = Problem.all
+          render_success(data: { problems: serialize_resource(problems, ProblemSerializer) },
+                         message: I18n.t('index.success', model_name: Problem))
+        end
+
         def show
           problem = Problem.find(params[:id])
 
