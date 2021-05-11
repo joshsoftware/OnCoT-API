@@ -1,3 +1,7 @@
 MAIL_USERNAME: "hr@joshsoftware.com"
 APP_URL: http://localhost:3000/
-JUDGE_ZERO_BASE_URI: 'http://roupi.xyz'
+SERVER_URL: http://localhost:3000/api/v1/
+JUDGE_ZERO_BASE_URI: https://ce.judge0.com
+ANYCABLE_REDIS_URL: redis://localhost:6379/0
+ANYCABLE_RPC_HOST: http://localhost:50051
+ANYCABLE_DEBUG: 1
