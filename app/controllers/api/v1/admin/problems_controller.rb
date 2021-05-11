@@ -29,7 +29,7 @@ module Api
 
         def problems_list
           problems = Problem.all.order('title')
-          render_success(data: { problems: serialize_resource(problems, ProblemSerializer) },
+          render_success(data: { problems: serialize_resource(problems, ProblemsListSerializer) },
                          message: I18n.t('index.success', model_name: Problem))
         end
 
