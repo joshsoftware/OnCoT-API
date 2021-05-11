@@ -6,7 +6,9 @@ module Api
     class ResultsController < ApiController
       before_action :find_drive_candidates
       def index
-        render_success(data: serialize_resource(@drives_candidates, DrivesCandidateSerializer),
+        drives_candidates = @drives_candidates.paginate(page: params[:page], per_page: 10).order('id')
+        render_success(data: {result: serialize_resource(drives_candidates, DrivesCandidateSerializer),
+          page: drives_candidates.current_page, pages: drives_candidates.total_pages },
                        message: I18n.t('success.message', model_name: DrivesCandidate))
       end
 
