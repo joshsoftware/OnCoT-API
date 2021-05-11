@@ -28,7 +28,7 @@ module Api
         end
 
         def problems_list
-          problems = Problem.all
+          problems = Problem.all.order('title')
           render_success(data: { problems: serialize_resource(problems, ProblemSerializer) },
                          message: I18n.t('index.success', model_name: Problem))
         end
