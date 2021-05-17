@@ -63,6 +63,7 @@ Rails.application.routes.draw do
         resources :problems, except: [:destroy]
         resources :reviewers
         resources :rules, except: %i[destroy show]
+        resources :users, only: %i[create update]
         resources :drives, except: [:destroy]
         resources :test_cases, except: %i[destroy index]
         get '/problem/:problem_id/test_cases' => 'test_cases#index'
