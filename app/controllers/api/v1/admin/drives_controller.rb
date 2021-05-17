@@ -45,7 +45,7 @@ module Api
         def candidate_list
           candidates = @drive.candidates.paginate(page: params[:page], per_page: 10).order('id')
           render_success(data: { candidates: serialize_resource(candidates, CandidateSerializer),
-                        page: candidates.current_page, pages: candidates.total_pages},
+                                 page: candidates.current_page, pages: candidates.total_pages },
                          message: I18n.t('candidate_list.success', model_name: 'Candidate List'))
         end
 
