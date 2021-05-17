@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Drive API</title>
+    <meta charset="utf-8">
+    <style>
+      
+body {
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+  color: #404040;
+}
+
+.container {
+  width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+  zoom: 1;
+}
+
+pre {
+  background-color: #f5f5f5;
+  display: block;
+  padding: 8.5px;
+  margin: 0 0 18px;
+  line-height: 18px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+td.required .name:after {
+  float: right;
+  content: "required";
+  font-weight: normal;
+  color: #F08080;
+}
+
+a{
+  color: #0069d6;
+  text-decoration: none;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: #404040;
+}
+
+h1 {
+  margin-bottom: 18px;
+  font-size: 30px;
+  line-height: 36px;
+}
+h2 {
+  font-size: 24px;
+  line-height: 36px;
+}
+h3{
+  font-size: 18px;
+  line-height: 36px;
+}
+h4 {
+  font-size: 16px;
+  line-height: 36px;
+}
+
+table{
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 0;
+  border-collapse: separate;
+  font-size: 13px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-spacing: 0;
+  border: 1px solid #ddd;
+}
+
+table th {
+  padding-top: 9px;
+  font-weight: bold;
+  vertical-align: middle;
+  border-bottom: 1px solid #ddd;
+}
+table th+th, table td+td {
+  border-left: 1px solid #ddd;
+}
+table th, table td {
+  padding: 10px 10px 9px;
+  line-height: 18px;
+  text-align: left;
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Drive API</h1>
+
+      <div class="article">
+        <h2>get all drives</h2>
+        <h3>GET /api/v1/admin/drives</h3>
+
+
+
+          <h3>Request</h3>
+
+            <h4>Headers</h4>
+            <pre class="request headers">Accept: application/json
+Access-Token: qIgoYGMFYrHWqM-09ASK4A
+Client: fIgFo0Adxy9NM3fwYGLEWA
+Uid: newton.monahan@bosco.org
+Host: example.org
+Cookie: </pre>
+
+          <h4>Route</h4>
+          <pre class="request route highlight">GET /api/v1/admin/drives</pre>
+
+
+
+
+            <h3>Response</h3>
+              <h4>Headers</h4>
+              <pre class="response headers">X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-Download-Options: noopen
+X-Permitted-Cross-Domain-Policies: none
+Referrer-Policy: strict-origin-when-cross-origin
+Content-Type: application/json; charset=utf-8
+Vary: Accept, Origin
+access-token: qIgoYGMFYrHWqM-09ASK4A
+token-type: Bearer
+client: fIgFo0Adxy9NM3fwYGLEWA
+expiry: 1622444748
+uid: newton.monahan@bosco.org
+Set-Cookie: _session_id=Mv64QFIWKqPdhiu8Ch68KX%2B4nzKXCzuUg1he3pQGWnpH1JFDsk9%2BF3g6VVQGmCyWh6E9Yw%2FcfIF5dzIPwmboI%2FvZ8i9ZdjRIhQarwrVh5o2aeixrgV%2FPlL111Hmmf6Oduju7f%2FAmVY29wC3udrVjeqZUdpR9J%2BxTTvDmt%2Fa9BRYJxOoN8gakCPUnqX8BHC4wkBZK9BIKh74t8VWZ6H92QVdR6cf9pDb%2BRSR5ArSNjjMdBXECxw66RAKJlL9HVEx7YWV0PYcJOFR6csl6WeoY1QWqfOwHeW6dIekMpzEnWaoEEcNuZUcJfe9Wok7X4TE%3D--Mbi1vW%2F%2FYK87y3pP--8jJW%2FP2ALVDCEbH0vD26%2FA%3D%3D; path=/; HttpOnly; SameSite=Lax
+ETag: W/&quot;b004a29c76f4ebb3807a7da1614fd513&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: 2aa31c9f-4078-4dab-8350-bb32ca36b773
+X-Runtime: 0.126084
+Content-Length: 348</pre>
+            <h4>Status</h4>
+            <pre class="response status">200 OK</pre>
+              <h4>Body</h4>
+              <pre class="response body">[binary data]</pre>
+      </div>
+    </div>
+  </body>
+</html>

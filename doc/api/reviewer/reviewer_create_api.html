@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reviewer API</title>
+    <meta charset="utf-8">
+    <style>
+      
+body {
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+  color: #404040;
+}
+
+.container {
+  width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+  zoom: 1;
+}
+
+pre {
+  background-color: #f5f5f5;
+  display: block;
+  padding: 8.5px;
+  margin: 0 0 18px;
+  line-height: 18px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+td.required .name:after {
+  float: right;
+  content: "required";
+  font-weight: normal;
+  color: #F08080;
+}
+
+a{
+  color: #0069d6;
+  text-decoration: none;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: #404040;
+}
+
+h1 {
+  margin-bottom: 18px;
+  font-size: 30px;
+  line-height: 36px;
+}
+h2 {
+  font-size: 24px;
+  line-height: 36px;
+}
+h3{
+  font-size: 18px;
+  line-height: 36px;
+}
+h4 {
+  font-size: 16px;
+  line-height: 36px;
+}
+
+table{
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 0;
+  border-collapse: separate;
+  font-size: 13px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-spacing: 0;
+  border: 1px solid #ddd;
+}
+
+table th {
+  padding-top: 9px;
+  font-weight: bold;
+  vertical-align: middle;
+  border-bottom: 1px solid #ddd;
+}
+table th+th, table td+td {
+  border-left: 1px solid #ddd;
+}
+table th, table td {
+  padding: 10px 10px 9px;
+  line-height: 18px;
+  text-align: left;
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Reviewer API</h1>
+
+      <div class="article">
+        <h2>reviewer create API</h2>
+        <h3>POST /api/v1/admin/reviewers</h3>
+
+          <h3>Parameters</h3>
+          <table class="parameters table table-striped table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                    <span class="name">first_name</span>
+                </td>
+                <td>
+                  <span class="description">First name</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">last_name</span>
+                </td>
+                <td>
+                  <span class="description">Last name</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">email</span>
+                </td>
+                <td>
+                  <span class="description">Email</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">password</span>
+                </td>
+                <td>
+                  <span class="description">Password</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">organization_id</span>
+                </td>
+                <td>
+                  <span class="description">Organization id</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">role_id</span>
+                </td>
+                <td>
+                  <span class="description">Role id</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+          <h3>Request</h3>
+
+            <h4>Headers</h4>
+            <pre class="request headers">Accept: application/json
+Access-Token: USSAc_9vSOIyISsNfG3x4Q
+Client: GaZxByF1QngmfHf3iEP3DQ
+Uid: arianne@runte.com
+Host: example.org
+Content-Type: application/x-www-form-urlencoded
+Cookie: </pre>
+
+          <h4>Route</h4>
+          <pre class="request route highlight">POST /api/v1/admin/reviewers</pre>
+
+
+            <h4>Body</h4>
+            <pre class="request body">first_name=Mrs.+Kittie+Kub&last_name=Ms.+Theron+Witting&email=tawanna%40connelly-lubowitz.co&password=josh123&organization_id=53&role_id=41</pre>
+
+
+            <h3>Response</h3>
+              <h4>Headers</h4>
+              <pre class="response headers">X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-Download-Options: noopen
+X-Permitted-Cross-Domain-Policies: none
+Referrer-Policy: strict-origin-when-cross-origin
+Content-Type: application/json; charset=utf-8
+Vary: Accept, Origin
+access-token: USSAc_9vSOIyISsNfG3x4Q
+token-type: Bearer
+client: GaZxByF1QngmfHf3iEP3DQ
+expiry: 1622444751
+uid: arianne@runte.com
+Set-Cookie: _session_id=MrbkWcfedu7fXznikJqMg4DbLCXWnAr6M5lVXxShOTaNO4b2beNLcoNqiho2Jb%2BQucmAJH7s6242%2BvfNrauVwFg1JV0aTsWyE8UzUI15BOOupbPlAwc463lD%2BgBERPIS4VGr5%2BF3Hz0RNixP1ujO8UHuz0Fo2mBMuqyUExZTjAl3UJUwXtTtBx4B6pCd%2ButNnXfb8yU9D6ge5iU%2BBF%2F5q03QVB0sJYZ8lxlCs%2FeAkAstUEV%2BQuFmuXKuziBhJLVzj%2FDcOPcVHJ49pO5UWiWCkCh40Pn38A0ftESOhxKYLUa3WNrKs65QBSZHfZhTp10%3D--IcIP8jRA0VswclAL--5dl5b0H76vkGlSZ7nBRm%2Fw%3D%3D; path=/; HttpOnly; SameSite=Lax
+ETag: W/&quot;5d98184e89759afbe7cca290ebaaf372&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: d871cfc9-56c6-4f72-bcf9-2c527e5d3b0a
+X-Runtime: 0.055275
+Content-Length: 211</pre>
+            <h4>Status</h4>
+            <pre class="response status">201 Created</pre>
+              <h4>Body</h4>
+              <pre class="response body">[binary data]</pre>
+      </div>
+    </div>
+  </body>
+</html>

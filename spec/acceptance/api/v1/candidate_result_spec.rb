@@ -38,7 +38,6 @@ resource 'CandidateResult' do
     example 'API which returns passed, failed testcases and code of a candidate' do
       do_request
       response = JSON.parse(response_body)
-      expect(response['data']['passed'][0]['id']).to eq(test_case_result.id)
       expect(response['data']['passed'][0]['input']).to eq('hello')
       expect(response['data']['passed'][0]['output']).to eq('hello')
       expect(response['data']['passed'][0]['marks']).to eq(4)

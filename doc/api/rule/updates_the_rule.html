@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rule API</title>
+    <meta charset="utf-8">
+    <style>
+      
+body {
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+  color: #404040;
+}
+
+.container {
+  width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+  zoom: 1;
+}
+
+pre {
+  background-color: #f5f5f5;
+  display: block;
+  padding: 8.5px;
+  margin: 0 0 18px;
+  line-height: 18px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+td.required .name:after {
+  float: right;
+  content: "required";
+  font-weight: normal;
+  color: #F08080;
+}
+
+a{
+  color: #0069d6;
+  text-decoration: none;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: #404040;
+}
+
+h1 {
+  margin-bottom: 18px;
+  font-size: 30px;
+  line-height: 36px;
+}
+h2 {
+  font-size: 24px;
+  line-height: 36px;
+}
+h3{
+  font-size: 18px;
+  line-height: 36px;
+}
+h4 {
+  font-size: 16px;
+  line-height: 36px;
+}
+
+table{
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 0;
+  border-collapse: separate;
+  font-size: 13px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-spacing: 0;
+  border: 1px solid #ddd;
+}
+
+table th {
+  padding-top: 9px;
+  font-weight: bold;
+  vertical-align: middle;
+  border-bottom: 1px solid #ddd;
+}
+table th+th, table td+td {
+  border-left: 1px solid #ddd;
+}
+table th, table td {
+  padding: 10px 10px 9px;
+  line-height: 18px;
+  text-align: left;
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Rule API</h1>
+
+      <div class="article">
+        <h2>Updates the rule</h2>
+        <h3>PUT /api/v1/admin/rules/:id</h3>
+
+          <h3>Parameters</h3>
+          <table class="parameters table table-striped table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                    <span class="name">id</span>
+                </td>
+                <td>
+                  <span class="description">Rule id</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">type_name</span>
+                </td>
+                <td>
+                  <span class="description">Rule type</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">description</span>
+                </td>
+                <td>
+                  <span class="description">Rule description</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">drive_id</span>
+                </td>
+                <td>
+                  <span class="description">Drive id</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+          <h3>Request</h3>
+
+            <h4>Headers</h4>
+            <pre class="request headers">Accept: application/json
+Access-Token: Fy6kEwMSN3hsXmYbjIKdog
+Client: oI4am4PlbCGFIKTNEQagxQ
+Uid: derick.grimes@ohara.info
+Host: example.org
+Content-Type: application/x-www-form-urlencoded
+Cookie: </pre>
+
+          <h4>Route</h4>
+          <pre class="request route highlight">PUT /api/v1/admin/rules/7</pre>
+
+
+            <h4>Body</h4>
+            <pre class="request body">type_name=changed+rule+type&description=Dolores+animi+velit+et.&drive_id=18</pre>
+
+
+            <h3>Response</h3>
+              <h4>Headers</h4>
+              <pre class="response headers">X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-Download-Options: noopen
+X-Permitted-Cross-Domain-Policies: none
+Referrer-Policy: strict-origin-when-cross-origin
+Content-Type: application/json; charset=utf-8
+Vary: Accept, Origin
+access-token: Fy6kEwMSN3hsXmYbjIKdog
+token-type: Bearer
+client: oI4am4PlbCGFIKTNEQagxQ
+expiry: 1622444752
+uid: derick.grimes@ohara.info
+Set-Cookie: _session_id=TKaAVIx%2FZY4iLq0z5ldqlOCpnof%2FLE9HbriT2nOT%2BjDKYl%2B7zSCB4Lu3qrdPDNqJa2WQsVcuNc885ZKVzDWhvhdlDIWOGOKBY7vbYq%2F5SitSfkWowW4%2BT9yEaKPzCh3r7wEm7eLbPqxZpZ%2BjZqSK9qr3EdVUVs%2B21kHGVCaeGYYbFGCCfP3fcRtGNR%2FBRWAdFJMfzvTDu%2BnpOweNL7y0wqs7ctteKFvBbAprIheQsoyTdOh6IetMBSGww%2FD1gaI9ChW19AaQwg2vAaMSHIzYww%2BvqZqnre2BEf1iRucZLyWUdkiZ1EnSIQiNdMwiiR0%3D--TmMJjW7Or7CZVyze--Oj7vov1FtDsW5blQI2Hc9w%3D%3D; path=/; HttpOnly; SameSite=Lax
+ETag: W/&quot;91d4eab5323b3e7b3f9ab5c4ca360f27&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: dd659144-bce7-419d-9f48-d7c46cc40d90
+X-Runtime: 0.027347
+Content-Length: 143</pre>
+            <h4>Status</h4>
+            <pre class="response status">200 OK</pre>
+              <h4>Body</h4>
+              <pre class="response body">[binary data]</pre>
+      </div>
+    </div>
+  </body>
+</html>
