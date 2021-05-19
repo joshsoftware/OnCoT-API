@@ -104,10 +104,10 @@ RSpec.describe Api::V1::Admin::RulesController, type: :controller do
 
       context 'with valid params' do
         it 'returns all rules related to a drive' do
-          get :index, params: { id: drive.id }
+          get :index, params: { drive_id: drive.id }
 
           data = json
-          rules = Rule.where(drive_id: request.params[:id])
+          rules = Rule.where(drive_id: request.params[:drive_id])
 
           expect(data['data']['rules'].count).to eq(rules.count)
           expect(response).to have_http_status(:ok)
@@ -125,6 +125,42 @@ RSpec.describe Api::V1::Admin::RulesController, type: :controller do
     context 'When user is logged in' do
       it ' ask for login ' do
         get :index, params: { id: drive.id }
+
+        rule = json
+
+        expect(rule['errors'].first).to eq('You need to sign in or sign up before continuing.')
+        expect(response).to have_http_status(401)
+      end
+    end
+  end
+  describe 'DELETE #DESTROY' do
+    context 'When user is logged in' do
+      before do
+        auth_tokens_for_user(user)
+      end
+
+      context 'with valid params' do
+        it 'deletes a rule' do
+          delete :destroy, params: { id: rule.id }
+
+          data = json
+          expect(Rule.count).to eq(0)
+          expect(data['message']).to eq(I18n.t('destroy.success', model_name: Rule))
+          expect(response).to have_http_status(:ok)
+        end
+      end
+      context 'with invalid params' do
+        it 'returns the not found error as passing random id which is not present in database' do
+          get :index, params: { id: Faker::Number.number }
+
+          expect(response.body).to eq(I18n.t('not_found.message'))
+          expect(response).to have_http_status(404)
+        end
+      end
+    end
+    context 'When user is logged in' do
+      it ' ask for login ' do
+        get :index, params: { drive_id: drive.id }
 
         rule = json
 
