@@ -56,13 +56,12 @@ Rails.application.routes.draw do
         get :show_code
       end
 
-      # resources :rules, only: %i[index]
       get '/drives/:drive_id/rules', to: 'rules#index'
 
       namespace :admin do
         resources :problems, except: [:destroy]
         resources :reviewers
-        resources :rules, except: %i[destroy show]
+        resources :rules, except: %i[show]
         resources :users, only: %i[create update]
         resources :drives, except: [:destroy]
         resources :test_cases, except: %i[destroy index]
