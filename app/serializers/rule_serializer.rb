@@ -12,5 +12,5 @@
 #  updated_at  :datetime         not null
 #
 class RuleSerializer < ActiveModel::Serializer
-  attributes :type_name, :description, :drive_id
+  attributes :type_name, :description, :drive_id, :id
 end
