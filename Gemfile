@@ -72,3 +72,7 @@ gem 'newrelic_rpm'
 gem 'rollbar'
 gem 'simplecov', require: false
 gem 'will_paginate'
+
+gem "anycable-rails", "~> 1.0"
+# when using Redis broadcast adapter
+gem "redis", ">= 4.0"
