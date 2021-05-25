@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TestCase API</title>
+    <meta charset="utf-8">
+    <style>
+      
+body {
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+  color: #404040;
+}
+
+.container {
+  width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+  zoom: 1;
+}
+
+pre {
+  background-color: #f5f5f5;
+  display: block;
+  padding: 8.5px;
+  margin: 0 0 18px;
+  line-height: 18px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+td.required .name:after {
+  float: right;
+  content: "required";
+  font-weight: normal;
+  color: #F08080;
+}
+
+a{
+  color: #0069d6;
+  text-decoration: none;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: #404040;
+}
+
+h1 {
+  margin-bottom: 18px;
+  font-size: 30px;
+  line-height: 36px;
+}
+h2 {
+  font-size: 24px;
+  line-height: 36px;
+}
+h3{
+  font-size: 18px;
+  line-height: 36px;
+}
+h4 {
+  font-size: 16px;
+  line-height: 36px;
+}
+
+table{
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 0;
+  border-collapse: separate;
+  font-size: 13px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-spacing: 0;
+  border: 1px solid #ddd;
+}
+
+table th {
+  padding-top: 9px;
+  font-weight: bold;
+  vertical-align: middle;
+  border-bottom: 1px solid #ddd;
+}
+table th+th, table td+td {
+  border-left: 1px solid #ddd;
+}
+table th, table td {
+  padding: 10px 10px 9px;
+  line-height: 18px;
+  text-align: left;
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>TestCase API</h1>
+
+      <div class="article">
+        <h2>fails to create test case without problem id</h2>
+        <h3>POST /api/v1/admin/test_cases</h3>
+
+          <h3>Parameters</h3>
+          <table class="parameters table table-striped table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                    <span class="name">input</span>
+                </td>
+                <td>
+                  <span class="description">TestCase input</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">output</span>
+                </td>
+                <td>
+                  <span class="description">TestCase output</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">marks</span>
+                </td>
+                <td>
+                  <span class="description">TestCase marks</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">created_by_id</span>
+                </td>
+                <td>
+                  <span class="description">user id</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">updated_by_id</span>
+                </td>
+                <td>
+                  <span class="description">user id</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+          <h3>Request</h3>
+
+            <h4>Headers</h4>
+            <pre class="request headers">Access-Token: 2bBopqBd1l2m8JvwiXlVFQ
+Client: 3b35stA6iAXzBYcDLq93xQ
+Uid: stanley@hermann.org
+Host: example.org
+Content-Type: application/x-www-form-urlencoded
+Cookie: </pre>
+
+          <h4>Route</h4>
+          <pre class="request route highlight">POST /api/v1/admin/test_cases</pre>
+
+
+            <h4>Body</h4>
+            <pre class="request body">input=5&output=9&marks=1&created_by_id=42&updated_by_id=42</pre>
+
+
+            <h3>Response</h3>
+              <h4>Headers</h4>
+              <pre class="response headers">X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-Download-Options: noopen
+X-Permitted-Cross-Domain-Policies: none
+Referrer-Policy: strict-origin-when-cross-origin
+Content-Type: application/json; charset=utf-8
+access-token: 2bBopqBd1l2m8JvwiXlVFQ
+token-type: Bearer
+client: 3b35stA6iAXzBYcDLq93xQ
+expiry: 1622444753
+uid: stanley@hermann.org
+Set-Cookie: _session_id=rOx4VFLp%2FN7QX8IFidNcy03QiPSiLkYQeaz2jzoM7xIix83VWXQTGvnNztPvr7KztiJLPsOzHaijXbV5W1Uqg1L4bW7ZZkyhJQM%2F2MZB6I70fgbyhCQBZOwdkwgvCKwvR7Z6yb1pdi59oyssDWBUMyjVxakacKyU156p0Oa1Rz%2FJPB5XrA3ECgqORH29xW%2FWn0l1Qs50Dfyf2culG3Pgzfls03zlYcVr6cRyFqk2bArmIotl0WK8dnwRCsp0w9mIkv5mMFufaEG65Lmb%2FDibo67w9U0q7zytakLM0oLKZ8KfRrGGEjveapgNYVsCerA%3D--3CjIhbJ7iFqT7sxR--%2F7Jr2KWTTOBkZHaUTHGupA%3D%3D; path=/; HttpOnly; SameSite=Lax
+Cache-Control: no-cache
+X-Request-Id: 3c27b971-64f3-4258-ba56-ad62f923976f
+X-Runtime: 0.026360
+Vary: Origin
+Content-Length: 26</pre>
+            <h4>Status</h4>
+            <pre class="response status">400 Bad Request</pre>
+              <h4>Body</h4>
+              <pre class="response body">[binary data]</pre>
+      </div>
+    </div>
+  </body>
+</html>
