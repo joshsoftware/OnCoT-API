@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Problem API</title>
+    <meta charset="utf-8">
+    <style>
+      
+body {
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+  color: #404040;
+}
+
+.container {
+  width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+  zoom: 1;
+}
+
+pre {
+  background-color: #f5f5f5;
+  display: block;
+  padding: 8.5px;
+  margin: 0 0 18px;
+  line-height: 18px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+td.required .name:after {
+  float: right;
+  content: "required";
+  font-weight: normal;
+  color: #F08080;
+}
+
+a{
+  color: #0069d6;
+  text-decoration: none;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: #404040;
+}
+
+h1 {
+  margin-bottom: 18px;
+  font-size: 30px;
+  line-height: 36px;
+}
+h2 {
+  font-size: 24px;
+  line-height: 36px;
+}
+h3{
+  font-size: 18px;
+  line-height: 36px;
+}
+h4 {
+  font-size: 16px;
+  line-height: 36px;
+}
+
+table{
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 0;
+  border-collapse: separate;
+  font-size: 13px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-spacing: 0;
+  border: 1px solid #ddd;
+}
+
+table th {
+  padding-top: 9px;
+  font-weight: bold;
+  vertical-align: middle;
+  border-bottom: 1px solid #ddd;
+}
+table th+th, table td+td {
+  border-left: 1px solid #ddd;
+}
+table th, table td {
+  padding: 10px 10px 9px;
+  line-height: 18px;
+  text-align: left;
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Problem API</h1>
+
+      <div class="article">
+        <h2>shows a problem with valid problem id</h2>
+        <h3>GET /api/v1/admin/problems/:id</h3>
+
+          <h3>Parameters</h3>
+          <table class="parameters table table-striped table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                    <span class="name">id</span>
+                </td>
+                <td>
+                  <span class="description">Problem id</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+          <h3>Request</h3>
+
+            <h4>Headers</h4>
+            <pre class="request headers">Accept: application/json
+Access-Token: XtmU5IuOEk_-iGOg6Sy8_w
+Client: t0KkVUr8y_n3AWQuT9Pn8Q
+Uid: rufus@powlowski-thiel.com
+Host: example.org
+Cookie: </pre>
+
+          <h4>Route</h4>
+          <pre class="request route highlight">GET /api/v1/admin/problems/14</pre>
+
+
+
+
+            <h3>Response</h3>
+              <h4>Headers</h4>
+              <pre class="response headers">X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-Download-Options: noopen
+X-Permitted-Cross-Domain-Policies: none
+Referrer-Policy: strict-origin-when-cross-origin
+Content-Type: application/json; charset=utf-8
+Vary: Accept, Origin
+access-token: XtmU5IuOEk_-iGOg6Sy8_w
+token-type: Bearer
+client: t0KkVUr8y_n3AWQuT9Pn8Q
+expiry: 1622444750
+uid: rufus@powlowski-thiel.com
+Set-Cookie: _session_id=Nu%2FopboUjTKZrPFUpyMD%2BOM2p3pki627yQKlpqVGyMnXVcCKK%2BB7yR5YtvEupHQcRN4ISuN%2FkuUHoZBY0bK025PD9WggszIUBKUn2nVwg4vXYnjtgGjqrDhcxX09UoxjC6J0riagGt%2BiT%2FZeFHT%2BPuFLWUjA%2Fn5FwFBdqwZ8GvLIcHg3l%2B4DhHSbGaIQPjtZxr17UESpIYOXOJ7YpxIjNHXeQREaqnn4IU6ppho%2FUsj6Ld%2B3y8EOoyfG6Gn9ST3d1AMvjdMGM%2B442x8t0Z84dNP15v7igIjwLFD9NLQq5R7D8Q5j5ApL2wGaSlAuy%2Bw%3D--9O7Ira8rrTqNLUTl--IXdaEZcz63cOcX4%2BMaH%2FwQ%3D%3D; path=/; HttpOnly; SameSite=Lax
+ETag: W/&quot;6726bcdf8ff066c6e63e6fdee83e34db&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: e0dcf26b-b0c2-4f20-b030-e66786459687
+X-Runtime: 0.038211
+Content-Length: 336</pre>
+            <h4>Status</h4>
+            <pre class="response status">200 OK</pre>
+              <h4>Body</h4>
+              <pre class="response body">[binary data]</pre>
+      </div>
+    </div>
+  </body>
+</html>

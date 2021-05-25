@@ -39,6 +39,7 @@ Rails.application.routes.draw do
 
       resources :executions do
         post :submission_token, on: :collection
+        put :submission_result, on: :collection
         get :submission_status, on: :member
       end
 
