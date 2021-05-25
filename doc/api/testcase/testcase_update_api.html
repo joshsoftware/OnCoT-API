@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TestCase API</title>
+    <meta charset="utf-8">
+    <style>
+      
+body {
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+  color: #404040;
+}
+
+.container {
+  width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+  zoom: 1;
+}
+
+pre {
+  background-color: #f5f5f5;
+  display: block;
+  padding: 8.5px;
+  margin: 0 0 18px;
+  line-height: 18px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+td.required .name:after {
+  float: right;
+  content: "required";
+  font-weight: normal;
+  color: #F08080;
+}
+
+a{
+  color: #0069d6;
+  text-decoration: none;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: #404040;
+}
+
+h1 {
+  margin-bottom: 18px;
+  font-size: 30px;
+  line-height: 36px;
+}
+h2 {
+  font-size: 24px;
+  line-height: 36px;
+}
+h3{
+  font-size: 18px;
+  line-height: 36px;
+}
+h4 {
+  font-size: 16px;
+  line-height: 36px;
+}
+
+table{
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 0;
+  border-collapse: separate;
+  font-size: 13px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-spacing: 0;
+  border: 1px solid #ddd;
+}
+
+table th {
+  padding-top: 9px;
+  font-weight: bold;
+  vertical-align: middle;
+  border-bottom: 1px solid #ddd;
+}
+table th+th, table td+td {
+  border-left: 1px solid #ddd;
+}
+table th, table td {
+  padding: 10px 10px 9px;
+  line-height: 18px;
+  text-align: left;
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>TestCase API</h1>
+
+      <div class="article">
+        <h2>TestCase update API</h2>
+        <h3>PUT /api/v1/admin/test_cases/:id</h3>
+
+          <h3>Parameters</h3>
+          <table class="parameters table table-striped table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                    <span class="name">id</span>
+                </td>
+                <td>
+                  <span class="description">TestCase id</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">input</span>
+                </td>
+                <td>
+                  <span class="description">TestCase input</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">output</span>
+                </td>
+                <td>
+                  <span class="description">TestCase output</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">marks</span>
+                </td>
+                <td>
+                  <span class="description">TestCase marks</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">created_by_id</span>
+                </td>
+                <td>
+                  <span class="description">user id</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">updated_by_id</span>
+                </td>
+                <td>
+                  <span class="description">user id</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                    <span class="name">problem_id</span>
+                </td>
+                <td>
+                  <span class="description">Problem id</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+          <h3>Request</h3>
+
+            <h4>Headers</h4>
+            <pre class="request headers">Access-Token: UIeVII233HXMzn3y12YjDQ
+Client: noT1bda4rIOybf58D7QxPQ
+Uid: christi_lind@tremblay.io
+Host: example.org
+Content-Type: application/x-www-form-urlencoded
+Cookie: </pre>
+
+          <h4>Route</h4>
+          <pre class="request route highlight">PUT /api/v1/admin/test_cases/8</pre>
+
+
+            <h4>Body</h4>
+            <pre class="request body">input=201&output=6&marks=9&created_by_id=43&updated_by_id=43&problem_id=26</pre>
+
+
+            <h3>Response</h3>
+              <h4>Headers</h4>
+              <pre class="response headers">X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-Download-Options: noopen
+X-Permitted-Cross-Domain-Policies: none
+Referrer-Policy: strict-origin-when-cross-origin
+Content-Type: application/json; charset=utf-8
+access-token: UIeVII233HXMzn3y12YjDQ
+token-type: Bearer
+client: noT1bda4rIOybf58D7QxPQ
+expiry: 1622444753
+uid: christi_lind@tremblay.io
+Set-Cookie: _session_id=Eq3JzwyD%2Bp8nMImUVWZX5Zs2VJn76Dwh7om2O74xJvfs20cTfd4hVGMzppDqBf7ENy8hnnJ4l%2FQio1QboGvgMxcShAIwfKIBF9jDUXUdqDHzHQVdiYBDdivgLJPYFgalMZTNznpwGMNoCPK8G%2BhE6AYg%2F3o20x6Uqz1S3hYUa%2FFCzqPcjQdQBVnbheTl2u5XM8y%2BuygGtZ416WMHN27N%2B9KvuwQTbloZspBQqQFCzMJvnWbD3YbN3IRLTikkXzA9FBTn7ewRrQsCEaRM%2FNzwj3Rtw3XB8CcVzuLZcM0aLtiXFkTFXZ95mq5yNMtOdKM%3D--PgBPQV4JYNEcucNQ--ykKt6dmke1Q%2BgQC1gfem5Q%3D%3D; path=/; HttpOnly; SameSite=Lax
+ETag: W/&quot;a601e6091633a14f69b818c6ed3eefc2&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: e4baf5de-3da2-481a-82ec-90751446e772
+X-Runtime: 0.033417
+Vary: Origin
+Content-Length: 181</pre>
+            <h4>Status</h4>
+            <pre class="response status">200 OK</pre>
+              <h4>Body</h4>
+              <pre class="response body">[binary data]</pre>
+      </div>
+    </div>
+  </body>
+</html>
