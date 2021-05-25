@@ -12,5 +12,5 @@
 #  updated_at  :datetime         not null
 #
 class Rule < ApplicationRecord
-  belongs_to :drive
+  belongs_to :drive, optional: true
 end

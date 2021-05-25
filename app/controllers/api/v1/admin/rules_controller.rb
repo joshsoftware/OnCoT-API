@@ -43,6 +43,13 @@ module Api
           end
         end
 
+        def default_rules
+          rules = Rule.where(type_name: 'default')
+
+          render_success(data: { rules: serialize_resource(rules, RuleSerializer) },
+                         message: I18n.t('index.success', model_name: Rule))
+        end
+
         private
 
         def rule_finder
