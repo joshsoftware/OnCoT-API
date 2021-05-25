@@ -115,7 +115,7 @@ ActiveRecord::Schema.define(version: 20_210_514_054_937) do
   create_table 'rules', force: :cascade do |t|
     t.string 'type_name'
     t.text 'description'
-    t.bigint 'drive_id', null: false
+    t.bigint 'drive_id'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['drive_id'], name: 'index_rules_on_drive_id'
