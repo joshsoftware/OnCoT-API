@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_427_184_100) do
+ActiveRecord::Schema.define(version: 20_210_514_054_937) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -115,7 +115,7 @@ ActiveRecord::Schema.define(version: 20_210_427_184_100) do
   create_table 'rules', force: :cascade do |t|
     t.string 'type_name'
     t.text 'description'
-    t.bigint 'drive_id', null: false
+    t.bigint 'drive_id'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['drive_id'], name: 'index_rules_on_drive_id'
@@ -179,6 +179,7 @@ ActiveRecord::Schema.define(version: 20_210_427_184_100) do
     t.datetime 'confirmation_sent_at'
     t.string 'unconfirmed_email'
     t.json 'tokens'
+    t.boolean 'allow_password_change', default: false, null: false
     t.index ['email'], name: 'index_users_on_email', unique: true
     t.index ['organization_id'], name: 'index_users_on_organization_id'
     t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true

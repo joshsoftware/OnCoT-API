@@ -34,9 +34,10 @@ class Drive < ApplicationRecord
   end
 
   def assign_rules
-    Rule.where(drive: Drive.first).each do |rule|
+    Rule.where(type_name: 'default').each do |rule|
       r = rule.dup
       r.drive_id = self.id
+      r.type_name = nil
       r.save
     end
   end
