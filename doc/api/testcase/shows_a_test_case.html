@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TestCase API</title>
+    <meta charset="utf-8">
+    <style>
+      
+body {
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+  color: #404040;
+}
+
+.container {
+  width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+  zoom: 1;
+}
+
+pre {
+  background-color: #f5f5f5;
+  display: block;
+  padding: 8.5px;
+  margin: 0 0 18px;
+  line-height: 18px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+td.required .name:after {
+  float: right;
+  content: "required";
+  font-weight: normal;
+  color: #F08080;
+}
+
+a{
+  color: #0069d6;
+  text-decoration: none;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: #404040;
+}
+
+h1 {
+  margin-bottom: 18px;
+  font-size: 30px;
+  line-height: 36px;
+}
+h2 {
+  font-size: 24px;
+  line-height: 36px;
+}
+h3{
+  font-size: 18px;
+  line-height: 36px;
+}
+h4 {
+  font-size: 16px;
+  line-height: 36px;
+}
+
+table{
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 0;
+  border-collapse: separate;
+  font-size: 13px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-spacing: 0;
+  border: 1px solid #ddd;
+}
+
+table th {
+  padding-top: 9px;
+  font-weight: bold;
+  vertical-align: middle;
+  border-bottom: 1px solid #ddd;
+}
+table th+th, table td+td {
+  border-left: 1px solid #ddd;
+}
+table th, table td {
+  padding: 10px 10px 9px;
+  line-height: 18px;
+  text-align: left;
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>TestCase API</h1>
+
+      <div class="article">
+        <h2>shows a test_case</h2>
+        <h3>GET /api/v1/admin/test_cases/:id</h3>
+
+          <h3>Parameters</h3>
+          <table class="parameters table table-striped table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                    <span class="name">id</span>
+                </td>
+                <td>
+                  <span class="description">TestCase id</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+          <h3>Request</h3>
+
+            <h4>Headers</h4>
+            <pre class="request headers">Access-Token: dRxEtuBzGtwcY08h6OcmeQ
+Client: aYSPrqxTY5OdwchOx3kpJg
+Uid: madaline@cremin.name
+Host: example.org
+Cookie: </pre>
+
+          <h4>Route</h4>
+          <pre class="request route highlight">GET /api/v1/admin/test_cases/3</pre>
+
+
+
+
+            <h3>Response</h3>
+              <h4>Headers</h4>
+              <pre class="response headers">X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-Download-Options: noopen
+X-Permitted-Cross-Domain-Policies: none
+Referrer-Policy: strict-origin-when-cross-origin
+Content-Type: application/json; charset=utf-8
+access-token: dRxEtuBzGtwcY08h6OcmeQ
+token-type: Bearer
+client: aYSPrqxTY5OdwchOx3kpJg
+expiry: 1622444752
+uid: madaline@cremin.name
+Set-Cookie: _session_id=KEZRpG5ImhEFCBT9EeMY4pllPWTE5tbxX22pIB04TtCO6hXl9jzjxlUIaFvqQA6WzajeUzMjZOPwQ621iiMGSmJOJJtqV%2BQzkO7FjCUqSEU72x7tg31ffFLxrPRbha72fg3W3eF9UcXnfM34gLV%2FmOx0CtetZ9ybVDX3725JPVF4OUGb07R7RCnMmrpDxaJffSnqrlnHJoAo8YQA3hHUMooW5u60ou%2BheX1DPmlKQF6yNdfLK0Gqp%2F4j2LmDSZhwooo8EkF6ISu8xImQDdU%2FSf8rtEwpbQIWkq2I9VOmkLMibg3EPR6zA8wx912xPiM%3D--4rJ3Lqf1gK7cSYyv--5wPOZ1HAm8jSoSaou4CM9A%3D%3D; path=/; HttpOnly; SameSite=Lax
+ETag: W/&quot;410e2f1dd2a726349a96e9c0ead86a89&quot;
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: 1555643f-bee5-48e1-b2ab-5b7302c77689
+X-Runtime: 0.024666
+Vary: Origin
+Content-Length: 182</pre>
+            <h4>Status</h4>
+            <pre class="response status">200 OK</pre>
+              <h4>Body</h4>
+              <pre class="response body">[binary data]</pre>
+      </div>
+    </div>
+  </body>
+</html>

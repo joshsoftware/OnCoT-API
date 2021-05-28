@@ -20,9 +20,16 @@ module Api
         end
 
         def index
-          problems = Problem.paginate(page: params[:page], per_page: 15)
+          problems = Problem.paginate(page: params[:page], per_page: 10).order('id')
 
-          render_success(data: { problems: serialize_resource(problems, ProblemSerializer) },
+          render_success(data: { problems: serialize_resource(problems, ProblemSerializer),
+                                 page: problems.current_page, pages: problems.total_pages },
+                         message: I18n.t('index.success', model_name: Problem))
+        end
+
+        def problems_list
+          problems = Problem.all.order('title')
+          render_success(data: { problems: serialize_resource(problems, ProblemsListSerializer) },
                          message: I18n.t('index.success', model_name: Problem))
         end
 
