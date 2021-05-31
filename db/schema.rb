@@ -178,6 +178,7 @@ ActiveRecord::Schema.define(version: 20_210_514_054_937) do
     t.datetime 'confirmed_at'
     t.datetime 'confirmation_sent_at'
     t.string 'unconfirmed_email'
+    t.bigint 'mobile_number'
     t.json 'tokens'
     t.boolean 'allow_password_change', default: false, null: false
     t.index ['email'], name: 'index_users_on_email', unique: true

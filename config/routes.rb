@@ -63,7 +63,8 @@ Rails.application.routes.draw do
         resources :reviewers
         resources :rules, except: %i[show]
         get '/default_rules' => 'rules#default_rules'
-        resources :users, only: %i[create update]
+        post 'invite_user', to: 'users#invite_user'
+        resources :users, only: %i[create update index]
         resources :drives, except: [:destroy]
         resources :test_cases, except: %i[destroy index]
         get '/problem/:problem_id/test_cases' => 'test_cases#index'

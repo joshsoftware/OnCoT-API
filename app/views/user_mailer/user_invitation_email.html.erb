@@ -1,0 +1,13 @@
+
+<p> Hi </p>
+
+<p> You have been invited to join <%= @organization.name %> on OnCoT platform as "<%= @role.name %>" 
+</p>
+
+<p>
+  To create account : <%=link_to "click here", "#{ENV['APP_URL']}"%>
+</p>
+
+<p>
+  If any query, contact: <%= @current_user.first_name %> <%= @current_user.last_name %>, <%= @current_user.email %> 
+</p>

@@ -20,6 +20,7 @@ en:
     failed: "Unable to update %{model_name}"
   user:
     unauthorized: "Unauthorized user, login as admin"
+    exist: "User already exist"
   destroy:
     success: "%{model_name} deleted successfully."
     failed: "Unable to destroy %{model_name}."
