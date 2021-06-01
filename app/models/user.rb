@@ -30,10 +30,15 @@ class User < ApplicationRecord
   # Include default devise modules.
   devise :database_authenticatable
   before_save -> { skip_confirmation! }
+  before_create :default_values
 
   belongs_to :organization
   belongs_to :role
   has_many :problems
   has_many :drives
   has_many :test_cases
+
+  def default_values
+    self.is_active ||= true
+  end
 end

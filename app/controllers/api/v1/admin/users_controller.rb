@@ -31,7 +31,7 @@ module Api
 
         def index
           organization = Organization.find(params[:organization_id])
-          users = organization.users
+          users = organization.users.where(is_active: true)
 
           render_success(data: { users: serialize_resource(users, UserSerializer) },
                          message: I18n.t('index.success', model_name: 'User'))
@@ -40,10 +40,10 @@ module Api
         def invite_user
           email = params[:email]
           @role = params[:role]
-          user = User.find_by(email: email, organization_id: current_user.organization.id)
+          user = User.find_by(email: email, organization_id: current_user.organization.id, is_active: true)
 
           if user
-            render json: {message: I18n.t('user.exist') , status: 400 }
+            render json: { message: I18n.t('user.exist'), status: 400 }
           else
             user = User.create(
               email: email,
@@ -51,11 +51,12 @@ module Api
               organization_id: current_user.organization.id,
               password: SecureRandom.hex(10),
               invitation_token: SecureRandom.hex(50),
-              invitation_sent_at: DateTime.current
-            );
+              invitation_sent_at: DateTime.current,
+              invitation_sent_by: current_user.id
+            )
             render_error(message: I18n.t('create.failed', model_name: 'User')) unless user
             UserMailer.user_invitation_email(user.email, @role, current_user, user.invitation_token).deliver_later
-
+            DeleteInvitationTokenJob.set(wait: 1.week).perform_later(user)
             render_success(message: 'yes')
           end
         end
@@ -63,8 +64,8 @@ module Api
         private
 
         def user_params
-          params.permit(:first_name, :last_name, :email, :role_id,
-            :password, :password_confirmation, :invitation_token, :mobile_number)
+          params.permit(:first_name, :last_name, :email, :role_id, :is_active,
+                        :password, :password_confirmation, :invitation_token, :mobile_number)
         end
       end
     end
