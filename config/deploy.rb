@@ -80,6 +80,7 @@ task :deploy do
       in_path(fetch(:current_path)) do
         command %{mkdir -p tmp/}
         command %{touch tmp/restart.txt}
+        command %{RAILS_ENV=production bundle exec anycable &}
         command %{pumactl restart}
       end
     end
