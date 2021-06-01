@@ -28,7 +28,7 @@ Rails.application.routes.draw do
       resources :candidates, only: %i[update show]
       post 'invite', to: 'candidates#invite'
       get '/drives/:id/problem' => 'problems#index'
-
+      put 'accept_invite', to: 'users#accept_invite'
       resources :submissions, only: %i[create show]
 
       resources :drives do
@@ -63,7 +63,8 @@ Rails.application.routes.draw do
         resources :reviewers
         resources :rules, except: %i[show]
         get '/default_rules' => 'rules#default_rules'
-        resources :users, only: %i[create update]
+        post 'invite_user', to: 'users#invite_user'
+        resources :users, only: %i[create update index]
         resources :drives, except: [:destroy]
         resources :test_cases, except: %i[destroy index]
         get '/problem/:problem_id/test_cases' => 'test_cases#index'

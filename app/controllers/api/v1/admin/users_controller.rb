@@ -29,10 +29,42 @@ module Api
           end
         end
 
+        def index
+          organization = Organization.find(params[:organization_id])
+          users = organization.users
+
+          render_success(data: { users: serialize_resource(users, UserSerializer) },
+                         message: I18n.t('index.success', model_name: 'User'))
+        end
+
+        def invite_user
+          email = params[:email]
+          @role = params[:role]
+          user = User.find_by(email: email, organization_id: current_user.organization.id)
+
+          if user
+            render json: {message: I18n.t('user.exist') , status: 400 }
+          else
+            user = User.create(
+              email: email,
+              role_id: @role,
+              organization_id: current_user.organization.id,
+              password: SecureRandom.hex(10),
+              invitation_token: SecureRandom.hex(50),
+              invitation_sent_at: DateTime.current
+            );
+            render_error(message: I18n.t('create.failed', model_name: 'User')) unless user
+            UserMailer.user_invitation_email(user.email, @role, current_user, user.invitation_token).deliver_later
+
+            render_success(message: 'yes')
+          end
+        end
+
         private
 
         def user_params
-          params.permit(:first_name, :last_name, :email, :role_id, :password)
+          params.permit(:first_name, :last_name, :email, :role_id,
+            :password, :password_confirmation, :invitation_token, :mobile_number)
         end
       end
     end
