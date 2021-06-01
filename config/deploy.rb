@@ -29,7 +29,7 @@ set :user, 'ubuntu'          # Username in the server to SSH to.
 
 set :shared_dirs, fetch(:shared_dirs, []).push('log', 'tmp/pids', 'tmp/sockets', 'public/uploads')
 
-set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/application.yml', 'config/puma.rb')
+set :shared_files, fetch(:shared_files, []).push('config/application.yml', 'config/puma.rb')
 
 
 # Shared dirs and files will be symlinked into the app-folder by the 'deploy:link_shared_paths' step.
@@ -54,7 +54,6 @@ end
 # All paths in `shared_dirs` and `shared_paths` will be created on their own.
 task :setup do
   # command %{rbenv install 2.3.0 --skip-existing}
-  command %[touch "#{fetch(:shared_path)}/config/database.yml"]
   command %[touch "#{fetch(:shared_path)}/config/application.yml"]
   command %[touch "#{fetch(:shared_path)}/config/puma.rb"]
   command %[touch "#{fetch(:shared_path)}/tmp/sockets/puma.state"]
