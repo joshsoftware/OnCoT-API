@@ -74,6 +74,7 @@ gem 'rollbar'
 gem 'simplecov', require: false
 gem 'will_paginate'
 
+gem "anycable"
 gem "anycable-rails", "~> 1.1"
 # when using Redis broadcast adapter
 gem "redis", ">= 4.0"
