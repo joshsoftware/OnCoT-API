@@ -28,7 +28,7 @@ RSpec.describe Api::V1::CandidateResultsController, type: :controller do
       get :show, params: { id: @candidate.id, drife_id: @drive.id, problem_id: @problem.id }
 
       result = json
-      expect(result['data']['passed'][0]['id']).to eq(13)
+      expect(result['data']['passed'][0]['id']).to eq(@test_case.id)
       expect(result['data']['passed'][0]['input']).to eq('hello')
       expect(result['data']['passed'][0]['output']).to eq('hello')
       expect(result['data']['passed'][0]['marks']).to eq(4)
