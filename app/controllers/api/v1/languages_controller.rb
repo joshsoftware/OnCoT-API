@@ -55,22 +55,24 @@ module Api
 
             public static int[] arrayCombination(int[] arrayOne, int[] arrayTwo, int n)
             {
-                //Write your logic here
+                // Write your logic here
             }
 
             public static void main(String[] args) {
-              Scanner sc = new Scanner(System.in);
-              String line1 = sc.nextLine();
-              String line2 = sc.nextLine();
-              int n = sc.nextInt();
-              String[] array1 = line1.split(",");
-              String[] array2 = line2.split(",");
-              int[] intarrayTemp1 = Arrays.asList(array1).stream().mapToInt(Integer::parseInt).toArray();
-              int[] intarrayTemp2 = Arrays.asList(array2).stream().mapToInt(Integer::parseInt).toArray();
+              // Uncomment below lines to accept input or write your own logic
 
-              int[] finalOutput = arrayCombination(intarrayTemp1, intarrayTemp2,n);
+              // Scanner sc = new Scanner(System.in);
+              // String line1 = sc.nextLine();
+              // String line2 = sc.nextLine();
+              // int n = sc.nextInt();
+              // String[] array1 = line1.split(",");
+              // String[] array2 = line2.split(",");
+              // int[] intarrayTemp1 = Arrays.asList(array1).stream().mapToInt(Integer::parseInt).toArray();
+              // int[] intarrayTemp2 = Arrays.asList(array2).stream().mapToInt(Integer::parseInt).toArray();
 
-              System.out.println(finalOutput[0] + "," + finalOutput[1]);
+              // int[] finalOutput = arrayCombination(intarrayTemp1, intarrayTemp2,n);
+
+              // System.out.println(finalOutput[0] + "," + finalOutput[1]);
             }
           }
         CODE
