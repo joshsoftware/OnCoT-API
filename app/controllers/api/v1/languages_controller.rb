@@ -16,7 +16,8 @@ module Api
         #             { id: 62, name: 'Java (OpenJDK 13.0.1)', code: java_sample_code },
         #             { id: 71, name: 'Python (3.8.1)', code: '# Write your code here' },
         #             { id: 63, name: 'JavaScript (Node.js 12.14.0)', code: '// Write your code here' }]
-        response = [{ id: 62, name: 'Java (OpenJDK 13.0.1)', code: java_sample_code }]
+        response = [{ id: 72, name: 'Ruby (2.7.0)', code: '# Write your code here' },
+                    { id: 62, name: 'Java (OpenJDK 13.0.1)', code: java_sample_code }]
         render json: response
       end
 
