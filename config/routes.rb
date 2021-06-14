@@ -57,6 +57,8 @@ Rails.application.routes.draw do
       end
 
       get '/drives/:drive_id/rules', to: 'rules#index'
+      resources :snapshots, only: %i[index create]
+      post 'presigned_url', to: 'snapshots#presigned_url'
 
       namespace :admin do
         resources :problems, except: [:destroy]
