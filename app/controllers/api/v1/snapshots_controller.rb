@@ -6,11 +6,10 @@ module Api
       before_action :find_drives_candidate
 
       def presigned_url
-        @filename = "#{@drive.name}/#{@candidate.id}-#{@candidate.first_name}-#{@candidate.last_name}/#{DateTime.current}"
-        @presigned_url = request_presigned_url
-        data = { url: @presigned_url }
+        filename = "#{@drive.name}/#{@candidate.id}-#{@candidate.first_name}-#{@candidate.last_name}/#{DateTime.current}"
+        presigned_url = request_presigned_url(filename)
 
-        render_success(data: data, message: I18n.t('success.message'))
+        render_success(data: { url: presigned_url }, message: I18n.t('success.message'))
       end
 
       def create
@@ -33,11 +32,11 @@ module Api
 
       private
 
-      def request_presigned_url
+      def request_presigned_url(filename)
         signer = Aws::S3::Presigner.new
         signer.presigned_url(:put_object,
                              bucket: ENV['S3_BUCKET'],
-                             key: @filename,
+                             key: filename,
                              acl: 'public-read',
                              content_type: 'image/jpeg')
       end
