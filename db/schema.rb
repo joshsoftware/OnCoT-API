@@ -122,8 +122,8 @@ ActiveRecord::Schema.define(version: 20_210_608_122_052) do
   end
 
   create_table 'snapshots', force: :cascade do |t|
-    t.string 'image_url'
-    t.bigint 'drives_candidate_id'
+    t.string 'image_url', null: false
+    t.bigint 'drives_candidate_id', null: false
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
     t.index ['drives_candidate_id'], name: 'index_snapshots_on_drives_candidate_id'
