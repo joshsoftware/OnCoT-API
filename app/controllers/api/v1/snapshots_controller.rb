@@ -6,7 +6,8 @@ module Api
       before_action :find_drives_candidate
 
       def presigned_url
-        filename = "#{@drive.name}/#{@candidate.id}-#{@candidate.first_name}-#{@candidate.last_name}/#{DateTime.current}"
+        candidate = @drives_candidate.candidate
+        filename = "#{@drives_candidate.drive.name}/#{candidate.id}-#{candidate.first_name}-#{candidate.last_name}/#{DateTime.current}"
         presigned_url = request_presigned_url(filename)
 
         render_success(data: { url: presigned_url }, message: I18n.t('success.message'))
@@ -42,10 +43,7 @@ module Api
       end
 
       def find_drives_candidate
-        @drive = Drive.find(params[:drive_id])
-        @candidate = Candidate.find(params[:candidate_id])
-
-        @drives_candidate = DrivesCandidate.find_by(drive_id: @drive.id, candidate_id: @candidate.id)
+        @drives_candidate = DrivesCandidate.find_by(drive_id: params[:drive_id], candidate_id: params[:candidate_id])
         render_error(message: I18n.t('not_found.message')) unless @drives_candidate
       end
 
