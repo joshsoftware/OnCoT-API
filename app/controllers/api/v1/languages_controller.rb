@@ -21,12 +21,7 @@ module Api
 
       def ruby_sample_code
         <<~CODE
-          input = gets.split(',')
-          input = input.collect{|i| i.to_i} # Convert string array to integer array
-
-          # Write your code here
-
-          # puts output
+          # Write your code here (Accept input from stdin using gets and print output using puts)
         CODE
       end
 
