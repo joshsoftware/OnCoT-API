@@ -22,6 +22,7 @@ class DrivesCandidate < ApplicationRecord
   belongs_to :drive
   belongs_to :candidate
   has_many :submissions
+  has_many :snapshots
 
   def generate_token
     self.token = SecureRandom.hex(20)

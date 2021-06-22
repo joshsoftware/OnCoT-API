@@ -121,6 +121,14 @@ ActiveRecord::Schema.define(version: 20_210_601_091_531) do
     t.index ['drive_id'], name: 'index_rules_on_drive_id'
   end
 
+  create_table 'snapshots', force: :cascade do |t|
+    t.string 'image_url', null: false
+    t.bigint 'drives_candidate_id', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['drives_candidate_id'], name: 'index_snapshots_on_drives_candidate_id'
+  end
+
   create_table 'submissions', force: :cascade do |t|
     t.text 'answer'
     t.bigint 'drives_candidate_id', null: false

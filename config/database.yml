@@ -76,6 +76,6 @@ test:
 #
 production:
   <<: *default
-  database: oncot-api_production
-  username: oncot-api
-  password: <%= ENV['ONCOT-API_DATABASE_PASSWORD'] %>
+  host: <%= ENV['ONCOT-DATABASE-HOST'] %>
+  username: <%= ENV['ONCOT-DATABASE-USERNAME'] %>
+  password: <%= ENV['ONCOT-DATABASE-PASSWORD'] %>

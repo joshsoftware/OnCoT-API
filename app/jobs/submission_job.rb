@@ -13,6 +13,8 @@ class SubmissionJob < ApplicationJob
     total_marks = 0
     test_cases = TestCase.where(problem_id: @submission.problem_id)
     test_cases.each do |testcase|
+      #TODO
+      # for compilation error, do not execute further test cases
       status, output = run_testcase(testcase)
       TestCaseResult.create(is_passed: status, submission_id: @submission.id,
                             test_case_id: testcase.id, output: output)
@@ -25,7 +27,8 @@ class SubmissionJob < ApplicationJob
     parameter = { stdin: testcase.input, expected_output: testcase.output, source_code: @submission.answer,
                   language_id: @submission.lang_code }
     body = JudgeZeroApi.new(parameter).post('/submissions/?base64_encoded=false&wait=true')
-    [body['status']['description'] == 'Accepted', body['stdout']]
+    Rails.logger.info body
+    [body['status'] && body['status']['description'] == 'Accepted', body['stdout']]
   end
 
   def calculate_result

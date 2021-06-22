@@ -39,7 +39,7 @@ Rails.application.routes.draw do
 
       resources :executions do
         post :submission_token, on: :collection
-        put :submission_result, on: :collection
+        match :submission_result, on: :collection, via: [:get, :put]
         get :submission_status, on: :member
       end
 
@@ -57,6 +57,9 @@ Rails.application.routes.draw do
       end
 
       get '/drives/:drive_id/rules', to: 'rules#index'
+      resources :snapshots, only: %i[index create] do
+        post :presigned_url, on: :collection
+      end
 
       namespace :admin do
         resources :problems, except: [:destroy]
