@@ -30,18 +30,6 @@ RSpec.describe Api::V1::Admin::RulesController, type: :controller do
           expect(response).to have_http_status(:ok)
         end
       end
-
-      context 'with invalid params' do
-        it 'fails to create as not passing drive id' do
-          post :create,
-               params: { type_name: Faker::Lorem.word, description: Faker::Lorem.sentence }
-
-          rule = json
-
-          expect(rule['drive'][0]).to eq('must exist')
-          expect(response).to have_http_status(400)
-        end
-      end
     end
     context 'When user is not logged in' do
       it 'asks to login' do

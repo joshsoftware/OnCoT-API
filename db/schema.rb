@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_608_122_052) do
+ActiveRecord::Schema.define(version: 20_210_601_091_531) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -188,6 +188,13 @@ ActiveRecord::Schema.define(version: 20_210_608_122_052) do
     t.string 'unconfirmed_email'
     t.json 'tokens'
     t.boolean 'allow_password_change', default: false, null: false
+    t.datetime 'invitation_created_at'
+    t.bigint 'mobile_number'
+    t.string 'invitation_token'
+    t.datetime 'invitation_sent_at'
+    t.datetime 'invitation_accepted_at'
+    t.boolean 'is_active', default: true
+    t.integer 'invitation_sent_by'
     t.index ['email'], name: 'index_users_on_email', unique: true
     t.index ['organization_id'], name: 'index_users_on_organization_id'
     t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true

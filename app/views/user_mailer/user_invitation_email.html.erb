@@ -1,0 +1,11 @@
+<p> Hi,  <%=@email %></p>
+
+<p> You have been invited to join <%= @current_user.organization.name %> on OnCoT platform as "<%= @role.name %>" 
+</p>
+
+<p>
+  To accept invitation : <%=link_to "click here", "#{ENV['APP_URL']}accept/invite/#{@invitation_token}"%>
+</p>
+<p> Link will be valid for one week after receiving this email. </p>
+
+<p> Invitation link is personalized, do not share this with any one else. </p>

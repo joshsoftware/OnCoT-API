@@ -25,5 +25,14 @@
 #  tokens                 :json
 #
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :first_name, :last_name, :email, :organization_id, :role_id
+  attributes :id, :first_name, :last_name, :email, :organization_id, :role_id, :mobile_number,
+    :role, :invitation_accepted
+
+  def role
+    object.role.name
+  end
+
+  def invitation_accepted
+    object.invitation_accepted_at?
+  end
 end
