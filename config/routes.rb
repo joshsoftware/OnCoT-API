@@ -76,6 +76,7 @@ Rails.application.routes.draw do
           get :candidate_list, on: :member
           post :send_admin_email
         end
+        resources :assessments, except: %i[destroy update show]
       end
     end
   end

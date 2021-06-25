@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20_210_601_091_531) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.integer 'duration'
+    t.boolean 'is_assessment'
     t.index ['created_by_id'], name: 'index_drives_on_created_by_id'
     t.index ['organization_id'], name: 'index_drives_on_organization_id'
     t.index ['updated_by_id'], name: 'index_drives_on_updated_by_id'
@@ -69,6 +70,8 @@ ActiveRecord::Schema.define(version: 20_210_601_091_531) do
     t.datetime 'updated_at', null: false
     t.datetime 'completed_at'
     t.integer 'score'
+    t.datetime 'drive_start_time'
+    t.datetime 'drive_end_time'
     t.index ['candidate_id'], name: 'index_drives_candidates_on_candidate_id'
     t.index ['drive_id'], name: 'index_drives_candidates_on_drive_id'
   end
@@ -89,6 +92,7 @@ ActiveRecord::Schema.define(version: 20_210_601_091_531) do
     t.string 'contact_number'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.string 'auth_token'
   end
 
   create_table 'problems', force: :cascade do |t|
