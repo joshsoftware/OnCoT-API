@@ -43,8 +43,8 @@ module Api
           params.permit(:name, :description, :start_time, :end_time, drives_problems_attributes: %i[id problem_id _destroy])
         end
 
-        def authenticate_token
-          render_error(message: I18n.t('devise.failure.unauthenticated')) unless request.headers["HTTP_AUTH_TOKEN"] == Organization.first.auth_token
+        def authenticate_token  # TODO - Organization should be loaded from drive
+          render_error(message: I18n.t('auth_token.invalid')) unless request.headers["HTTP_AUTH_TOKEN"] == Organization.first.auth_token
         end
       end
     end

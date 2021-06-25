@@ -60,3 +60,5 @@ en:
     invalid: "Invalid Token"
   drive_end_time:
     invalid: 'Drive end time must be after start time'
+  auth_token:
+    invalid: 'Auth token is not valid'
