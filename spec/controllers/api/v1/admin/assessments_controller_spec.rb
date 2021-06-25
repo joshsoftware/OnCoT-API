@@ -16,7 +16,7 @@ RSpec.describe Api::V1::Admin::AssessmentsController, type: :controller do
       create(:drive, created_by_id: user.id, updated_by_id: user.id, organization: organization)
       create(:drive, created_by_id: user.id, updated_by_id: user.id, organization: organization, is_assessment: true)
     end
-    context 'when user is logged in' do
+    context 'when auth token is valid' do
       it 'returns all assessments' do
         request.headers.merge!(HTTP_AUTH_TOKEN: 'bearer_token')
         get :index
@@ -27,18 +27,18 @@ RSpec.describe Api::V1::Admin::AssessmentsController, type: :controller do
         expect(response).to have_http_status(:ok)
       end
     end
-    context 'When user is not logged in' do
-      it ' ask for login ' do
+    context 'when auth token is invalid' do
+      it ' returns invalid token error ' do
         get :index
 
-        expect(response.body).to eq('You need to sign in or sign up before continuing.')
+        expect(response.body).to eq(I18n.t('auth_token.invalid'))
         expect(response).to have_http_status(400)
       end
     end
   end
 
   describe 'action#create' do
-    context 'when user is logged in' do
+    context 'when auth token is valid' do
       context 'with valid params' do
         it ' finds or creates a candidate and send invitation' do
           request.headers.merge!(HTTP_AUTH_TOKEN: 'bearer_token')
@@ -65,11 +65,11 @@ RSpec.describe Api::V1::Admin::AssessmentsController, type: :controller do
       end
     end
 
-    context 'When user is not logged in' do
-      it ' ask for login ' do
+    context 'when auth token is invalid' do
+      it ' returns invalid token error ' do
         post :create, params: { assessment_id: drive.id, email: Faker::Internet.email }
 
-        expect(response.body).to eq('You need to sign in or sign up before continuing.')
+        expect(response.body).to eq(I18n.t('auth_token.invalid'))
         expect(response).to have_http_status(400)
       end
     end
