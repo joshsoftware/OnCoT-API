@@ -6,13 +6,14 @@ module Api
       before_action :load_drive
 
       def show
-        render_success(data: { drive: @drive, candidate_id: @drive_candidate.candidate_id }, message: I18n.t('ok.message'),
+        render_success(data: { drive: @drive, drive_start_time: @drive_candidate.drive_start_time,
+                               drive_end_time: @drive_candidate.drive_end_time, candidate_id: @drive_candidate.candidate_id }, message: I18n.t('ok.message'),
                        status: 200)
       end
 
       def drive_time_left
-        time_left_to_end = @drive.end_time - DateTime.current
-        time_left_to_start = @drive.start_time - DateTime.current
+        time_left_to_end = @drive_candidate.drive_end_time - DateTime.current
+        time_left_to_start = @drive_candidate.drive_start_time - DateTime.current
 
         if time_left_to_end.negative? || test_already_taken?
           data = -1
