@@ -69,7 +69,8 @@ module Api
         end
 
         def drive_params
-          params.permit(:name, :description, :start_time, :end_time, :is_assessment, drives_problems_attributes: %i[id problem_id _destroy])
+          params.permit(:name, :description, :start_time, :end_time, :is_assessment,
+                        drives_problems_attributes: %i[id problem_id _destroy])
         end
 
         def data_for_admin_email

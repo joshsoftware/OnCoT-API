@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::Admin::AssessmentsController, type: :controller do
-  let!(:organization) { create(:organization, auth_token:'bearer_token') }
+  let!(:organization) { create(:organization, auth_token: 'bearer_token') }
   let(:role) { create(:role) }
   let(:user) { create(:user, role_id: role.id) }
   let(:drive) { create(:drive, created_by_id: user.id, updated_by_id: user.id, organization: organization, is_assessment: true) }
@@ -42,7 +42,9 @@ RSpec.describe Api::V1::Admin::AssessmentsController, type: :controller do
       context 'with valid params' do
         it ' finds or creates a candidate and send invitation' do
           request.headers.merge!(HTTP_AUTH_TOKEN: 'bearer_token')
-          post :create, params: { assessment_id: drive.id, email: Faker::Internet.email, start_time: DateTime.current, end_time: DateTime.current+1.hours }
+          post :create,
+               params: { assessment_id: drive.id, email: Faker::Internet.email, start_time: DateTime.current,
+                         end_time: DateTime.current + 1.hours }
 
           expect(response).to have_http_status(:ok)
           expect(Candidate.count).to eq(1)
@@ -51,13 +53,17 @@ RSpec.describe Api::V1::Admin::AssessmentsController, type: :controller do
       context 'with invalid params' do
         it ' returns errors as passing wrong assessment_id' do
           request.headers.merge!(HTTP_AUTH_TOKEN: 'bearer_token')
-          post :create, params: { assessment_id: Faker::Number.number, email: Faker::Internet.email, start_time: DateTime.current, end_time: DateTime.current + 1.hours }
+          post :create,
+               params: { assessment_id: Faker::Number.number, email: Faker::Internet.email, start_time: DateTime.current,
+                         end_time: DateTime.current + 1.hours }
 
           expect(response.body).to eq(I18n.t('not_found.message'))
         end
         it ' returns errors as start_time is greater than end_time' do
           request.headers.merge!(HTTP_AUTH_TOKEN: 'bearer_token')
-          post :create, params: { assessment_id: drive.id, email: Faker::Internet.email, start_time: DateTime.current, end_time: DateTime.current - 30.minutes }
+          post :create,
+               params: { assessment_id: drive.id, email: Faker::Internet.email, start_time: DateTime.current,
+                         end_time: DateTime.current - 30.minutes }
           data = json
 
           expect(data.first).to eq(I18n.t('drive_end_time.invalid'))

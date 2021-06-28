@@ -11,9 +11,9 @@ module Api
           callback_url: "#{callback_url}?room=#{params[:room]}"
         }
 
-        body = JudgeZeroApi.
-          new(parameter).
-          post('/submissions/?base64_encoded=false&wait=false')
+        body = JudgeZeroApi
+               .new(parameter)
+               .post('/submissions/?base64_encoded=false&wait=false')
 
         if body['token']
           render_success(
@@ -49,9 +49,9 @@ module Api
 
       private
 
-        def callback_url
-          "#{ENV['SERVER_URL']}/executions/submission_result"
-        end
+      def callback_url
+        "#{ENV['SERVER_URL']}/executions/submission_result"
+      end
     end
   end
 end

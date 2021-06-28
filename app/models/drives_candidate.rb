@@ -29,6 +29,7 @@ class DrivesCandidate < ApplicationRecord
 
   def end_must_be_after_start
     return unless errors.blank?
+
     errors.add(:drive_end_time, 'must be after start time') if drive_start_time >= drive_end_time
   end
 

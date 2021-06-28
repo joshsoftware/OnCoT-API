@@ -13,7 +13,7 @@ class SubmissionJob < ApplicationJob
     total_marks = 0
     test_cases = TestCase.where(problem_id: @submission.problem_id)
     test_cases.each do |testcase|
-      #TODO
+      # TODO
       # for compilation error, do not execute further test cases
       status, output = run_testcase(testcase)
       TestCaseResult.create(is_passed: status, submission_id: @submission.id,

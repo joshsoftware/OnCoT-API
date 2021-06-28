@@ -17,5 +17,5 @@
 #  duration        :integer
 #
 class AssessmentSerializer < ActiveModel::Serializer
-  attributes :id, :name
+  attributes :uuid, :name
 end

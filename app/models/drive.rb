@@ -27,6 +27,7 @@ class Drive < ApplicationRecord
   has_many :rules
 
   after_create :assign_rules
+  before_create :assign_uuid
 
   accepts_nested_attributes_for :drives_problems, allow_destroy: true
   def yet_to_start?
@@ -36,10 +37,14 @@ class Drive < ApplicationRecord
   def assign_rules
     Rule.where(type_name: 'default').each do |rule|
       r = rule.dup
-      r.drive_id = self.id
+      r.drive_id = id
       r.type_name = nil
       r.save
     end
+  end
+
+  def assign_uuid
+    self.uuid = SecureRandom.hex
   end
 
   def ended?
