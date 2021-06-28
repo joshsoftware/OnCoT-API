@@ -52,12 +52,12 @@ module Api
             candidate_id: candidate.id,
             drive_id: @drive.id,
             drive_start_time: @drive.start_time,
-            drive_end_time: @drive.end_time,
+            drive_end_time: @drive.end_time
           )
           drive_candidate.generate_token
           next unless candidate
 
-          if  drive_candidate.save
+          if drive_candidate.save
             CandidateMailer.invitation_email(candidate, drive_candidate).deliver_later
           else
             render_error(message: drive_candidate.errors.full_messages)

@@ -26,7 +26,7 @@
 #
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :first_name, :last_name, :email, :organization_id, :role_id, :mobile_number,
-    :role, :invitation_accepted
+             :role, :invitation_accepted
 
   def role
     object.role.name

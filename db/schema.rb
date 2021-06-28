@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_601_091_531) do
+ActiveRecord::Schema.define(version: 20_210_628_101_732) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20_210_601_091_531) do
     t.datetime 'updated_at', null: false
     t.integer 'duration'
     t.boolean 'is_assessment'
+    t.string 'uuid'
     t.index ['created_by_id'], name: 'index_drives_on_created_by_id'
     t.index ['organization_id'], name: 'index_drives_on_organization_id'
     t.index ['updated_by_id'], name: 'index_drives_on_updated_by_id'
@@ -72,6 +73,7 @@ ActiveRecord::Schema.define(version: 20_210_601_091_531) do
     t.integer 'score'
     t.datetime 'drive_start_time'
     t.datetime 'drive_end_time'
+    t.string 'uuid'
     t.index ['candidate_id'], name: 'index_drives_candidates_on_candidate_id'
     t.index ['drive_id'], name: 'index_drives_candidates_on_drive_id'
   end
@@ -119,10 +121,9 @@ ActiveRecord::Schema.define(version: 20_210_601_091_531) do
   create_table 'rules', force: :cascade do |t|
     t.string 'type_name'
     t.text 'description'
-    t.bigint 'drive_id'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.index ['drive_id'], name: 'index_rules_on_drive_id'
+    t.bigint 'drive_id'
   end
 
   create_table 'snapshots', force: :cascade do |t|
@@ -192,12 +193,11 @@ ActiveRecord::Schema.define(version: 20_210_601_091_531) do
     t.string 'unconfirmed_email'
     t.json 'tokens'
     t.boolean 'allow_password_change', default: false, null: false
-    t.datetime 'invitation_created_at'
     t.bigint 'mobile_number'
     t.string 'invitation_token'
     t.datetime 'invitation_sent_at'
     t.datetime 'invitation_accepted_at'
-    t.boolean 'is_active', default: true
+    t.boolean 'is_active'
     t.integer 'invitation_sent_by'
     t.index ['email'], name: 'index_users_on_email', unique: true
     t.index ['organization_id'], name: 'index_users_on_organization_id'
@@ -214,7 +214,6 @@ ActiveRecord::Schema.define(version: 20_210_601_091_531) do
   add_foreign_key 'problems', 'organizations'
   add_foreign_key 'problems', 'users', column: 'created_by_id'
   add_foreign_key 'problems', 'users', column: 'updated_by_id'
-  add_foreign_key 'rules', 'drives', column: 'drive_id'
   add_foreign_key 'submissions', 'drives_candidates'
   add_foreign_key 'submissions', 'problems'
   add_foreign_key 'test_case_results', 'submissions'

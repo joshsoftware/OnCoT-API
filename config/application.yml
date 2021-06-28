@@ -1,6 +1,11 @@
-MAIL_USERNAME: "hr@joshsoftware.com"
+GMAIL_USER_NAME: "hr@joshsoftware.com"
 APP_URL: http://localhost:3000/
 SERVER_URL: http://localhost:3000/api/v1/
 JUDGE_ZERO_BASE_URI: https://ce.judge0.com
 ANYCABLE_REDIS_URL: redis://localhost:6379/0
 ANYCABLE_DEBUG: 1
+S3_BUCKET: 'oncot'
+AWS_ACCESS_KEY_ID: 'SDJFKSADSAD'
+AWS_SECRET_ACCESS_KEY: 'AaC+bADJJRyKYf7uV893WIUSADJH'
+AWS_REGION: 'ap-south-1'
+S3_BUCKET_URL: 'https://oncot.s3.ap-south-1.amazonaws.com'
