@@ -27,6 +27,8 @@ class DrivesCandidate < ApplicationRecord
   validates :drive_start_time, :drive_end_time, presence: true
   validate :end_must_be_after_start
 
+  before_create :assign_uuid
+
   def end_must_be_after_start
     return unless errors.blank?
 
@@ -36,5 +38,9 @@ class DrivesCandidate < ApplicationRecord
   def generate_token
     self.token = SecureRandom.hex(20)
     self.email_sent_at = Time.now.utc
+  end
+
+  def assign_uuid
+    self.uuid = SecureRandom.hex
   end
 end

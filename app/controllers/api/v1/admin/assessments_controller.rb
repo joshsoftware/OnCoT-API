@@ -27,7 +27,7 @@ module Api
 
           if drive_candidate.save
             CandidateMailer.invitation_email(candidate, drive_candidate).deliver_later
-            render_success(data: { assessment_schedule_id: drive_candidate.id }, message: I18n.t('ok.message'))
+            render_success(data: { assessment_schedule_id: drive_candidate.uuid }, message: I18n.t('ok.message'))
           else
             render_error(message: drive_candidate.errors.full_messages)
           end
