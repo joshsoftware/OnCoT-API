@@ -34,6 +34,8 @@ module Api
         def update
           if @drive.update!(drive_params.merge(updated_by_id: current_user.id,
                                                organization_id: current_user.organization_id))
+            update_drives_candidates if ( @drive.saved_change_to_start_time? || @drive.saved_change_to_end_time? )
+
             render_success(data: { drive: serialize_resource(@drive, DriveSerializer) },
                            message: I18n.t('update.success', model_name: 'Drive'))
           else
@@ -63,6 +65,12 @@ module Api
         end
 
         private
+
+        def update_drives_candidates
+          @drive.drives_candidates.each do |drives_candidate|
+              drives_candidate.update(drive_start_time: params[:start_time], drive_end_time: params[:end_time])
+          end
+        end
 
         def fetch_drive_data
           @drive = Drive.find(params[:id])
