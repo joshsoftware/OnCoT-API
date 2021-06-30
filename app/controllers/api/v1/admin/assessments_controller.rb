@@ -9,8 +9,7 @@ module Api
 
         def index
           drives = Drive.where(is_assessment: true)
-          render_success(data: { assessments: serialize_resource(drives, AssessmentSerializer) },
-                         message: I18n.t('index.success', model_name: 'Assessments'))
+          render_success(assessments: serialize_resource(drives, AssessmentSerializer))
         end
 
         def create
