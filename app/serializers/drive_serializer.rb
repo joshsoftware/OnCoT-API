@@ -17,7 +17,7 @@
 #  duration        :integer
 #
 class DriveSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description, :start_time, :end_time, :created_by_id,
+  attributes :id, :name, :description, :start_time, :end_time, :created_by_id, :is_assessment,
              :updated_by_id, :organization_id, :invitation_sent, :appeared, :total_submissions
   has_many :drives_problems
 

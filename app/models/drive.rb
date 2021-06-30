@@ -27,11 +27,18 @@ class Drive < ApplicationRecord
   has_many :rules
 
   after_create :assign_rules
+  after_save :update_drives_candidates, if: ->  {saved_change_to_start_time? || saved_change_to_end_time?}
   before_create :assign_uuid
 
   accepts_nested_attributes_for :drives_problems, allow_destroy: true
   def yet_to_start?
     start_time.localtime > DateTime.current.localtime
+  end
+
+  def update_drives_candidates
+    self.drives_candidates.each do |drives_candidate|
+        drives_candidate.update(drive_start_time: start_time, drive_end_time: end_time)
+    end
   end
 
   def assign_rules
