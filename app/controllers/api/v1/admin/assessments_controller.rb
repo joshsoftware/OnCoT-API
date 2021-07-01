@@ -9,7 +9,7 @@ module Api
 
         def index
           drives = Drive.where(is_assessment: true)
-          render json: {assessments: serialize_resource(drives, AssessmentSerializer)}
+          render json: { assessments: serialize_resource(drives, AssessmentSerializer) }
         end
 
         def create
@@ -19,6 +19,7 @@ module Api
           drive_candidate = DrivesCandidate.new(
             candidate_id: candidate.id,
             drive_id: @drive.id,
+            application_id: params[:application_id],
             drive_start_time: params[:start_time] || Time.current,
             drive_end_time: params[:end_time] || Time.current + 1.year
           )

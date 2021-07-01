@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_628_101_732) do
+ActiveRecord::Schema.define(version: 20_210_701_171_718) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -74,6 +72,7 @@ ActiveRecord::Schema.define(version: 20_210_628_101_732) do
     t.datetime 'drive_start_time'
     t.datetime 'drive_end_time'
     t.string 'uuid'
+    t.string 'application_id'
     t.index ['candidate_id'], name: 'index_drives_candidates_on_candidate_id'
     t.index ['drive_id'], name: 'index_drives_candidates_on_drive_id'
   end
