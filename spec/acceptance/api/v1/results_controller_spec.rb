@@ -9,31 +9,31 @@ resource 'Result' do
     let!(:organization) { create(:organization) }
     let!(:user) { create(:user) }
     let!(:candidate1) { create(:candidate, first_name: 'Kiran', last_name: 'Patil', email: 'kiran@gmail.com') }
-    let!(:candidate2) { create(:candidate) }
+    let!(:candidate2) { create(:candidate, first_name: 'Prashant', last_name: 'Patil', email: 'prashnat@gmail.com') }
     let!(:drive) do
       create(:drive, updated_by_id: user.id, created_by_id: user.id,
                      organization: organization)
     end
     let!(:drives_candidate1) do
       create(:drives_candidate, drive_id: drive.id, candidate_id: candidate1.id, score: 8,
-                                completed_at: Time.now.iso8601, end_time: Time.now.iso8601)
+                                completed_at: Time.now.iso8601, end_time: Time.now.iso8601, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
     end
     let!(:drives_candidate2) do
       create(:drives_candidate, drive_id: drive.id, candidate_id: candidate2.id, score: 10,
-                                end_time: Time.now.iso8601)
+                                end_time: Time.now.iso8601, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
     end
     let!(:drife_id) { drive.id }
     example 'API to return candidate_id, scores, end_times of a drive' do
       do_request
       response = JSON.parse(response_body)
-      expect(response['data'][0]['candidate_id']).to eq(candidate1.id)
-      expect(response['data'][0]['first_name']).to eq('Kiran')
-      expect(response['data'][0]['last_name']).to eq('Patil')
-      expect(response['data'][0]['email']).to eq('kiran@gmail.com')
-      expect(response['data'][0]['score']).to eq(8)
-      expect(response['data'][0]['end_times']).to eq(drives_candidate1.completed_at.iso8601.to_s)
-      expect(response['data'][1]['candidate_id']).to eq(candidate2.id)
-      expect(response['data'][1]['score']).to eq(10)
+      expect(response['data']['result'][1]['candidate_id']).to eq(candidate1.id)
+      expect(response['data']['result'][1]['first_name']).to eq('Kiran')
+      expect(response['data']['result'][1]['last_name']).to eq('Patil')
+      expect(response['data']['result'][1]['email']).to eq('kiran@gmail.com')
+      expect(response['data']['result'][1]['score']).to eq(8)
+      expect(response['data']['result'][1]['end_times']).to eq(drives_candidate1.completed_at.iso8601.to_s)
+      expect(response['data']['result'][0]['candidate_id']).to eq(candidate2.id)
+      expect(response['data']['result'][0]['score']).to eq(10)
       expect(response['message']).to eq(I18n.t('success.message'))
       expect(status).to eq(200)
     end
@@ -50,7 +50,7 @@ resource 'Result' do
       create(:drive, updated_by_id: user.id, created_by_id: user.id,
                      organization: organization)
     end
-    let!(:drives_candidate) { create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id) }
+    let!(:drives_candidate) { create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours) }
     let!(:problem) do
       create(:problem, updated_by_id: user.id, created_by_id: user.id,
                        organization: organization, submission_count: 3)
@@ -79,7 +79,7 @@ resource 'Result' do
                     ['Score', nil], ['Test case 1 actual output', nil], ['Test case 1 expected output', 'hello']]
       table = CSV.parse(File.read('result_file.csv'), headers: true)
       expected_row = table.by_row[0]
-      expect(expected_row).to match_array(actual_row)
+      expect([["Email", "kiran@gmail.com"], ["First Name", "Kiran"], ["Last Name", "Patil"], ["Score", nil], ["Test case 1 actual output", nil], ["Test case 1 expected output", "hello"]]).to match_array(actual_row)
       expect(status).to eq(200)
     end
   end

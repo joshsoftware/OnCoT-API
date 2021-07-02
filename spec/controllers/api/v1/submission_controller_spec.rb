@@ -22,7 +22,7 @@ RSpec.describe Api::V1::SubmissionsController, type: :controller do
         candidate = create(:candidate)
         drive = create(:drive, updated_by_id: user.id, organization: organization,
                                created_by_id: user.id)
-        create(:drives_candidate, candidate_id: candidate.id, drive_id: drive.id, end_time: DateTime.current + 1.hours)
+        create(:drives_candidate, candidate_id: candidate.id, drive_id: drive.id, end_time: DateTime.current + 1.hours, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours )
         problem = create(:problem, updated_by_id: user.id, created_by_id: user.id,
                                    organization: organization, submission_count: 3)
         create(:test_case, problem_id: problem.id, marks: 4, updated_by_id: user.id,
@@ -56,7 +56,7 @@ RSpec.describe Api::V1::SubmissionsController, type: :controller do
         @candidate = create(:candidate)
         @drive = create(:drive, updated_by_id: user.id, organization: organization,
                                 created_by_id: user.id)
-        drives_candidate = create(:drives_candidate, candidate_id: @candidate.id, drive_id: @drive.id)
+        drives_candidate = create(:drives_candidate, candidate_id: @candidate.id, drive_id: @drive.id, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
         @problem = create(:problem, updated_by_id: user.id, created_by_id: user.id,
                                     organization: organization, submission_count: 1)
         create(:submission, drives_candidate_id: drives_candidate.id, problem_id: @problem.id)

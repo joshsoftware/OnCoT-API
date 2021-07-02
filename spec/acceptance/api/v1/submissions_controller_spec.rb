@@ -32,7 +32,7 @@ resource 'Submission' do
                        created_by_id: user.id)
       end
       let!(:drives_candidate) do
-        create(:drives_candidate, candidate_id: candidate.id, drive_id: drive.id, end_time: DateTime.current + 1.hours)
+        create(:drives_candidate, candidate_id: candidate.id, drive_id: drive.id, end_time: DateTime.current + 1.hours, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
       end
       let!(:problem) do
         create(:problem, updated_by_id: user.id, created_by_id: user.id,

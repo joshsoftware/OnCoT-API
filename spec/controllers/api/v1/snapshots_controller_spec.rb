@@ -11,7 +11,7 @@ RSpec.describe Api::V1::SnapshotsController, type: :controller do
                    organization: organization)
   end
   let(:candidate) { create(:candidate) }
-  let!(:drives_candidate) { create(:drives_candidate, candidate_id: candidate.id, drive_id: drive.id) }
+  let!(:drives_candidate) { create(:drives_candidate, candidate_id: candidate.id, drive_id: drive.id, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours) }
   let!(:snapshot) { create(:snapshot, drives_candidate: drives_candidate) }
 
   describe 'GET #INDEX' do

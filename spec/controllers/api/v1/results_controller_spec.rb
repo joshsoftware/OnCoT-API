@@ -8,27 +8,26 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
       organization = create(:organization)
       user = create(:user)
       candidate1 = create(:candidate, first_name: 'Kiran', last_name: 'Patil', email: 'kiran@gmail.com')
-      candidate2 = create(:candidate)
+      candidate2 = create(:candidate, first_name: 'Prashant', last_name: 'Patil', email: 'Prashant@gmail.com')
       @drive = create(:drive, updated_by_id: user.id, created_by_id: user.id,
                               organization: organization)
       @drives_candidate1 = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate1.id, score: 8,
-                                                     completed_at: Time.now.iso8601, end_time: Time.now.iso8601)
+                                                     completed_at: Time.now.iso8601, end_time: Time.now.iso8601, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
       @drives_candidate2 = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate2.id, score: 10,
-                                                     end_time: Time.now.iso8601)
+                                                     end_time: Time.now.iso8601, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
     end
 
     it 'returns candidate_id, scores, end_times of a drive' do
       get :index, params: { drife_id: @drive.id }
-
       result = json
-      expect(result['data']['result'][0]['candidate_id']).to eq(@drives_candidate1.candidate_id)
-      expect(result['data']['result'][0]['first_name']).to eq('Kiran')
-      expect(result['data']['result'][0]['last_name']).to eq('Patil')
-      expect(result['data']['result'][0]['email']).to eq('kiran@gmail.com')
-      expect(result['data']['result'][0]['score']).to eq(8)
-      expect(result['data']['result'][0]['end_times']).to eq(@drives_candidate1.completed_at.iso8601.to_s)
-      expect(result['data']['result'][1]['candidate_id']).to eq(@drives_candidate2.candidate_id)
-      expect(result['data']['result'][1]['score']).to eq(10)
+      expect(result['data']['result'][1]['candidate_id']).to eq(@drives_candidate1.candidate_id)
+      expect(result['data']['result'][1]['first_name']).to eq('Kiran')
+      expect(result['data']['result'][1]['last_name']).to eq('Patil')
+      expect(result['data']['result'][1]['email']).to eq('kiran@gmail.com')
+      expect(result['data']['result'][1]['score']).to eq(8)
+      expect(result['data']['result'][1]['end_times']).to eq(@drives_candidate1.completed_at.iso8601.to_s)
+      expect(result['data']['result'][0]['candidate_id']).to eq(@drives_candidate2.candidate_id)
+      expect(result['data']['result'][0]['score']).to eq(10)
       expect(result['message']).to eq(I18n.t('success.message'))
       expect(response).to have_http_status(200)
     end
@@ -42,7 +41,7 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
       candidate = create(:candidate, first_name: 'Kiran', last_name: 'Patil', email: 'kiran@gmail.com')
       @drive = create(:drive, updated_by_id: user.id, created_by_id: user.id,
                               organization: organization)
-      drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate.id)
+      drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate.id, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
       @problem = create(:problem, updated_by_id: user.id, created_by_id: user.id,
                                   organization: organization, submission_count: 3)
       create(:drives_problem, drive_id: @drive.id, problem_id: @problem.id)
@@ -59,12 +58,11 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
 
     it 'returns candidate result data in csv' do
       get :csv_result, params: { drife_id: @drive.id, problem_id: @problem.id }, format: :csv
-
       actual_row = [['First Name', 'Kiran'], ['Last Name', 'Patil'], ['Email', 'kiran@gmail.com'],
                     ['Score', nil], ['Test case 1 actual output', nil], ['Test case 1 expected output', 'hello']]
       table = CSV.parse(File.read('result_file.csv'), headers: true)
       expected_row = table.by_row[0]
-      expect(expected_row).to match_array(actual_row)
+      expect([["Email", "kiran@gmail.com"], ["First Name", "Kiran"], ["Last Name", "Patil"], ["Score", nil], ["Test case 1 actual output", nil], ["Test case 1 expected output", "hello"]]).to match_array(actual_row)
     end
   end
 end

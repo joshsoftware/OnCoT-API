@@ -25,6 +25,7 @@ module Api
       def find_drive_candidates
         @drive = Drive.find(params[:drife_id])
         @drives_candidates = @drive.drives_candidates
+        render_error(message: I18n.t('not_found.message')) unless @drives_candidates
       end
 
       def write_csv_file

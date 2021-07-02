@@ -13,9 +13,9 @@ resource 'DrivesCandidate' do
     create(:drive, updated_by_id: user.id, organization: organization,
                    created_by_id: user.id)
   end
-  let!(:drives_candidate) { create(:drives_candidate, candidate_id: candidate.id, drive_id: drive.id) }
-  let!(:drives_candidate1) { create(:drives_candidate, candidate_id: candidate1.id, drive_id: drive.id) }
-  let!(:drives_candidate2) { create(:drives_candidate, candidate_id: candidate2.id, drive_id: drive.id) }
+  let!(:drives_candidate) { create(:drives_candidate, candidate_id: candidate.id, drive_id: drive.id, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours) }
+  let!(:drives_candidate1) { create(:drives_candidate, candidate_id: candidate1.id, drive_id: drive.id, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours) }
+  let!(:drives_candidate2) { create(:drives_candidate, candidate_id: candidate2.id, drive_id: drive.id, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours) }
   let!(:problem) { create(:problem, updated_by_id: user.id, created_by_id: user.id) }
   let!(:submission1) do
     create(:submission, drives_candidate_id: drives_candidate1.id, problem_id: problem.id,

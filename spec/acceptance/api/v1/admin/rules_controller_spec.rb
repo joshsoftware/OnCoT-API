@@ -17,15 +17,15 @@ resource 'Rule' do
   get '/api/v1/admin/rules' do
     context 'when user is logged in' do
       context 'with valid params' do
-        parameter :id, 'Drive id'
-        let!(:id) { drive.id }
+        parameter :drive_id, 'Drive id'
+        let!(:drive_id) { drive.id }
         example 'returns all rules related to a drive' do
           header 'access-token', auth_token['access-token']
           header 'client', auth_token['client']
           header 'uid', auth_token['uid']
           do_request
           response = JSON.parse(response_body)
-          rules = Rule.where(drive_id: id)
+          rules = Rule.where(drive_id: drive.id)
 
           expect(response['data']['rules'].count).to eq(rules.count)
           expect(status).to eq(200)
@@ -72,22 +72,6 @@ resource 'Rule' do
           response = JSON.parse(response_body)
           expect(response['data']['rule']['type_name']).to eq(type_name)
           expect(status).to eq(200)
-        end
-      end
-
-      context 'with invalid params' do
-        parameter :type_name, 'Rule type'
-        parameter :description, 'Rule description'
-        let!(:type_name) { Faker::Lorem.word }
-        let!(:description) { Faker::Lorem.sentence }
-        example 'fails to create as not passing drive id' do
-          header 'access-token', auth_token['access-token']
-          header 'client', auth_token['client']
-          header 'uid', auth_token['uid']
-          do_request
-          response = JSON.parse(response_body)
-          expect(response['drive'][0]).to eq('must exist')
-          expect(status).to eq(400)
         end
       end
     end

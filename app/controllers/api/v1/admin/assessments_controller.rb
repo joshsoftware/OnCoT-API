@@ -9,14 +9,15 @@ module Api
 
         def index
           drives = Drive.where(is_assessment: true)
-          render_success(data: { assessments: serialize_resource(drives, AssessmentSerializer) },
-                         message: I18n.t('index.success', model_name: 'Assessments'))
+          if drives
+            render_success(data: { assessments: serialize_resource(drives, AssessmentSerializer) },
+                          message: I18n.t('index.success', model_name: 'Assessments'))
+          end
         end
 
         def create
           candidate = Candidate.find_or_initialize_by(email: params[:email])
           candidate.save
-
           drive_candidate = DrivesCandidate.new(
             candidate_id: candidate.id,
             drive_id: @drive.id,
@@ -24,7 +25,6 @@ module Api
             drive_end_time: params[:end_time]
           )
           drive_candidate.generate_token
-
           if drive_candidate.save
             CandidateMailer.invitation_email(candidate, drive_candidate).deliver_later
             render_success(data: { assessment_schedule_id: drive_candidate.uuid }, message: I18n.t('ok.message'))
@@ -37,6 +37,7 @@ module Api
 
         def fetch_drive_data
           @drive = Drive.where(uuid: params[:assessment_id]).first
+          render_error(message: I18n.t('not_found.message')) unless @drive
         end
 
         def drive_params
