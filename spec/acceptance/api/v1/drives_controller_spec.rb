@@ -24,7 +24,7 @@ resource 'Drive' do
   end
   let(:candidate) { create(:candidate) }
   # drive_data = create(:drives_candidate, drive_id: drive2.id, candidate_id: candidate.id, drive_start_time: DateTime.current - 1, drive_end_time: DateTime.current + 1)
-  let(:drives_candidate1) { create(:drives_candidate, drive_id: drive1.id, candidate_id: candidate.id, drive_start_time: DateTime.current + 4, drive_end_time: DateTime.current + 5.hours) }
+  let(:drives_candidate1) { create(:drives_candidate, drive_id: drive1.id, candidate_id: candidate.id, drive_start_time: DateTime.current + 4, drive_end_time: DateTime.current + 5) }
   let(:drives_candidate2) { create(:drives_candidate, drive_id: drive2.id, candidate_id: candidate.id, drive_start_time: DateTime.current - 1.hours, drive_end_time: DateTime.current + 1.hours) }
   let(:drives_candidate3) { create(:drives_candidate, drive_id: drive3.id, candidate_id: candidate.id, drive_start_time: DateTime.current - 2, drive_end_time: DateTime.current - 1.hours) }
 
