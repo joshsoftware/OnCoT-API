@@ -21,8 +21,9 @@ module Api
           drive_candidate = DrivesCandidate.new(
             candidate_id: candidate.id,
             drive_id: @drive.id,
-            drive_start_time: params[:start_time],
-            drive_end_time: params[:end_time]
+            application_id: params[:application_id],
+            drive_start_time: params[:start_time] || Time.current,
+            drive_end_time: params[:end_time] || Time.current + 1.year
           )
           drive_candidate.generate_token
           if drive_candidate.save
