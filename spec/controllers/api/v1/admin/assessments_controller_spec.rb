@@ -21,7 +21,7 @@ RSpec.describe Api::V1::Admin::AssessmentsController, type: :controller do
         request.headers.merge!(HTTP_AUTHORIZATION: 'bearer_token')
         get :index
         data = json
-        expect(data['data']['assessments'].count).to eq(3)
+        expect(data['assessments'].count).to eq(3)
         expect(response).to have_http_status(:ok)
       end
     end

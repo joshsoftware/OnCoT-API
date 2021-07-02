@@ -20,14 +20,16 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
     it 'returns candidate_id, scores, end_times of a drive' do
       get :index, params: { drife_id: @drive.id }
       result = json
-      expect(result['data']['result'][1]['candidate_id']).to eq(@drives_candidate1.candidate_id)
-      expect(result['data']['result'][1]['first_name']).to eq('Kiran')
-      expect(result['data']['result'][1]['last_name']).to eq('Patil')
-      expect(result['data']['result'][1]['email']).to eq('kiran@gmail.com')
-      expect(result['data']['result'][1]['score']).to eq(8)
-      expect(result['data']['result'][1]['end_times']).to eq(@drives_candidate1.completed_at.iso8601.to_s)
-      expect(result['data']['result'][0]['candidate_id']).to eq(@drives_candidate2.candidate_id)
-      expect(result['data']['result'][0]['score']).to eq(10)
+      res_data = result['data']['result'][1]
+      res_data1 = result['data']['result'][0]
+      expect(res_data['candidate_id']).to eq(@drives_candidate1.candidate_id)
+      expect(res_data['first_name']).to eq('Kiran')
+      expect(res_data['last_name']).to eq('Patil')
+      expect(res_data['email']).to eq('kiran@gmail.com')
+      expect(res_data['score']).to eq(8)
+      expect(res_data['end_times']).to eq(@drives_candidate1.completed_at.iso8601.to_s)
+      expect(res_data1['candidate_id']).to eq(@drives_candidate2.candidate_id)
+      expect(res_data1['score']).to eq(10)
       expect(result['message']).to eq(I18n.t('success.message'))
       expect(response).to have_http_status(200)
     end
