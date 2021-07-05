@@ -43,7 +43,7 @@ module Api
         render_success(data: { time_left: time_left }, message: message)
       end
 
-      def invite
+      def invite #rubocop:disable all
         candidate_emails = params[:emails].split(',')
         candidate_emails.each do |candidate_email|
           candidate = Candidate.find_or_initialize_by(email: candidate_email)
@@ -93,12 +93,11 @@ module Api
         drives_candidate = DrivesCandidate.find_by(candidate_id: id, drive_id: drive_id)
         drive_problem = DrivesProblem.find_by(drive_id: drive_id)
 
-        if drives_candidate.start_time.nil?
-          start_time = DateTime.now.localtime
-          end_time = start_time + drive_problem.problem.time_in_minutes.minutes
-          drives_candidate.update(start_time: start_time,
-                                  end_time: end_time)
-        end
+        return unless drives_candidate.start_time.nil?
+
+        start_time = DateTime.now.localtime
+        end_time = start_time + drive_problem.problem.time_in_minutes.minutes
+        drives_candidate.update(start_time: start_time, end_time: end_time)
       end
     end
   end

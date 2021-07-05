@@ -14,7 +14,7 @@ module Api
         end
       end
 
-      def show
+      def show # rubocop:disable all
         submission = Submission.where(id: params[:id]).first
         submission_count_left = calculate_remaining_submission_count(submission)
         if submission

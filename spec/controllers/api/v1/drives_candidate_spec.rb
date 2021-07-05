@@ -11,9 +11,12 @@ RSpec.describe Api::V1::DrivesCandidatesController, type: :controller do
     @candidate2 = create(:candidate)
     @drive = create(:drive, updated_by_id: user.id, organization: organization,
                             created_by_id: user.id)
-    @drives_candidate = create(:drives_candidate, candidate_id: @candidate.id, drive_id: @drive.id, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
-    @drives_candidate1 = create(:drives_candidate, candidate_id: @candidate1.id, drive_id: @drive.id, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
-    @drives_candidate2 = create(:drives_candidate, candidate_id: @candidate2.id, drive_id: @drive.id, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
+    @drives_candidate = create(:drives_candidate, candidate_id: @candidate.id, drive_id: @drive.id, drive_start_time: DateTime.current,
+                                                  drive_end_time: DateTime.current + 1.hours)
+    @drives_candidate1 = create(:drives_candidate, candidate_id: @candidate1.id, drive_id: @drive.id, drive_start_time: DateTime.current,
+                                                   drive_end_time: DateTime.current + 1.hours)
+    @drives_candidate2 = create(:drives_candidate, candidate_id: @candidate2.id, drive_id: @drive.id, drive_start_time: DateTime.current,
+                                                   drive_end_time: DateTime.current + 1.hours)
     @problem = create(:problem, updated_by_id: user.id, created_by_id: user.id)
     @submission1 = create(:submission, drives_candidate_id: @drives_candidate1.id, problem_id: @problem.id,
                                        answer: 'puts "submission 1"')

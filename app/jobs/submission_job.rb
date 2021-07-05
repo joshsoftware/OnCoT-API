@@ -4,7 +4,7 @@ class SubmissionJob < ApplicationJob
   def perform(submission_id)
     @submission = Submission.find submission_id
     total_marks = create_test_case_result
-    testcases = TestCaseResult.where(submission_id: @submission.id).collect(&:is_passed)
+    TestCaseResult.where(submission_id: @submission.id).collect(&:is_passed)
     @submission.update_columns(total_marks: total_marks, status: 'accepted')
     calculate_result
   end

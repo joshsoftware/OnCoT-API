@@ -78,17 +78,15 @@ resource 'Rule' do
       context 'with invalid params' do
         parameter :type_name, 'Rule type'
         parameter :description, 1
-        parameter :drive_id, 'Drive id' 
+        parameter :drive_id, 'Drive id'
         let!(:type_name) { Faker::Lorem.word }
         let!(:description) { Faker::Lorem.sentence }
-        let!(:drive_id) { 'a' } 
+        let!(:drive_id) { 'a' }
         example 'fails to create as not passing drive id' do
           header 'access-token', auth_token['access-token']
           header 'client', auth_token['client']
           header 'uid', auth_token['uid']
-          byebug
           do_request
-          byebug
           expect(response_body).to eq(I18n.t('not_found.message'))
         end
       end

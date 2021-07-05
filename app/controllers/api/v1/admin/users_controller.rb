@@ -37,7 +37,7 @@ module Api
                          message: I18n.t('index.success', model_name: 'User'))
         end
 
-        def invite_user
+        def invite_user #rubocop:disable all
           email = params[:email]
           @role = params[:role]
           user = User.find_by(email: email, organization_id: current_user.organization.id, is_active: true)

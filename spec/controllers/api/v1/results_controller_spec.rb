@@ -11,10 +11,12 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
       candidate2 = create(:candidate, first_name: 'Prashant', last_name: 'Patil', email: 'Prashant@gmail.com')
       @drive = create(:drive, updated_by_id: user.id, created_by_id: user.id,
                               organization: organization)
-      @drives_candidate1 = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate1.id, score: 8,
-                                                     completed_at: Time.now.iso8601, end_time: Time.now.iso8601, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
+      @drives_candidate1 = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate1.id, score: 8, completed_at: Time.now.iso8601,
+                                                     end_time: Time.now.iso8601, drive_start_time: DateTime.current,
+                                                     drive_end_time: DateTime.current + 1.hours)
       @drives_candidate2 = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate2.id, score: 10,
-                                                     end_time: Time.now.iso8601, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
+                                                     end_time: Time.now.iso8601, drive_start_time: DateTime.current,
+                                                     drive_end_time: DateTime.current + 1.hours)
     end
 
     it 'returns candidate_id, scores, end_times of a drive' do
@@ -43,7 +45,8 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
       candidate = create(:candidate, first_name: 'Kiran', last_name: 'Patil', email: 'kiran@gmail.com')
       @drive = create(:drive, updated_by_id: user.id, created_by_id: user.id,
                               organization: organization)
-      drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate.id, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
+      drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate.id, drive_start_time: DateTime.current,
+                                                   drive_end_time: DateTime.current + 1.hours)
       @problem = create(:problem, updated_by_id: user.id, created_by_id: user.id,
                                   organization: organization, submission_count: 3)
       create(:drives_problem, drive_id: @drive.id, problem_id: @problem.id)
@@ -63,8 +66,9 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
       actual_row = [['First Name', 'Kiran'], ['Last Name', 'Patil'], ['Email', 'kiran@gmail.com'],
                     ['Score', nil], ['Test case 1 actual output', nil], ['Test case 1 expected output', 'hello']]
       table = CSV.parse(File.read('result_file.csv'), headers: true)
-      expected_row = table.by_row[0]
-      expect([["Email", "kiran@gmail.com"], ["First Name", "Kiran"], ["Last Name", "Patil"], ["Score", nil], ["Test case 1 actual output", nil], ["Test case 1 expected output", "hello"]]).to match_array(actual_row)
+      table.by_row[0]
+      expect([['Email', 'kiran@gmail.com'], ['First Name', 'Kiran'], ['Last Name', 'Patil'], ['Score', nil], ['Test case 1 actual output', nil],
+              ['Test case 1 expected output', 'hello']]).to match_array(actual_row)
     end
   end
 end

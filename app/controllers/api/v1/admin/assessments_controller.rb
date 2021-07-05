@@ -12,7 +12,7 @@ module Api
           render json: { assessments: serialize_resource(drives, AssessmentSerializer) }
         end
 
-        def create
+        def create # rubocop:disable all
           candidate = Candidate.find_or_initialize_by(email: params[:email])
           candidate.save
           drive_candidate = DrivesCandidate.new(
@@ -44,9 +44,9 @@ module Api
 
         # TODO: - Organization should be loaded from drive
         def authenticate_token
-          if request.headers['HTTP_AUTHORIZATION'] != Organization.first.auth_token
-            render_error(message: I18n.t('auth_token.invalid'))
-          end
+          return unless request.headers['HTTP_AUTHORIZATION'] != Organization.first.auth_token
+
+          render_error(message: I18n.t('auth_token.invalid'))
         end
       end
     end

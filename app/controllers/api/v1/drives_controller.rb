@@ -7,11 +7,12 @@ module Api
 
       def show
         render_success(data: { drive: @drive, drive_start_time: @drive_candidate.drive_start_time,
-                               drive_end_time: @drive_candidate.drive_end_time, candidate_id: @drive_candidate.candidate_id }, message: I18n.t('ok.message'),
+                               drive_end_time: @drive_candidate.drive_end_time, candidate_id: @drive_candidate.candidate_id },
+                       message: I18n.t('ok.message'),
                        status: 200)
       end
 
-      def drive_time_left
+      def drive_time_left # rubocop:disable all 
         time_left_to_end = @drive_candidate.drive_end_time - DateTime.current
         time_left_to_start = @drive_candidate.drive_start_time - DateTime.current
 

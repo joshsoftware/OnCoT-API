@@ -11,7 +11,8 @@ RSpec.describe Api::V1::ExecutionsController, type: :controller do
           headers: { 'Content-Type' => 'application/json' }
         )
         .to_return(status: 200, body: { token: 'token123' }.to_json)
-      post :submission_token, params: { source_code: "print('hello')", language_id: 71, callback_url: 'http://localhost:3000/api/v1//executions/submission_result?room='}
+      post :submission_token, params: { source_code: "print('hello')", language_id: 71,
+                                        callback_url: 'http://localhost:3000/api/v1//executions/submission_result?room=' }
     end
     it 'returns token' do
       result = json

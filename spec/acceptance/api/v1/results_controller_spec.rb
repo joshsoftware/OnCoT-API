@@ -16,7 +16,8 @@ resource 'Result' do
     end
     let!(:drives_candidate1) do
       create(:drives_candidate, drive_id: drive.id, candidate_id: candidate1.id, score: 8,
-                                completed_at: Time.now.iso8601, end_time: Time.now.iso8601, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
+                                completed_at: Time.now.iso8601, end_time: Time.now.iso8601, drive_start_time: DateTime.current,
+                                drive_end_time: DateTime.current + 1.hours)
     end
     let!(:drives_candidate2) do
       create(:drives_candidate, drive_id: drive.id, candidate_id: candidate2.id, score: 10,
@@ -50,7 +51,10 @@ resource 'Result' do
       create(:drive, updated_by_id: user.id, created_by_id: user.id,
                      organization: organization)
     end
-    let!(:drives_candidate) { create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id, drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours) }
+    let!(:drives_candidate) do
+      create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id, drive_start_time: DateTime.current,
+                                drive_end_time: DateTime.current + 1.hours)
+    end
     let!(:problem) do
       create(:problem, updated_by_id: user.id, created_by_id: user.id,
                        organization: organization, submission_count: 3)
@@ -78,8 +82,9 @@ resource 'Result' do
       actual_row = [['First Name', 'Kiran'], ['Last Name', 'Patil'], ['Email', 'kiran@gmail.com'],
                     ['Score', nil], ['Test case 1 actual output', nil], ['Test case 1 expected output', 'hello']]
       table = CSV.parse(File.read('result_file.csv'), headers: true)
-      expected_row = table.by_row[0]
-      expect([["Email", "kiran@gmail.com"], ["First Name", "Kiran"], ["Last Name", "Patil"], ["Score", nil], ["Test case 1 actual output", nil], ["Test case 1 expected output", "hello"]]).to match_array(actual_row)
+      table.by_row[0]
+      expect([['Email', 'kiran@gmail.com'], ['First Name', 'Kiran'], ['Last Name', 'Patil'], ['Score', nil], ['Test case 1 actual output', nil],
+              ['Test case 1 expected output', 'hello']]).to match_array(actual_row)
       expect(status).to eq(200)
     end
   end
