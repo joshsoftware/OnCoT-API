@@ -3,18 +3,17 @@
 module Api
   module V1
     class ProblemsController < ApiController
-      before_action :find_problem
+      before_action :load_drive
+
       def index
-        if (problem = @drive_problem.problem)
-          render_success(data: problem, message: I18n.t('success.message'))
-        else
-          render_error(message: I18n.t('not_found.message'), status: 404)
-        end
+        drives_problems = DrivesProblem.where(drive_id: @drive.id)
+        render_success(data: drives_problems, message: I18n.t('success.message'))
       end
 
-      def find_problem
-        @drive_problem = DrivesProblem.find_by(drive_id: params[:id])
-        return render_error(message: I18n.t('not_found.message'), status: :not_found) if @drive_problem.blank?
+      private
+
+      def load_drive
+        @drive = Drive.find(params[:id])
       end
     end
   end

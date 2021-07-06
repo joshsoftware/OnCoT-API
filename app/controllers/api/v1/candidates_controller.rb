@@ -20,7 +20,7 @@ module Api
         candidate = Candidate.find(params[:id])
 
         if candidate.update(candidate_params)
-          update_drives_candidate(candidate.id, params[:drife_id])
+          update_drives_candidate
 
           render_success(data: { candidate: serialize_resource(candidate, CandidateSerializer) },
                          message: I18n.t('update.success', model_name: 'Candidate'))
@@ -78,7 +78,7 @@ module Api
       end
 
       def load_drive_candidate
-        @drive_candidate = DrivesCandidate.find_by!(drive_id: params[:drife_id], candidate_id: params[:candidate_id])
+        @drive_candidate = DrivesCandidate.find_by(token: params[:token])
       end
 
       def set_start_time
@@ -89,16 +89,25 @@ module Api
         return render_error(message: I18n.t('blank_input.message')) if params[:emails].blank?
       end
 
-      def update_drives_candidate(id, drive_id)
-        drives_candidate = DrivesCandidate.find_by(candidate_id: id, drive_id: drive_id)
-        drive_problem = DrivesProblem.find_by(drive_id: drive_id)
+      def update_drives_candidate
+        drives_candidate = DrivesCandidate.find_by(token: params[:token])
+        drive_problems = DrivesProblem.where(drive_id: drives_candidate.drive.id)
 
         if drives_candidate.start_time.nil?
           start_time = DateTime.now.localtime
-          end_time = start_time + drive_problem.problem.time_in_minutes.minutes
+          end_time = start_time + total_time(drive_problems).minutes
           drives_candidate.update(start_time: start_time,
                                   end_time: end_time)
         end
+      end
+
+
+      def total_time(drive_problems)
+        total_time = 0
+        drive_problems.each do |drive_problem|
+          total_time = total_time + drive_problem.problem.time_in_minutes
+        end
+        total_time
       end
     end
   end
