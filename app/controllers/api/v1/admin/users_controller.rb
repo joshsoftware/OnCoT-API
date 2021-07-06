@@ -37,23 +37,19 @@ module Api
                          message: I18n.t('index.success', model_name: 'User'))
         end
 
-        def invite_user #rubocop:disable all
+        def invite_user
           email = params[:email]
           @role = params[:role]
           user = User.find_by(email: email, organization_id: current_user.organization.id, is_active: true)
+          chk_send_email(email, user)
+        end
 
+        def chk_send_email(email, user) # rubocop:disable Metrics/AbcSize
           if user
             render json: { message: I18n.t('user.exist'), status: 400 }
           else
-            user = User.create(
-              email: email,
-              role_id: @role,
-              organization_id: current_user.organization.id,
-              password: SecureRandom.hex(10),
-              invitation_token: SecureRandom.hex(50),
-              invitation_sent_at: DateTime.current,
-              invitation_sent_by: current_user.id
-            )
+            user = User.create(email: email, role_id: @role, organization_id: current_user.organization.id, password: SecureRandom.hex(10),
+                               invitation_token: SecureRandom.hex(50), invitation_sent_at: DateTime.current, invitation_sent_by: current_user.id)
             render_error(message: I18n.t('create.failed', model_name: 'User')) unless user
             UserMailer.user_invitation_email(user.email, @role, current_user, user.invitation_token).deliver_later
             DeleteInvitationTokenJob.set(wait: 1.week).perform_later(user)

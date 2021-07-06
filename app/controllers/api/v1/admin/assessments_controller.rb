@@ -12,17 +12,17 @@ module Api
           render json: { assessments: serialize_resource(drives, AssessmentSerializer) }
         end
 
-        def create # rubocop:disable all
+        def create # rubocop:disable Metrics/AbcSize
           candidate = Candidate.find_or_initialize_by(email: params[:email])
           candidate.save
-          drive_candidate = DrivesCandidate.new(
-            candidate_id: candidate.id,
-            drive_id: @drive.id,
-            application_id: params[:application_id],
-            drive_start_time: params[:start_time] || Time.current,
-            drive_end_time: params[:end_time] || Time.current + 1.year
-          )
+          drive_candidate = DrivesCandidate.new(candidate_id: candidate.id, drive_id: @drive.id, application_id: params[:application_id],
+                                                drive_start_time: params[:start_time] || Time.current,
+                                                drive_end_time: params[:end_time] || Time.current + 1.year)
           drive_candidate.generate_token
+          drive_candidate_save(candidate, drive_candidate)
+        end
+
+        def drive_candidate_save(candidate, drive_candidate)
           if drive_candidate.save
             CandidateMailer.invitation_email(candidate, drive_candidate).deliver_later
             render_success(data: { assessment_schedule_id: drive_candidate.uuid }, message: I18n.t('ok.message'))
