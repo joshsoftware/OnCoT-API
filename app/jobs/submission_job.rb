@@ -33,7 +33,13 @@ class SubmissionJob < ApplicationJob
 
   def calculate_result
     drives_candidate = @submission.drives_candidate
-    highest_submission = drives_candidate.submissions.order('total_marks desc').first
-    drives_candidate.update(score: highest_submission.total_marks)
+    problems = drives_candidate.drive.problems
+    score = 0
+    problems.each do |problem|
+      submissions = Submission.where(drives_candidate_id: drives_candidate.id, problem_id: problem.id)
+      highest_submission = submissions.order('total_marks desc').first
+      score += highest_submission.total_marks
+    end
+    drives_candidate.update(score: score)
   end
 end
