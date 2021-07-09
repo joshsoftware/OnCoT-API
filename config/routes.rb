@@ -21,7 +21,7 @@ Rails.application.routes.draw do
 
       resources :drives do
         resources :candidates do
-          get :candidate_test_time_left
+          get 'candidate_test_time_left/:token', to: 'candidates#candidate_test_time_left'
         end
       end
 
