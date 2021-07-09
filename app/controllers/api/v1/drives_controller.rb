@@ -12,7 +12,7 @@ module Api
                        status: 200)
       end
 
-      def drive_time_left # rubocop:disable all 
+      def drive_time_left
         time_left_to_end = @drive_candidate.drive_end_time - DateTime.current
         time_left_to_start = @drive_candidate.drive_start_time - DateTime.current
 
@@ -22,16 +22,20 @@ module Api
           message = I18n.t('drive.ended')
         else
           is_live = true
-          if time_left_to_start.negative?
-            data = -1
-            message = I18n.t('drive.started')
-          else
-            data = time_left_to_start
-            message = I18n.t('drive.yet_to_start')
-          end
+          data, message = chk_time_left_to_start(time_left_to_start).values_at(:data, :message)
         end
-
         render_success(data: { data: data, is_live: is_live }, message: message)
+      end
+
+      def chk_time_left_to_start(time_left_to_start)
+        if time_left_to_start.negative?
+          data = -1
+          message = I18n.t('drive.started')
+        else
+          data = time_left_to_start
+          message = I18n.t('drive.yet_to_start')
+        end
+        { data: data, message: message }
       end
 
       private
