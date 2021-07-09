@@ -43,13 +43,13 @@ module Api
         render_success(data: { time_left: time_left }, message: message)
       end
 
-      def invite
+      def invite 
         candidate_emails = params[:emails].split(',')
         candidate_emails.each do |candidate_email|
           candidate = Candidate.find_or_initialize_by(email: candidate_email)
           candidate.save
-          drive_candidate = DrivesCandidate.new(candidate_id: candidate.id, drive_id: @drive.id, drive_start_time: @drive.start_time,
-                                                drive_end_time: @drive.end_time)
+          drive_candidate = DrivesCandidate.new(candidate_id: candidate.id, drive_id: @drive.id,
+            drive_start_time: @drive.start_time || DateTime.current, drive_end_time: @drive.end_time || DateTime.current + 1.year)
           drive_candidate.generate_token
           next unless candidate
 

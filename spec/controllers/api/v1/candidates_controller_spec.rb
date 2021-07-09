@@ -20,6 +20,7 @@ RSpec.describe Api::V1::CandidatesController, type: :controller do
         params = {
           id: @candidate.id,
           drife_id: @drive.id,
+          token: @drives_candidate.token,
           first_name: Faker::Name.name
         }
         expect do
@@ -72,6 +73,7 @@ RSpec.describe Api::V1::CandidatesController, type: :controller do
   describe 'GET candidate_test_time_left' do
     it 'returns the time remaining for a candidate if test is in progress' do
       params = {
+        token: @drives_candidate.token,
         drife_id: @drive.id,
         candidate_id: @candidate.id
       }
@@ -84,6 +86,7 @@ RSpec.describe Api::V1::CandidatesController, type: :controller do
 
     it 'test had already completed' do
       params = {
+        token: @drives_candidate.token,
         drife_id: @drive.id,
         candidate_id: @candidate.id
       }
