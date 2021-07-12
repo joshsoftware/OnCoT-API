@@ -11,6 +11,10 @@ resource 'Problem' do
     create(:problem, updated_by_id: user.id, created_by_id: user.id,
                      organization: organization)
   end
+  let!(:test_case) do
+    create(:test_case, problem_id: problem.id, marks: 4, updated_by_id: user.id,
+                       created_by_id: user.id, input: 'hello', output: 'hello')
+  end
   let!(:drives_problem) { create(:drives_problem, drive_id: drive.id, problem_id: problem.id) }
   get '/api/v1/drives/:id/problem' do
     parameter :id, 'Drive id'

@@ -6,7 +6,10 @@ module Api
       before_action :find_problem
       def index
         if (problem = @drive_problem.problem)
-          render_success(data: problem, message: I18n.t('success.message'))
+          render_success(data: { id: problem.id, title: problem.title, description: problem.description,
+                                 submission_count: problem.submission_count, time_in_minutes: problem.time_in_minutes,
+                                 test_case: problem.test_cases.first.input },
+                         message: I18n.t('success.message'))
         else
           render_error(message: I18n.t('not_found.message'), status: 404)
         end
