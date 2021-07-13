@@ -25,6 +25,24 @@ module Api
           render_error(message: I18n.t('not_found.message'))
         end
       end
+
+      def assessment_status
+        drive_candidate = DrivesCandidate.find_by(token: params[:token])
+        render_error(message: I18n.t('not_found.message')) unless drive_candidate
+        if drive_candidate.drive.is_assessment? 
+          params = {key: 'yKkwJQFnFQL6qaVS4fZkdmt3FJRjvsyk', assessment_schedule_id: drive_candidate.uuid, score: drive_candidate.score }
+          if drive_candidate.drive_end_time < DateTime.current
+            render_success( data: params.merge(status: 'expired'), message: I18n.t('drive.ended'))
+          end
+          time = drive_candidate.end_time - drive_candidate.start_time
+          body = AssessmentReportJob.perform_later(params)
+          if body
+            render_success( data: {}, message: I18n.t('success.message') )
+          else
+            render_error(message: I18n.t('not_found.message'), status: 404)
+          end
+        end
+      end
     end
   end
 end

@@ -54,6 +54,7 @@ Rails.application.routes.draw do
 
       resources :drives_candidates do
         get :show_code
+        post :assessment_status, on: :collection  
       end
 
       get '/drives/:drive_id/rules', to: 'rules#index'
