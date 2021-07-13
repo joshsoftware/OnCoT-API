@@ -9,6 +9,7 @@ module Api
         before_action :rule_finder, only: %i[update destroy]
 
         def create
+          Drive.find(params[:drive_id])
           rule = Rule.new(rule_params)
           if rule.save
             render_success(data: { rule: serialize_resource(rule, RuleSerializer) },

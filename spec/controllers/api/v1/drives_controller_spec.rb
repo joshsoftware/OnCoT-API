@@ -22,9 +22,18 @@ RSpec.describe Api::V1::DrivesController, type: :controller do
                    end_time: DateTime.current - 1.hours, duration: 10_800)
   end
   let(:candidate) { create(:candidate) }
-  let(:drives_candidate1) { create(:drives_candidate, drive_id: drive1.id, candidate_id: candidate.id) }
-  let(:drives_candidate2) { create(:drives_candidate, drive_id: drive2.id, candidate_id: candidate.id) }
-  let(:drives_candidate3) { create(:drives_candidate, drive_id: drive3.id, candidate_id: candidate.id) }
+  let(:drives_candidate1) do
+    create(:drives_candidate, drive_id: drive1.id, candidate_id: candidate.id, drive_start_time: DateTime.current + 4,
+                              drive_end_time: DateTime.current + 5)
+  end
+  let(:drives_candidate2) do
+    create(:drives_candidate, drive_id: drive2.id, candidate_id: candidate.id, drive_start_time: DateTime.current - 1.hours,
+                              drive_end_time: DateTime.current + 1.hours)
+  end
+  let(:drives_candidate3) do
+    create(:drives_candidate, drive_id: drive3.id, candidate_id: candidate.id, drive_start_time: DateTime.current - 2,
+                              drive_end_time: DateTime.current - 1.hours)
+  end
 
   describe 'GET #show' do
     context 'with valid params' do

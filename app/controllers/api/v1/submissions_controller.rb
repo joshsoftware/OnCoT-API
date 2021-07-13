@@ -17,13 +17,15 @@ module Api
       def show
         submission = Submission.where(id: params[:id]).first
         submission_count_left = calculate_remaining_submission_count(submission)
+        chk_submission_status(submission, submission_count_left)
+      end
+
+      def chk_submission_status # rubocop:disable Metrics/AbcSize
         if submission
           if submission.status == 'accepted'
             testcases = TestCaseResult.where(submission_id: submission.id).collect(&:is_passed)
             render_success(data: { passed_testcases: testcases.count(true), total_testcases: testcases.count,
-                                   submission_count: submission_count_left,
-                                   status: 'accepted' },
-                           message: I18n.t('success.message'))
+                                   submission_count: submission_count_left, status: 'accepted' }, message: I18n.t('success.message'))
           else
             render_success(data: { status: 'processing' }, message: I18n.t('success.message'))
           end

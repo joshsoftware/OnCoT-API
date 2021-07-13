@@ -8,7 +8,8 @@ RSpec.describe Api::V1::CandidatesController, type: :controller do
     @drive = create(:drive, created_by_id: admin.id, updated_by_id: admin.id, organization_id: admin.organization_id)
     @candidate = create(:candidate)
     @drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: @candidate.id,
-                                                  start_time: DateTime.now.localtime, end_time: DateTime.now.localtime + 1.hours)
+                                                  start_time: DateTime.now.localtime, end_time: DateTime.now.localtime + 1.hours,
+                                                  drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
     problem = create(:problem, created_by_id: admin.id, updated_by_id: admin.id)
     DrivesProblem.create(drive_id: @drive.id, problem_id: problem.id)
   end
@@ -19,6 +20,7 @@ RSpec.describe Api::V1::CandidatesController, type: :controller do
         params = {
           id: @candidate.id,
           drife_id: @drive.id,
+          token: @drives_candidate.token,
           first_name: Faker::Name.name
         }
         expect do
@@ -71,6 +73,7 @@ RSpec.describe Api::V1::CandidatesController, type: :controller do
   describe 'GET candidate_test_time_left' do
     it 'returns the time remaining for a candidate if test is in progress' do
       params = {
+        token: @drives_candidate.token,
         drife_id: @drive.id,
         candidate_id: @candidate.id
       }
@@ -83,6 +86,7 @@ RSpec.describe Api::V1::CandidatesController, type: :controller do
 
     it 'test had already completed' do
       params = {
+        token: @drives_candidate.token,
         drife_id: @drive.id,
         candidate_id: @candidate.id
       }
