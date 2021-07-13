@@ -12,10 +12,12 @@ RSpec.describe Api::V1::CodesController, type: :controller do
                    end_time: DateTime.current + 3.hours, duration: 10_800)
   end
   let(:candidate) { create(:candidate) }
-  let(:drives_candidate) { create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id, drive_start_time: DateTime.current, drive_end_time: DateTime.current+1.hour) }
+  let(:drives_candidate) do
+    create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id, drive_start_time: DateTime.current,
+                              drive_end_time: DateTime.current + 1.hour)
+  end
   let(:problem) { create(:problem, updated_by_id: user.id, created_by_id: user.id, organization: organization) }
-  let!(:drives_problem) { create(:drives_problem, drive_id: drive.id, problem_id: problem.id) }
-  let!(:code) { create(:code, drives_candidate_id: drives_candidate.id, drives_problem_id: drives_problem.id) }
+  let!(:code) { create(:code, drives_candidate_id: drives_candidate.id, problem_id: problem.id) }
 
   describe 'POST #create' do
     context 'with valid params' do
@@ -30,11 +32,15 @@ RSpec.describe Api::V1::CodesController, type: :controller do
 
     context 'with invalid params' do
       it 'returns record not found message when problem_id is invalid' do
-        post :create, params: { source_code: "print('world')", language_id: 71, token: drives_candidate.token, problem_id: Faker::Number.number }
-        expect(response.body).to eq(I18n.t('not_found.message'))
+        post :create,
+             params: { source_code: "print('world')", language_id: 71, token: drives_candidate.token,
+                       problem_id: Faker::Number.number }
+        data = json
+        expect(data['message']).to eq(I18n.t('not_found.message'))
       end
       it 'returns record not found message when token is invalid' do
-        post :create, params: { source_code: "print('world')", language_id: 71, token: Faker::Internet.uuid, problem_id: problem.id }
+        post :create,
+             params: { source_code: "print('world')", language_id: 71, token: Faker::Internet.uuid, problem_id: problem.id }
         data = json
         expect(data['message']).to eq(I18n.t('not_found.message'))
         expect(data['data'].count).to eq(0)
@@ -56,7 +62,8 @@ RSpec.describe Api::V1::CodesController, type: :controller do
     context 'with invalid params' do
       it 'returns record not found message when problem_id is invalid' do
         get :show, params: { token: drives_candidate.token, problem_id: Faker::Number.number }
-        expect(response.body).to eq(I18n.t('not_found.message'))
+        data = json
+        expect(data['message']).to eq(I18n.t('not_found.message'))
       end
       it 'returns record not found message when token is invalid' do
         get :show, params: { token: Faker::Internet.uuid, problem_id: problem.id }

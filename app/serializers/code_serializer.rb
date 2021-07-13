@@ -16,7 +16,4 @@ class CodeSerializer < ActiveModel::Serializer
   def token
     object.drives_candidate.token
   end
-  def problem_id
-    object.drives_problem.problem.id
-  end
 end
