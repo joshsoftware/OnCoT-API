@@ -26,4 +26,8 @@ class ApiController < ActionController::API
     opts = { each_serializer: serializer, root: root }.merge(extra)
     ActiveModelSerializers::SerializableResource.new(resources, opts) if resources
   end
+
+  def serialize_single_resource(resources, serializer, _root = nil, _extra = {})
+    ActiveModelSerializers::SerializableResource.new(resources, serializer: serializer) if resources
+  end
 end
