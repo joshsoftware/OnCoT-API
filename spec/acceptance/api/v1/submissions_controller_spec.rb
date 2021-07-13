@@ -11,6 +11,7 @@ resource 'Submission' do
       parameter :candidate_id
       parameter :id, 'Problem id'
       parameter :drive_id
+      parameter :token
       before  do
         url = 'http://65.1.201.245/submissions/?base64_encoded=false&wait=true'
         stub_request(:post, url)
@@ -32,7 +33,8 @@ resource 'Submission' do
                        created_by_id: user.id)
       end
       let!(:drives_candidate) do
-        create(:drives_candidate, candidate_id: candidate.id, drive_id: drive.id, end_time: DateTime.current + 1.hours)
+        create(:drives_candidate, candidate_id: candidate.id, drive_id: drive.id, end_time: DateTime.current + 1.hours,
+                                  drive_end_time: DateTime.current + 2.hours, drive_start_time: DateTime.current)
       end
       let!(:problem) do
         create(:problem, updated_by_id: user.id, created_by_id: user.id,
@@ -52,6 +54,7 @@ resource 'Submission' do
       let!(:candidate_id) { candidate.id }
       let!(:id) { problem.id }
       let!(:drive_id) { drive.id }
+      let!(:token) { drives_candidate.token }
 
       example 'API to create submission in database' do
         do_request
