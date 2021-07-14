@@ -121,6 +121,7 @@ GEM
       activesupport
     childprocess (4.0.0)
     concurrent-ruby (1.1.8)
+    connection_pool (2.2.5)
     crack (0.4.5)
       rexml
     crass (1.0.6)
@@ -342,6 +343,10 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    sidekiq (6.2.1)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      redis (>= 4.2.0)
     simplecov (0.21.2)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -416,6 +421,7 @@ DEPENDENCIES
   rspec_api_documentation
   rubocop
   sassc-rails
+  sidekiq
   simplecov
   spring
   spring-watcher-listen (~> 2.0.0)

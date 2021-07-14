@@ -3,7 +3,6 @@
 require 'http'
 
 class ParamAiApi
-#   BASE_URI = ENV['PARAMS_AI_URL']
 
   def initialize(params)
     @params = params
@@ -12,6 +11,6 @@ class ParamAiApi
 
   def post
     response = HTTP.post(ENV['PARAMS_AI_URL'], headers: @headers, body: @params.to_json)
-    JSON.parse(response.body)
+    response.status
   end
 end
