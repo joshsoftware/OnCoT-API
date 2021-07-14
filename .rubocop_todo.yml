@@ -53,9 +53,10 @@ Style/MixinUsage:
 # Configuration parameters: AutoCorrect, AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Layout/LineLength:
-  Max: 130
+  Max: 160
   Exclude:
     - 'config/initializers/devise.rb'
+    - 'config/deploy.rb'
 
 Style/NumericPredicate:
   Exclude:

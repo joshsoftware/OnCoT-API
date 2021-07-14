@@ -13,7 +13,10 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
   let(:drives_problem) { create(:drives_problem, drive_id: drive.id, problem_id: problem.id) }
 
   let(:candidate) { create(:candidate) }
-  let!(:drives_candidate) { create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id) }
+  let!(:drives_candidate) do
+    create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id, drive_start_time: DateTime.current,
+                              drive_end_time: DateTime.current + 1.hours)
+  end
 
   describe 'GET#index' do
     context 'when user is logged in' do
@@ -189,7 +192,8 @@ RSpec.describe Api::V1::Admin::DrivesController, type: :controller do
       candidate = create(:candidate, first_name: 'Neha', last_name: 'Sharma', email: 'neha@gmail.com')
       @drive = create(:drive, updated_by_id: user.id, created_by_id: user.id,
                               organization: organization)
-      drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate.id, score: 20)
+      drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate.id, score: 20, drive_start_time: DateTime.current,
+                                                   drive_end_time: DateTime.current + 1.hours)
       problem = create(:problem, updated_by_id: user.id, created_by_id: user.id,
                                  organization: organization, submission_count: 3)
       create(:submission, problem_id: problem.id, drives_candidate_id: drives_candidate.id,

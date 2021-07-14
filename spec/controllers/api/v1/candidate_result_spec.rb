@@ -16,7 +16,8 @@ RSpec.describe Api::V1::CandidateResultsController, type: :controller do
                        organization: organization)
 
       @candidate = create(:candidate)
-      drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: @candidate.id)
+      drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: @candidate.id, drive_start_time: DateTime.current,
+                                                   drive_end_time: DateTime.current + 1.hours)
       @test_case =
         create(:test_case, problem_id: @problem.id, input: 'hello', output: 'hello', marks: 4, updated_by_id: user.id,
                            created_by_id: user.id)

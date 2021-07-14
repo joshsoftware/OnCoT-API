@@ -13,14 +13,14 @@ RSpec.describe Api::V1::ProblemsController, type: :controller do
         @problem = create(:problem, updated_by_id: user.id, created_by_id: user.id,
                                     organization: organization)
         @problem2 = create(:problem, updated_by_id: user.id, created_by_id: user.id,
-                                      organization: organization)
+                                     organization: organization)
 
         @drives_problem = create(:drives_problem, drive_id: @drive.id, problem_id: @problem.id)
         @drives_problem2 = create(:drives_problem, drive_id: @drive.id, problem_id: @problem2.id)
         create(:test_case, problem_id: @problem.id, marks: 4, updated_by_id: user.id,
-          created_by_id: user.id, input: 'hello', output: 'hello')
+                           created_by_id: user.id, input: 'hello', output: 'hello')
         create(:test_case, problem_id: @problem2.id, marks: 4, updated_by_id: user.id,
-          created_by_id: user.id, input: 'hello', output: 'hello')
+                           created_by_id: user.id, input: 'hello', output: 'hello')
       end
       it 'returns all the problems associated with a drive' do
         get :index, params: { id: @drive.id }
