@@ -20,7 +20,7 @@ module Api
         chk_submission_status(submission, submission_count_left)
       end
 
-      def chk_submission_status # rubocop:disable Metrics/AbcSize
+      def chk_submission_status(submission, submission_count_left)
         if submission
           if submission.status == 'accepted'
             testcases = TestCaseResult.where(submission_id: submission.id).collect(&:is_passed)
