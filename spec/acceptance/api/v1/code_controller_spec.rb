@@ -18,6 +18,7 @@ resource 'Code' do
                               drive_end_time: DateTime.current + 1.hour)
   end
   let(:problem) { create(:problem, updated_by_id: user.id, created_by_id: user.id, organization: organization) }
+  let(:problem2) { create(:problem, updated_by_id: user.id, created_by_id: user.id, organization: organization) }
   let!(:code) { create(:code, drives_candidate_id: drives_candidate.id, problem_id: problem.id) }
 
   get '/api/v1/codes/:token/:problem_id' do
@@ -50,17 +51,33 @@ resource 'Code' do
     parameter :problem_id, 'Problem id'
     parameter :answer, 'Code answer'
     parameter :language_id, 'Code lang_code'
-    context 'with valid params' do
+    context 'with valid params when drives_candidate_id and problem_id pair does not exist' do
       let!(:token) { drives_candidate.token }
-      let!(:problem_id) { problem.id }
+      let!(:problem_id) { problem2.id }
       let!(:answer) { Faker::Lorem.paragraph }
       let!(:language_id) { Faker::Number.digit }
-      example 'create code for a problem and store to database' do
+      example 'create new code and store to database' do
+        previous_code_count = Code.count
         do_request
         response = JSON.parse(response_body)
         expect(response['data']['code']['problem_id']).to eq(problem_id)
         expect(status).to eq(200)
-        expect(Code.count).to eq(1)
+        expect(Code.count).to eq(previous_code_count + 1)
+      end
+    end
+
+    context 'with valid params when drives_candidate_id and problem_id pair already exist' do
+      let!(:token) { drives_candidate.token }
+      let!(:problem_id) { problem.id }
+      let!(:answer) { Faker::Lorem.paragraph }
+      let!(:language_id) { Faker::Number.digit }
+      example 'finds code and update data' do
+        previous_code_count = Code.count
+        do_request
+        response = JSON.parse(response_body)
+        expect(response['data']['code']['problem_id']).to eq(problem_id)
+        expect(status).to eq(200)
+        expect(Code.count).to eq(previous_code_count)
       end
     end
     context 'with invalid params' do
@@ -69,10 +86,12 @@ resource 'Code' do
       let!(:answer) { Faker::Lorem.paragraph }
       let!(:language_id) { Faker::Number.digit }
       example ' returns not found error message as token is fake' do
+        previous_code_count = Code.count
         do_request
         response = JSON.parse(response_body)
         expect(response['message']).to eq(I18n.t('not_found.message'))
         expect(status).to eq(200)
+        expect(Code.count).to eq(previous_code_count)
       end
     end
   end

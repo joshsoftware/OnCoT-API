@@ -8,7 +8,6 @@ module Api
 
       def create
         code = Code.find_or_initialize_by(drives_candidate_id: @drives_candidate.id, problem_id: @problem.id)
-        code.save
         code.update(answer: params[:answer], lang_code: params[:language_id])
         if code
           render_success(data: { code: serialize_resource(code, CodeSerializer) }, message: I18n.t('success.message'))

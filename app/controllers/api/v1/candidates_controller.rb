@@ -101,11 +101,7 @@ module Api
       end
 
       def total_time(drive_problems)
-        total_time = 0
-        drive_problems.each do |drive_problem|
-          total_time += drive_problem.problem.time_in_minutes
-        end
-        total_time
+        Problem.where(id: drive_problems.collect(&:problem_id)).collect(&:time_in_minutes).sum
       end
     end
   end

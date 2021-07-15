@@ -6,7 +6,7 @@ class CreateCodes < ActiveRecord::Migration[6.1]
       t.text :answer
       t.integer :lang_code
       t.references :drives_candidate, null: false, foreign_key: true
-      t.references :drives_problem, null: false, foreign_key: true
+      t.references :problem, null: false, foreign_key: true
       t.timestamps
     end
   end

@@ -7,10 +7,7 @@ module Api
 
       def index
         drives_problems = DrivesProblem.where(drive_id: @drive.id)
-        problems = []
-        drives_problems.each do |drives_problem|
-          problems.push(drives_problem.problem)
-        end
+        problems = Problem.where(id: drives_problems.collect(&:problem_id))
         render_success(data: problems, message: I18n.t('success.message'))
       end
 

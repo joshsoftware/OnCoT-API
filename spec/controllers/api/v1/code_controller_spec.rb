@@ -17,16 +17,26 @@ RSpec.describe Api::V1::CodesController, type: :controller do
                               drive_end_time: DateTime.current + 1.hour)
   end
   let(:problem) { create(:problem, updated_by_id: user.id, created_by_id: user.id, organization: organization) }
+  let(:problem2) { create(:problem, updated_by_id: user.id, created_by_id: user.id, organization: organization) }
   let!(:code) { create(:code, drives_candidate_id: drives_candidate.id, problem_id: problem.id) }
 
   describe 'POST #create' do
     context 'with valid params' do
-      it 'creates code (auto-submit) in database' do
+      it 'creates code when drives_candidate_id and problem_id relation does not exist' do
+        previous_code_count = Code.count
+        post :create, params: { answer: "print('world')", language_id: 71, token: drives_candidate.token, problem_id: problem2.id }
+        data = json
+        expect(data['message']).to eq(I18n.t('success.message'))
+        expect(data['data']['code']['problem_id']).to eq(problem2.id)
+        expect(Code.count).to eq(previous_code_count + 1)
+      end
+      it 'finds code and update data when drives_candidate_id and problem_id relation already exist' do
+        previous_code_count = Code.count
         post :create, params: { answer: "print('world')", language_id: 71, token: drives_candidate.token, problem_id: problem.id }
         data = json
         expect(data['message']).to eq(I18n.t('success.message'))
         expect(data['data']['code']['problem_id']).to eq(problem.id)
-        expect(Code.count).to eq(1)
+        expect(Code.count).to eq(previous_code_count)
       end
     end
 
