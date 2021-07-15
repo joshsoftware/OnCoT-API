@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_701_171_718) do
+ActiveRecord::Schema.define(version: 20_210_713_060_739) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -38,6 +38,17 @@ ActiveRecord::Schema.define(version: 20_210_701_171_718) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.string 'mobile_number'
+  end
+
+  create_table 'codes', force: :cascade do |t|
+    t.text 'answer'
+    t.integer 'lang_code'
+    t.bigint 'drives_candidate_id', null: false
+    t.bigint 'problem_id', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['drives_candidate_id'], name: 'index_codes_on_drives_candidate_id'
+    t.index ['problem_id'], name: 'index_codes_on_problem_id'
   end
 
   create_table 'drives', force: :cascade do |t|
