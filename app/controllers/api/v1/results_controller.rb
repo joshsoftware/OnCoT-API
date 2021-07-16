@@ -28,13 +28,19 @@ module Api
         render_error(message: I18n.t('not_found.message')) unless @drives_candidates
       end
 
-      def write_csv_file # rubocop:disable all
+      def write_csv_file
         CSV.open('result_file.csv', 'w') do |csv|
           problem = @drive.problems.first
           test_case_headers = problem.test_cases.count.times.collect do |index|
             ["Test case #{index + 1} expected output", "Test case #{index + 1} actual output"]
           end.flatten
           csv << ['First Name', 'Last Name', 'Email', 'Score'] + test_case_headers + ['Code']
+          chk_for_candidates_csv_results(csv)
+        end
+      end
+
+      def chk_for_candidates_csv_results(csv) #rubocop:disable all
+        if !params[:drives_candidate_id]
           @drives_candidates.each do |drives_candidate|
             candidate = drives_candidate.candidate
             submission = drives_candidate.submissions.order('total_marks desc').first
@@ -42,8 +48,15 @@ module Api
 
             test_cases = test_case_results(submission.id)
             csv << [candidate.first_name, candidate.last_name, candidate.email,
-                    drives_candidate.score] + test_cases + [submission.answer]
+                    drives_candidate.score || 0] + test_cases + [submission.answer]
           end
+        else
+          drive_candidate = DrivesCandidate.where(id: params[:drives_candidate_id]).first
+          candidate = drive_candidate.candidate
+          submission = drive_candidate.submissions.first
+          test_cases = test_case_results(submission.id)
+          csv << [candidate.first_name, candidate.last_name, candidate.email,
+                  drive_candidate.score || 0] + test_cases + [submission.answer]
         end
       end
 

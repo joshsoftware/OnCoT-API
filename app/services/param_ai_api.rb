@@ -3,7 +3,6 @@
 require 'http'
 
 class ParamAiApi
-
   def initialize(params)
     @params = params
     @headers = { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }

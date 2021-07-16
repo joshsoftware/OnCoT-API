@@ -5,11 +5,15 @@ require 'rails_helper'
 RSpec.describe Api::V1::CandidatesController, type: :controller do
   before :each do
     admin = create(:admin)
-    @drive = create(:drive, created_by_id: admin.id, updated_by_id: admin.id, organization_id: admin.organization_id)
+    @drive = create(:drive, created_by_id: admin.id, updated_by_id: admin.id, organization_id: admin.organization_id, is_assessment: true)
     @candidate = create(:candidate)
+    @candidate2 = create(:candidate, id: 10)
     @drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: @candidate.id,
                                                   start_time: DateTime.now.localtime, end_time: DateTime.now.localtime + 1.hours,
                                                   drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
+    @drives_candidate2 = create(:drives_candidate, drive_id: @drive.id, candidate_id: @candidate2.id, token: '123',
+                                                   start_time: nil, end_time: nil,
+                                                   drive_start_time: DateTime.current, drive_end_time: DateTime.current + 1.hours)
     problem = create(:problem, created_by_id: admin.id, updated_by_id: admin.id)
     DrivesProblem.create(drive_id: @drive.id, problem_id: problem.id)
   end
@@ -39,6 +43,17 @@ RSpec.describe Api::V1::CandidatesController, type: :controller do
         put :update, params: params
 
         expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context 'valid params with assessmnet worker' do
+      it 'get succesfully data for assesment' do
+        params = {
+          id: 10,
+          token: @drives_candidate2.token
+        }
+        put :update, params: params
+        expect(response.status).to eq(200)
       end
     end
   end
