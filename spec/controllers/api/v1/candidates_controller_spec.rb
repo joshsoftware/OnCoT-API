@@ -46,12 +46,9 @@ RSpec.describe Api::V1::CandidatesController, type: :controller do
       end
     end
 
-    context 'valid params with assessmnet worker' do
+    context 'valid params with assessment worker' do
       it 'get succesfully data for assesment' do
-        params = {
-          id: 10,
-          token: @drives_candidate2.token
-        }
+        params = { id: 10, token: @drives_candidate2.token }
         put :update, params: params
         expect(response.status).to eq(200)
       end
