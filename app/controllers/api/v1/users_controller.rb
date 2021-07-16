@@ -3,19 +3,13 @@
 module Api
   module V1
     class UsersController < ApiController
-      def accept_invite
+      def accept_invite # rubocop:disable Metrics/AbcSize
         user = User.find_by(invitation_token: params[:invitation_token])
 
         if !user
           render json: { message: I18n.t('token.invalid'), status: 404 }
-        elsif user.update(
-          password: params[:password],
-          mobile_number: params[:mobile_number],
-          invitation_accepted_at: DateTime.current,
-          first_name: params[:first_name],
-          last_name: params[:last_name],
-          invitation_token: nil
-        )
+        elsif user.update(password: params[:password], mobile_number: params[:mobile_number], invitation_accepted_at: DateTime.current,
+                          first_name: params[:first_name], last_name: params[:last_name], invitation_token: nil)
           render_success(data: { user: serialize_resource(user, UserSerializer) },
                          message: I18n.t('invitation.accepted'))
         else

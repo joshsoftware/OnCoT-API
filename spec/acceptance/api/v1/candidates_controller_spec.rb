@@ -10,7 +10,8 @@ resource 'Candidates' do
   let!(:candidate) { create(:candidate) }
   let!(:drives_candidate) do
     create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id,
-                              start_time: DateTime.now.localtime, end_time: DateTime.now.localtime + 1.hours)
+                              start_time: DateTime.now.localtime, end_time: DateTime.now.localtime + 1.hours, drive_start_time: DateTime.current,
+                              drive_end_time: DateTime.current + 1.hours)
   end
   let!(:problem) { create(:problem, created_by_id: admin.id, updated_by_id: admin.id) }
 
@@ -21,10 +22,12 @@ resource 'Candidates' do
     parameter :last_name, 'Candidate\'s last name'
     parameter :email, 'Candidate\'s email'
     parameter :mobile_number, 'Candidate\'s mobile number'
+    parameter :token, 'Drive Candidate\'s token'
     context 'with valid params' do
       let!(:id) { candidate.id }
       let!(:drife_id) { drive.id }
       let!(:first_name) { 'name' }
+      let!(:token) { drives_candidate.token }
       example 'candidate update API' do
         do_request
         response = JSON.parse(response_body)
@@ -76,11 +79,13 @@ resource 'Candidates' do
     end
   end
 
-  get '/api/v1/drives/:drife_id/candidates/:candidate_id/candidate_test_time_left' do
+  get '/api/v1/drives/:drife_id/candidates/:candidate_id/candidate_test_time_left/:token' do
     parameter :drife_id, 'Drive id'
     parameter :candidate_id, 'Candidate id'
+    parameter :token, 'Drives Candidate token'
     let!(:drife_id) { drive.id }
     let!(:candidate_id) { candidate.id }
+    let!(:token) { drives_candidate.token }
     example 'candidate test time remaining API' do
       do_request
       response = JSON.parse(response_body)

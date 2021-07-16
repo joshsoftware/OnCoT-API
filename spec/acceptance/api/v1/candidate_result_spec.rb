@@ -21,7 +21,10 @@ resource 'CandidateResult' do
     end
 
     let!(:candidate) { create(:candidate) }
-    let!(:drives_candidate) { create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id) }
+    let!(:drives_candidate) do
+      create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id, drive_start_time: DateTime.current,
+                                drive_end_time: DateTime.current + 1.hours)
+    end
     let!(:test_case) do
       create(:test_case, problem_id: problem.id, input: 'hello', output: 'hello', marks: 4, updated_by_id: user.id,
                          created_by_id: user.id)

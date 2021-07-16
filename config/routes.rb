@@ -27,7 +27,7 @@ Rails.application.routes.draw do
 
       resources :candidates, only: %i[update show]
       post 'invite', to: 'candidates#invite'
-      get '/drives/:id/problem' => 'problems#index'
+      get '/drives/:id/problems' => 'problems#index'
       put 'accept_invite', to: 'users#accept_invite'
       resources :submissions, only: %i[create show]
 
@@ -54,6 +54,11 @@ Rails.application.routes.draw do
 
       resources :drives_candidates do
         get :show_code
+      end
+
+      resources :codes, only: %i[create] do
+        get ':token/:problem_id', to: 'codes#show', on: :collection
+        put ':token/:problem_id', to: 'codes#update', on: :collection
       end
 
       get '/drives/:drive_id/rules', to: 'rules#index'

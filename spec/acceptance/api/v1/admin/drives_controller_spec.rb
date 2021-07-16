@@ -12,7 +12,10 @@ resource 'Drive' do
   let!(:drive) { create(:drive, created_by_id: user.id, updated_by_id: user.id, organization: organization) }
   let!(:drives_problem) { create(:drives_problem, drive_id: drive.id, problem_id: problem.id) }
   let!(:candidate) { create(:candidate, first_name: 'Neha', last_name: 'Sharma', email: 'neha@gmail.com') }
-  let!(:drives_candidate) { create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id) }
+  let!(:drives_candidate) do
+    create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id, drive_start_time: DateTime.current,
+                              drive_end_time: DateTime.current + 1.hours)
+  end
   let!(:auth_token) { user.create_new_auth_token }
   get '/api/v1/admin/drives' do
     context 'when user is logged in' do
@@ -162,7 +165,10 @@ resource 'Drive' do
       create(:drive, updated_by_id: user.id, created_by_id: user.id,
                      organization: organization)
     end
-    let!(:drives_candidate) { create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id, score: 20) }
+    let!(:drives_candidate) do
+      create(:drives_candidate, drive_id: drive.id, candidate_id: candidate.id, score: 20, drive_start_time: DateTime.current,
+                                drive_end_time: DateTime.current + 1.hours)
+    end
     let!(:problem) do
       create(:problem, updated_by_id: user.id, created_by_id: user.id,
                        organization_id: organization.id, submission_count: 3)

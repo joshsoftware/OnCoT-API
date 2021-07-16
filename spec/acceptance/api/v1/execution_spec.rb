@@ -8,9 +8,9 @@ resource 'Execution' do
     parameter :source_code, 'Source code'
     parameter :language_id, 'Language id'
     before do
-      stub_request(:post, 'http://roupi.xyz/submissions/?base64_encoded=false&wait=false')
+      stub_request(:post, "#{ENV['JUDGE_ZERO_BASE_URI']}/submissions/?base64_encoded=false&wait=false")
         .with(
-          body: "{\"source_code\":\"print('hello')\",\"language_id\":\"71\",\"stdin\":null}",
+          body: "{\"source_code\":\"print('hello')\",\"language_id\":\"71\",\"stdin\":null,\"callback_url\":\"http://localhost:3000/api/v1//executions/submission_result?room=\"}",
           headers: { 'Content-Type' => 'application/json' }
         )
         .to_return(status: 200, body: { token: 'token123' }.to_json)
@@ -29,7 +29,7 @@ resource 'Execution' do
   get '/api/v1/executions/:id/submission_status' do
     parameter :id, 'token'
     before do
-      stub_request(:get, 'http://roupi.xyz/submissions/token123')
+      stub_request(:get, "#{ENV['JUDGE_ZERO_BASE_URI']}/submissions/token123")
         .to_return(status: 200, body: { stdout: 'hello', status: { description: 'Accepted' } }.to_json)
     end
     let!(:id) { 'token123' }

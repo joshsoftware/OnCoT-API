@@ -25,9 +25,10 @@ module Api
       def find_drive_candidates
         @drive = Drive.find(params[:drife_id])
         @drives_candidates = @drive.drives_candidates
+        render_error(message: I18n.t('not_found.message')) unless @drives_candidates
       end
 
-      def write_csv_file
+      def write_csv_file # rubocop:disable all
         CSV.open('result_file.csv', 'w') do |csv|
           problem = @drive.problems.first
           test_case_headers = problem.test_cases.count.times.collect do |index|

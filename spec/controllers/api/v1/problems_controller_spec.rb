@@ -14,15 +14,21 @@ RSpec.describe Api::V1::ProblemsController, type: :controller do
                                     organization: organization)
         create(:test_case, problem_id: @problem.id, marks: 4, updated_by_id: user.id,
                            created_by_id: user.id, input: 'hello', output: 'hello')
+        @problem2 = create(:problem, updated_by_id: user.id, created_by_id: user.id,
+                                     organization: organization)
+
         @drives_problem = create(:drives_problem, drive_id: @drive.id, problem_id: @problem.id)
+        @drives_problem2 = create(:drives_problem, drive_id: @drive.id, problem_id: @problem2.id)
+        create(:test_case, problem_id: @problem.id, marks: 4, updated_by_id: user.id,
+                           created_by_id: user.id, input: 'hello', output: 'hello')
+        create(:test_case, problem_id: @problem2.id, marks: 4, updated_by_id: user.id,
+                           created_by_id: user.id, input: 'hello', output: 'hello')
       end
-      it 'returns the problem data' do
+      it 'returns all the problems associated with a drive' do
         get :index, params: { id: @drive.id }
-
         data = json
-
-        expect(data['data']['title']).to eq(@problem.title)
-        expect(data['data']['description']).to eq(@problem.description)
+        expect(data['data'].count).to eq(2)
+        expect(data['data'].first['description']).to eq(@problem.description)
         expect(data['message']).to eq('Success')
         expect(response).to have_http_status(200)
       end
@@ -31,8 +37,11 @@ RSpec.describe Api::V1::ProblemsController, type: :controller do
     context 'with random id which is not present in database' do
       it 'returns not found error ' do
         get :index, params: { id: Faker::Number }
+        data = json
 
-        expect(response).to have_http_status(404)
+        expect(data['data'].count).to eq(0)
+        expect(data['message']).to eq(I18n.t('not_found.message'))
+        expect(response).to have_http_status(200)
       end
     end
   end

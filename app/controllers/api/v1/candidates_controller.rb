@@ -43,27 +43,27 @@ module Api
         render_success(data: { time_left: time_left }, message: message)
       end
 
-      def invite
+      def invite # rubocop:disable Metrics/AbcSize
         candidate_emails = params[:emails].split(',')
         candidate_emails.each do |candidate_email|
           candidate = Candidate.find_or_initialize_by(email: candidate_email)
           candidate.save
-          drive_candidate = DrivesCandidate.new(
-            candidate_id: candidate.id,
-            drive_id: @drive.id,
-            drive_start_time: @drive.start_time || DateTime.current,
-            drive_end_time: @drive.end_time || DateTime.current + 1.year
-          )
+          drive_candidate = DrivesCandidate.new(candidate_id: candidate.id, drive_id: @drive.id, drive_start_time: @drive.start_time || DateTime.current,
+                                                drive_end_time: @drive.end_time || DateTime.current + 1.year)
           drive_candidate.generate_token
           next unless candidate
 
-          if drive_candidate.save
-            CandidateMailer.invitation_email(candidate, drive_candidate).deliver_later
-          else
-            render_error(message: drive_candidate.errors.full_messages)
-          end
+          save_drive_candidate(candidate, drive_candidate)
         end
         render_success(message: I18n.t('ok.message'))
+      end
+
+      def save_drive_candidate(candidate, drive_candidate)
+        if drive_candidate.save
+          CandidateMailer.invitation_email(candidate, drive_candidate).deliver_later
+        else
+          render_error(message: drive_candidate.errors.full_messages)
+        end
       end
 
       private
@@ -91,14 +91,17 @@ module Api
 
       def update_drives_candidate
         drives_candidate = DrivesCandidate.find_by(token: params[:token])
-        drive_problem = DrivesProblem.find_by(drive_id: drives_candidate.drive.id)
+        drive_problems = DrivesProblem.where(drive_id: drives_candidate.drive.id)
 
-        if drives_candidate.start_time.nil?
-          start_time = DateTime.now.localtime
-          end_time = start_time + drive_problem.problem.time_in_minutes.minutes
-          drives_candidate.update(start_time: start_time,
-                                  end_time: end_time)
-        end
+        return unless drives_candidate.start_time.nil?
+
+        start_time = DateTime.now.localtime
+        end_time = start_time + total_time(drive_problems).minutes
+        drives_candidate.update(start_time: start_time, end_time: end_time)
+      end
+
+      def total_time(drive_problems)
+        Problem.where(id: drive_problems.collect(&:problem_id)).collect(&:time_in_minutes).sum
       end
     end
   end

@@ -4,7 +4,7 @@ class SubmissionJob < ApplicationJob
   def perform(submission_id)
     @submission = Submission.find submission_id
     total_marks = create_test_case_result
-    testcases = TestCaseResult.where(submission_id: @submission.id).collect(&:is_passed)
+    TestCaseResult.where(submission_id: @submission.id).collect(&:is_passed)
     @submission.update_columns(total_marks: total_marks, status: 'accepted')
     calculate_result
   end
@@ -33,7 +33,12 @@ class SubmissionJob < ApplicationJob
 
   def calculate_result
     drives_candidate = @submission.drives_candidate
-    highest_submission = drives_candidate.submissions.order('total_marks desc').first
-    drives_candidate.update(score: highest_submission.total_marks)
+    problems = drives_candidate.drive.problems
+    score = problems.collect do |problem|
+      submissions = Submission.where(drives_candidate_id: drives_candidate.id, problem_id: problem.id)
+      highest_submission = submissions.order('total_marks desc').first
+      highest_submission.total_marks
+    end.sum
+    drives_candidate.update(score: score)
   end
 end

@@ -16,15 +16,15 @@ resource 'Problem' do
                        created_by_id: user.id, input: 'hello', output: 'hello')
   end
   let!(:drives_problem) { create(:drives_problem, drive_id: drive.id, problem_id: problem.id) }
-  get '/api/v1/drives/:id/problem' do
+  get '/api/v1/drives/:id/problems' do
     parameter :id, 'Drive id'
     context 'with valid params' do
       let!(:id) { drive.id }
       example 'get all problems' do
         do_request
         response = JSON.parse(response_body)
-        expect(response['data']['title']).to eq(problem.title)
-        expect(response['data']['description']).to eq(problem.description)
+        expect(response['data'].first['title']).to eq(problem.title)
+        expect(response['data'].first['description']).to eq(problem.description)
         expect(response['message']).to eq('Success')
         expect(status).to eq(200)
       end
@@ -34,7 +34,9 @@ resource 'Problem' do
       let!(:id) { Faker::Number.number }
       example 'problem not found error' do
         do_request
-        expect(status).to eq(404)
+        response = JSON.parse(response_body)
+        expect(response['message']).to eq(I18n.t('not_found.message'))
+        expect(status).to eq(200)
       end
     end
   end
