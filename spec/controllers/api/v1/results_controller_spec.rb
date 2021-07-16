@@ -59,10 +59,23 @@ RSpec.describe Api::V1::ResultsController, type: :controller do
                                 is_passed: true)
       create(:test_case_result, test_case_id: test_case.id, submission_id: submission2.id,
                                 is_passed: false)
+      @drives_candidate = create(:drives_candidate, drive_id: @drive.id, candidate_id: candidate.id, drive_start_time: DateTime.current,
+                                                    drive_end_time: DateTime.current + 1.hours)
+      create(:submission, problem_id: @problem.id, drives_candidate_id: @drives_candidate.id)
     end
 
     it 'returns candidate result data in csv' do
       get :csv_result, params: { drife_id: @drive.id, problem_id: @problem.id }, format: :csv
+      actual_row = [['First Name', 'Kiran'], ['Last Name', 'Patil'], ['Email', 'kiran@gmail.com'],
+                    ['Score', nil], ['Test case 1 actual output', nil], ['Test case 1 expected output', 'hello']]
+      table = CSV.parse(File.read('result_file.csv'), headers: true)
+      table.by_row[0]
+      expect([['Email', 'kiran@gmail.com'], ['First Name', 'Kiran'], ['Last Name', 'Patil'], ['Score', nil], ['Test case 1 actual output', nil],
+              ['Test case 1 expected output', 'hello']]).to match_array(actual_row)
+    end
+
+    it 'returns single candidate result data in csv' do
+      get :csv_result, params: { drife_id: @drive.id, problem_id: @problem.id, drives_candidate_id: @drives_candidate.id }, format: :csv
       actual_row = [['First Name', 'Kiran'], ['Last Name', 'Patil'], ['Email', 'kiran@gmail.com'],
                     ['Score', nil], ['Test case 1 actual output', nil], ['Test case 1 expected output', 'hello']]
       table = CSV.parse(File.read('result_file.csv'), headers: true)

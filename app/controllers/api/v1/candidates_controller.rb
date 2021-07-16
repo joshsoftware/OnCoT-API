@@ -98,6 +98,13 @@ module Api
         start_time = DateTime.now.localtime
         end_time = start_time + total_time(drive_problems).minutes
         drives_candidate.update(start_time: start_time, end_time: end_time)
+        call_assessment_worker(drives_candidate, end_time)
+      end
+
+      def call_assessment_worker(drives_candidate, end_time)
+        return unless drives_candidate.drive.is_assessment?
+
+        AssessmentWebhookWorker.perform_at(end_time, drives_candidate.id.to_s)
       end
 
       def total_time(drive_problems)
