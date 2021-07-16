@@ -20,7 +20,7 @@ module Api
         chk_submission_status(submission, submission_count_left)
       end
 
-      def chk_submission_status # rubocop:disable Metrics/AbcSize
+      def chk_submission_status(submission, submission_count_left)
         if submission
           if submission.status == 'accepted'
             testcases = TestCaseResult.where(submission_id: submission.id).collect(&:is_passed)
@@ -47,14 +47,16 @@ module Api
 
       def submission_allowed?
         submission_count = Problem.find(params[:id]).submission_count
-        @drives_candidate = DrivesCandidate.find_by(candidate_id: params[:candidate_id], drive_id: params[:drive_id])
-        @drives_candidate.submissions.count < submission_count && @drives_candidate.end_time >= DateTime.current
+        @drives_candidate = DrivesCandidate.find_by(token: params[:token])
+        submissions = Submission.where(drives_candidate_id: @drives_candidate.id, problem_id: params[:id])
+        submissions.count < submission_count && @drives_candidate.end_time >= DateTime.current
       end
 
       def calculate_remaining_submission_count(submission)
         total_count = submission.problem.submission_count
         drives_candidate = submission.drives_candidate
-        total_count - drives_candidate.submissions.count
+        submissions = Submission.where(drives_candidate_id: drives_candidate.id, problem_id: submission.problem.id)
+        total_count - submissions.count
       end
     end
   end

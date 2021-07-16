@@ -28,7 +28,7 @@ module Api
         render_error(message: I18n.t('not_found.message')) unless @drives_candidates
       end
 
-      def write_csv_file # rubocop:disable all 
+      def write_csv_file # rubocop:disable all
         CSV.open('result_file.csv', 'w') do |csv|
           problem = @drive.problems.first
           test_case_headers = problem.test_cases.count.times.collect do |index|

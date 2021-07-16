@@ -91,17 +91,21 @@ module Api
 
       def update_drives_candidate
         drives_candidate = DrivesCandidate.find_by(token: params[:token])
-        drive_problem = DrivesProblem.find_by(drive_id: drives_candidate.drive.id)
+        drive_problems = DrivesProblem.where(drive_id: drives_candidate.drive.id)
 
         return unless drives_candidate.start_time.nil?
 
         start_time = DateTime.now.localtime
-        end_time = start_time + drive_problem.problem.time_in_minutes.minutes
+        end_time = start_time + total_time(drive_problems).minutes
         drives_candidate.update(start_time: start_time, end_time: end_time)
         if drive_candidate.drive.is_assessment?
           AssessmentWebhookWorker.perform_at(end_time, drives_candidate.id.to_s)
           # AssessmentWebhookWorker.perform_now(drives_candidate.id.to_s) # For testing purpose
         end
+      end
+
+      def total_time(drive_problems)
+        Problem.where(id: drive_problems.collect(&:problem_id)).collect(&:time_in_minutes).sum
       end
     end
   end
